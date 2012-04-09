@@ -1,0 +1,28 @@
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
+<%@ taglib prefix="s" uri="/struts-tags" %> 
+<%
+String path = request.getContextPath();
+String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+%>
+
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <base href="<%=basePath%>">
+        <meta http-equiv="pragma" content="no-cache">
+        <meta http-equiv="cache-control" content="no-cache">
+        <meta http-equiv="expires" content="0">
+    </head>
+    
+    <body>
+    
+        <s:form action="modify_cat" method="post" theme="simple">
+            <s:hidden name="category.id"/> 
+            categoryName: <s:textfield name="category.name" size="50"/><br /><br />
+            <s:submit label="submit" />
+        
+        </s:form>
+        
+        
+    </body>
+</html>

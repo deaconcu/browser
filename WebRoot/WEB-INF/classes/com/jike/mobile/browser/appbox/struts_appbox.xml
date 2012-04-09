@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    <constant name="struts.i18n.reload" value="true" />
+    <package name="appbox" extends="json-default" namespace="/appbox"> 
+        <!-- item -->
+        <action name="add_item" class="appboxItemAction" method="add">
+            <result name="input">/WEB-INF/jsp/appbox/item_add.jsp</result>
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>        
+        <action name="modify_item" class="appboxItemAction" method="modify">
+            <result name="input">/WEB-INF/jsp/appbox/item_modify.jsp</result>
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="delete_item" class="appboxItemAction" method="delete">
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="get_item_list" class="appboxItemAction" method="list">
+            <result name="success">/WEB-INF/jsp/appbox/item_list.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="get_item" class="appboxItemAction" method="detail">
+            <result name="success">/WEB-INF/jsp/appbox/item_detail.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="match" class="appboxItemAction" method="match">
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="get_item_json" class="appboxItemAction" method="json">
+            <result name="success">/WEB-INF/jsp/appbox/get_json.jsp</result>
+            <result name="error" type="json">actionErrors</result>
+        </action>
+        
+        <!-- cat -->
+        <action name="add_cat" class="appboxCategoryAction" method="add">
+            <result name="input">/WEB-INF/jsp/appbox/category_add.jsp</result>
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="modify_cat" class="appboxCategoryAction" method="modify">
+            <result name="input">/WEB-INF/jsp/appbox/category_modify.jsp</result>
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="list_cat" class="appboxCategoryAction" method="list">
+            <result name="success">/WEB-INF/jsp/appbox/category_list.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="delete_cat" class="appboxCategoryAction" method="delete">
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        
+    </package>
+</struts>    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
