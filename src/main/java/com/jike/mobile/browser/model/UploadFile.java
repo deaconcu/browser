@@ -73,7 +73,7 @@ public class UploadFile {
 			throw e;
 		}
 		
-		OutputStream outputStream = null; 
+		OutputStream outputStream = null;
 		try {
 			outputStream = new BufferedOutputStream(new FileOutputStream(dest + fileName));
 		}

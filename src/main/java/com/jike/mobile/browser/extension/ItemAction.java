@@ -51,6 +51,13 @@ public class ItemAction extends ActionSupport {
 	@InputConfig(resultName=ERROR)
 	public String add() {
 		if(ServletActionContext.getRequest().getMethod().equals("GET")) {
+			try {
+				categories = extensionService.findAllCategories();
+			}
+			catch (RuntimeException re) {
+				addActionError(getText("operation.failed"));
+				return ERROR;
+			}
 			return INPUT;
 		}
 		else if(ServletActionContext.getRequest().getMethod().equals("POST")){

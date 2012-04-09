@@ -1,33 +1,38 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
-<%@ taglib prefix="s" uri="/struts-tags" %> 
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-
+<%@ include file="../top.jsp" %>    
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <base href="<%=basePath%>">
-        <meta http-equiv="pragma" content="no-cache">
-        <meta http-equiv="cache-control" content="no-cache">
-        <meta http-equiv="expires" content="0">
-    </head>
+  <%@ include file="../head.jsp" %>    
+  <body>
+    <div id="page">
+      <%@ include file="../header.jsp" %>
+      <div id="wrapper">
+      </div>
+        <div id="content">
+            <div class="sign"><p>Appbox > 修改</p></div>
+            <div class="post">    
+		        <s:form action="modify_item" method="post" theme="simple">
+		            <s:hidden name="appboxItem.id"/>
+		            <label>name: </label> 
+		              <s:textfield name="appboxItem.name" cssClass="text-input"/> <br /><br />
+		            <label>source: </label> 
+		              <s:textfield name="appboxItem.source" cssClass="text-input"/> <br /><br />
+		            <label>titelRegex:</label>  
+		              <s:textfield name="appboxItem.titleRegex" cssClass="text-input"/> <br /><br />
+		            <label>urlRegex: </label> 
+		              <s:textfield name="appboxItem.urlRegex" cssClass="text-input"/> <br /><br />
+		            <label>picRegex: </label> 
+		              <s:textfield name="appboxItem.picRegex" cssClass="text-input"/> <br /><br />
+		            <label>category: </label> 
+		              <s:select name="appboxItem.appboxCategory.id" value="appboxItem.appboxCategory.id" 
+		                 list="listCategory" listKey="id" listValue="name" /><br /><br />
+		            
+		            <s:submit value="submit" cssClass="button"/>
+		        </s:form>
+            </div>
+        </div>
+      <%@ include file="../sidebar.jsp" %> 
+      <%@ include file="../footer.jsp" %> 
+    </div>
     
-    <body>
-    
-        <s:form action="modify_item" method="post" theme="simple">
-            <s:hidden name="appboxItem.id"/>
-            name: <s:textfield name="appboxItem.name" size="50"/> <br /><br />
-            source: <s:textfield name="appboxItem.source" size="50"/> <br /><br />
-            titelRegex: <s:textfield name="appboxItem.titleRegex" size="50"/> <br /><br />
-            urlRegex: <s:textfield name="appboxItem.urlRegex" size="50"/> <br /><br />
-            picRegex: <s:textfield name="appboxItem.picRegex" size="50"/> <br /><br />
-            category: <s:select name="appboxItem.appboxCategory.id" value="appboxItem.appboxCategory.id" list="listCategory" listKey="id" 
-               listValue="name" /><br /><br />
-            
-            <s:submit label="submit" />
-        </s:form>
-   
-    </body>
+  </body>
 </html>

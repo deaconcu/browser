@@ -36,8 +36,11 @@ public class AppboxItemAction extends ActionSupport {
 	// error
 	Message msg = new Message();
 	
-	// action methods
+	// return 
+	String url;
 	
+	// action methods
+
 	@InputConfig(resultName=ERROR)
 	public String add() {
 		String method = ServletActionContext.getRequest().getMethod();
@@ -155,14 +158,16 @@ public class AppboxItemAction extends ActionSupport {
 			appboxItem = appboxService.match(appboxItemId, true);
 			if(appboxItem.getTitle() != null && appboxItem.getUrl() != null && appboxItem.getImgUrl() != null) {
 				addActionMessage(getText("match.success"));
+				url = "get_item.do?appboxItemId=" + appboxItemId;
 				return SUCCESS;
 			}
-			if(appboxItem.getTitle() == null && appboxItem.getUrl() == null && appboxItem.getImgUrl() == null) {
+			else if(appboxItem.getTitle() == null && appboxItem.getUrl() == null && appboxItem.getImgUrl() == null) {
 				addActionError(getText("match.falied"));
 				return ERROR;
 			}
 			else {
 				addActionMessage(getText("match.partly.success"));
+				url = "get_item.do?appboxItemId=" + appboxItemId;
 				return SUCCESS;
 			}
 		} catch (RuntimeException re) {
@@ -279,6 +284,14 @@ public class AppboxItemAction extends ActionSupport {
 
 	public void setMsg(Message msg) {
 		this.msg = msg;
+	}
+	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }
 

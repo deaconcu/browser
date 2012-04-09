@@ -6,6 +6,7 @@ import org.apache.struts2.ServletActionContext;
 
 import com.jike.mobile.browser.model.Category;
 import com.jike.mobile.browser.util.ServerConfig;
+import com.jike.mobile.browser.util.ServiceException;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
@@ -23,8 +24,11 @@ public class CatAction extends ActionSupport {
     
     // for inject
     ExtensionService extensionService;
-	
-    @InputConfig(resultName=ERROR)
+    
+    // for return 
+    String url;
+
+	@InputConfig(resultName=ERROR)
 	public String add() {
 		String method = ServletActionContext.getRequest().getMethod();
 		if(method.equals("GET")) {
@@ -34,6 +38,7 @@ public class CatAction extends ActionSupport {
 			try {
 				extensionService.categoryAdd(category);
 				addActionMessage(getText("operation.success"));
+				url = "list_cat.do";
 				return SUCCESS;
 			}
 			catch (RuntimeException re) {
@@ -86,10 +91,12 @@ public class CatAction extends ActionSupport {
 				extensionService.categoryDelete(category);
 				addActionMessage(getText("operation.success"));
 				return SUCCESS;
-			}	
+			}
+		} catch(ServiceException se) {
+			addActionError(getText(se.getMessage()));
+			return ERROR;
 		}
 		catch (RuntimeException re) {
-			System.out.println(re.getCause().getCause());
 			addActionError(getText("operation.failed"));
 			return ERROR;
 		}
@@ -195,7 +202,14 @@ public class CatAction extends ActionSupport {
 		this.extensionService = extensionService;
 	}
 	
-	
+    public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
 }
 
 

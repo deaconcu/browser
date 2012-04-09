@@ -12,7 +12,7 @@ public interface ExtensionService {
 	public static final int ERROR = 101;
 	public static final int NONE = 102;
 
-	public void itemAdd(Item item, UploadFile ext, UploadFile icon, UploadFile largeIcon);
+	public Integer itemAdd(Item item, UploadFile ext, UploadFile icon, UploadFile largeIcon);
 
 	public void itemModify(Item item, UploadFile ext, UploadFile icon, UploadFile largeIcon);
 	
@@ -26,7 +26,7 @@ public interface ExtensionService {
 
 	public List<Item> getList(Integer page, Integer length);
 	
-	public void categoryAdd(Category category);
+	public Integer categoryAdd(Category category);
 	
 	public void categoryModify(Category category);
 	

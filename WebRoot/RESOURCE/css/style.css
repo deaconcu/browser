@@ -30,8 +30,15 @@ a {
 
 form label {
 	    display: block;
-	    padding: 0 0 8px;
+	    padding: 0 0 15px;
 	    font-weight: normal;
+	    font-size: 14px;
+	    font-weight:bold;
+	    color:#555;
+}
+
+form label a{
+        font-size: 14px;
 }
                 
 form input.text-input, select, textarea{
@@ -48,7 +55,7 @@ form input.file-input{
         background: #fff url('../img/bg-form-field.gif') top left repeat-x;
         border: 1px solid #d5d5d5;
         color: #666;
-        width:500px;    
+        width:522px;    
 }
 
 form input.text-input, textarea {
@@ -148,8 +155,9 @@ input, textarea, select{
 #content {
 	float:left;
 	width:700px;
+	min-height:550px;
 	margin:0;
-	padding:40px 20px 70px 20px;
+	padding:20px 20px 70px 20px;
 	border-top:1px solid #ccc;
 	border-right:1px solid #ccc;
 	border-bottom:1px solid #ccc;
@@ -158,6 +166,101 @@ input, textarea, select{
             border-radius: 20px;
 }
 
+#content .sign {
+	font-size:13px;
+	margin-bottom:20px;
+	color:#888;
+}
+
+#content .detail .title{
+	width:150px;
+	
+}
+
+#content .detail tr {
+	
+}
+
+#content .detail td{
+    padding:15px 0;
+    color:#333;
+    font-size:14px;
+    border-bottom:1px dashed #ddd;
+}
+
+#content .pages {
+	float:right;
+	text-align:right;
+	font-size:12px;
+	padding:10px 0;
+}
+
+#content .add {
+    float:left;
+    font-size:14px;
+    font-weight:bold;
+    background:#666;
+    padding:5px;
+}
+
+#content .add a{
+	color:#fff;
+}
+
+#content .modify {
+    float:right;
+    font-size:14px;
+    font-weight:bold;
+
+}
+
+#content .modify span{
+	background:#666;
+    padding:5px 10px;
+}
+
+#content .modify a{
+    color:#fff;
+}
+
+
+
+#content .name {
+	width:80%;
+}
+
+#content .name a{
+    color:#555;
+}
+
+#content .op {
+    text-align:right;
+}
+
+#content table {
+	width:100%;
+    margin:0 0 40px 0;
+    padding:0;
+}
+
+#content td {
+	border-bottom:1px dashed #ddd;
+}
+
+#content tr p{
+	font-size:12px;
+	color:#999;
+	line-height: 200%;
+	margin:0;
+    padding-top: 30px;
+}
+
+#content tr span{
+	color:#333;
+    font-size:18px;
+    font-weight:bold;
+    margin-right:10px;
+}
 
 #left {
 	float:left;

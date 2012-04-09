@@ -54,6 +54,10 @@ public class AppboxServiceImpl implements AppboxService{
 
 	@Override
 	public void deleteCategory(AppboxCategory appboxCategory) {
+		List<AppboxItem> list = appboxItemDao.findByProperty("appboxCategory", appboxCategory);
+		if(list.size() > 0) {
+			throw new ServiceException("appbox.category.is.not.empty");
+		}
 		appboxCategoryDao.delete(appboxCategory);
 	}
 

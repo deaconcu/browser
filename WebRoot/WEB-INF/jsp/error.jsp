@@ -16,5 +16,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <body>
         <s:property value="actionErrors[0]" />
+        <a href="javascript:history.go(-1);">后退</a> 
     </body>
 </html>

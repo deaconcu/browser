@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import com.jike.mobile.browser.model.AppboxCategory;
 import com.jike.mobile.browser.util.Message;
 import com.jike.mobile.browser.util.ServerConfig;
+import com.jike.mobile.browser.util.ServiceException;
 import com.jike.mobile.browser.util.Validate;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
@@ -108,7 +109,11 @@ public class AppboxCategoryAction extends ActionSupport{
 			appboxService.deleteCategory(appboxCategory);
 			addActionMessage(getText("operation.success"));
 			return SUCCESS;
-		} catch (RuntimeException re) {
+		}catch(ServiceException se) {
+			addActionError(getText(se.getMessage()));
+			return ERROR;
+		}
+		catch (RuntimeException re) {
 			addActionError(getText("operation.failed"));
 			log.error(re.toString());
 			return ERROR;

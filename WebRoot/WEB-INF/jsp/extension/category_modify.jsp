@@ -1,28 +1,28 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8" %>
-<%@ taglib prefix="s" uri="/struts-tags" %> 
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="../top.jsp" %>    
 
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <base href="<%=basePath%>">
-        <meta http-equiv="pragma" content="no-cache">
-        <meta http-equiv="cache-control" content="no-cache">
-        <meta http-equiv="expires" content="0">
-    </head>
+  <%@ include file="../head.jsp" %>    
+  <body>
+    <div id="page">
+      <%@ include file="../header.jsp" %>
+      <div id="wrapper">
+      </div>
+        <div id="content">
+            <div class="sign"><p>Extension > 修改分类</p></div>
+            <div class="post">
+		        <s:form action="modify_cat" method="post" theme="simple">
+		            <s:hidden name="category.id"/>
+		            <label>分类名:</label>
+		            <s:textfield name="category.name" cssClass="text-input"/><br /><br />
+		            <s:submit value="submit" cssClass="button"/>
+		        
+		        </s:form>
+            </div>
+        </div>
+      <%@ include file="../sidebar.jsp" %> 
+      <%@ include file="../footer.jsp" %> 
+    </div>
     
-    <body>
-    
-        <s:form action="modify_cat" method="post" theme="simple">
-            <s:hidden name="category.id"/> 
-            categoryName: <s:textfield name="category.name" size="50"/><br /><br />
-            <s:submit label="submit" />
-        
-        </s:form>
-        
-        
-    </body>
+  </body>
 </html>

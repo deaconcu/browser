@@ -39,9 +39,9 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T>{
 	}
 	
 	@Override
-	public void save(T entity) {
+	public Serializable save(T entity) {
 		try {
-			getHibernateTemplate().save(entity);
+			return getHibernateTemplate().save(entity);
 		} catch (RuntimeException re) {
 			log.error(entity.getClass() + " entity save failed");
 			throw re;

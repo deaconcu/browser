@@ -1,22 +1,26 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="../top.jsp" %>    
 
 <!DOCTYPE HTML>
 <html>
-    <head>
-        <base href="<%=basePath%>">
-        <meta http-equiv="pragma" content="no-cache">
-        <meta http-equiv="cache-control" content="no-cache">
-        <meta http-equiv="expires" content="0">    
-    </head>
+  <%@ include file="../head.jsp" %>    
+  <body>
+    <div id="page">
+      <%@ include file="../header.jsp" %>
+      <div id="wrapper">
+      </div>
+        <div id="content">
+            <div class="sign"><p>Extension > 添加分类</p></div>
+            <div class="post">
+		        <s:form action="add_cat" name="category" method="post" theme="simple">
+		            <label>name: </label>
+		            <s:textfield name="category.name" cssClass="text-input"/><br /><br /> 
+		            <s:submit value="submit" cssClass="button"/>
+		        </s:form>
+            </div>
+        </div>
+      <%@ include file="../sidebar.jsp" %> 
+      <%@ include file="../footer.jsp" %> 
+    </div>
     
-    <body>
-        <form action="add_cat.do" name="category" method="post">
-            name: <input type="text" name="category.name" /> <br /><br />
-            <input type="submit" value="submit" />
-        </form>
-    </body>
+  </body>
 </html>

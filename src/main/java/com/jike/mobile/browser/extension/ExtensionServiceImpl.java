@@ -1,6 +1,8 @@
 package com.jike.mobile.browser.extension;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -39,10 +41,10 @@ public class ExtensionServiceImpl implements ExtensionService{
 	}
 
 	@Override
-	public void itemAdd(Item item, UploadFile ext, UploadFile icon, UploadFile largeIcon) {
+	public Integer itemAdd(Item item, UploadFile ext, UploadFile icon, UploadFile largeIcon) {
 		if(!prepareAndUpload(item, ext, icon, largeIcon)) throw new ServiceException("fileUploadException");	
 		try {
-			itemDao.save(item);
+			return (Integer)(itemDao.save(item));
 		}
 		catch (DataAccessException dse) {
 			log.error(dse.toString());
@@ -100,9 +102,9 @@ public class ExtensionServiceImpl implements ExtensionService{
 	}
 	
 	@Override
-	public void categoryAdd(Category category) {
+	public Integer categoryAdd(Category category) {
 		try {
-			categoryDao.save(category);
+			return (Integer)(categoryDao.save(category));
 		}
 		catch (DataAccessException dse) {
 			throw new ServiceException("DataAccessException", dse);
@@ -123,6 +125,10 @@ public class ExtensionServiceImpl implements ExtensionService{
 	@Override
 	public void categoryDelete(Category category) {
 		try {
+			List<Item> list = itemDao.findByProperty("category", category);
+			if(list.size() > 0) {
+				throw new ServiceException("extension.category.is.not.empty");
+			}
 			categoryDao.delete(category);
 		}
 		catch (DataAccessException dse) {
@@ -151,20 +157,38 @@ public class ExtensionServiceImpl implements ExtensionService{
 	}
 	
 	private boolean prepareAndUpload(Item item, UploadFile ext, UploadFile icon, UploadFile largeIcon) {
+		//检查item是否合法
 		if(!item.validate()) {
 			log.error("action check item fields error");
+			return false;
+		}
+		
+		//计算上传路径
+		String outputPath = "";
+		try {
+			Calendar calendar = Calendar.getInstance();
+			outputPath = ServerConfig.get("file_save_path") + File.separator
+					+ calendar.get(Calendar.YEAR) + File.separator
+					+ calendar.get(Calendar.MONTH) + File.separator
+					+ calendar.get(Calendar.DAY_OF_MONTH) + File.separator
+					+ calendar.get(Calendar.HOUR_OF_DAY) + File.separator;
+			File file = new File(ServerConfig.get("real_root_path") + outputPath);
+			file.mkdirs();
+			log.info(file.toString());
+		} catch (Exception e) {
+			log.error("can't create output path");
 			return false;
 		}
 		
 		if(ext.validate()) {
 			String filePath = "";
 			try {
-				ext.upload(ServerConfig.get("real_root_path") + ServerConfig.get("file_save_path"));
+				ext.upload(ServerConfig.get("real_root_path") + outputPath);
 			} catch (IOException e) {
 				log.error("upload ext failed");
 				return false;
 			}
-			filePath = ServerConfig.get("file_save_path") + ext.getFileName();
+			filePath = outputPath + ext.getFileName();
 			item.setUrl(filePath);
 			item.setSizeInByte((int)ext.getPath().length());
 		}
@@ -172,12 +196,12 @@ public class ExtensionServiceImpl implements ExtensionService{
 		if(icon.validate()) {
 			String filePath = "";
 			try {
-				icon.upload(ServerConfig.get("real_root_path") + ServerConfig.get("file_save_path"));
+				icon.upload(ServerConfig.get("real_root_path") + outputPath);
 			} catch (IOException e) {
 				log.error("upload icon failed");
 				return false;
 			}
-			filePath = ServerConfig.get("file_save_path") + icon.getFileName();
+			filePath = outputPath + icon.getFileName();
 			item.setIconUrl(filePath);
 			item.setSizeInByte((int)icon.getPath().length());
 		}
@@ -185,12 +209,12 @@ public class ExtensionServiceImpl implements ExtensionService{
 		if(largeIcon.validate()) {
 			String filePath = "";
 			try {
-				largeIcon.upload(ServerConfig.get("real_root_path") + ServerConfig.get("file_save_path"));
+				largeIcon.upload(ServerConfig.get("real_root_path") + outputPath);
 			} catch (IOException e) {
 				log.error("upload largeIcon failed");
 				return false;
 			}
-			filePath = ServerConfig.get("file_save_path") + largeIcon.getFileName();
+			filePath = outputPath + largeIcon.getFileName();
 			item.setLargeIconUrl(filePath);
 			item.setSizeInByte((int)largeIcon.getPath().length());
 		}
