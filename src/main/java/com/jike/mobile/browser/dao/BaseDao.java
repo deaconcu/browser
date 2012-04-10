@@ -23,5 +23,7 @@ public interface BaseDao<T> {
 	public List<T> findByPage(int page, int length);
 	
 	public List<T> findAll();
+
+	List<T> findByPageOrderByProperty(int page, int length, String propertyName, boolean isDesc);
 	
 }

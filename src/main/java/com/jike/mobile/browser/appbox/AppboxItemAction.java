@@ -18,26 +18,26 @@ public class AppboxItemAction extends ActionSupport {
 	private static final long serialVersionUID = 5447588905866456204L;
 
 	// add, modify, detail
-	AppboxItem appboxItem;
-	List<AppboxCategory> listCategory;
+	private AppboxItem appboxItem;
+	private List<AppboxCategory> listCategory;
 	
 	// modify, delete, detail
-	int appboxItemId;
+	private int appboxItemId;
 	
 	// list
-	List<AppboxItem> listItem;
+	private List<AppboxItem> listItem;
 	
 	// list
-	int page;
+	private int page;
 	
 	// inject
-	AppboxService appboxService;
+	private AppboxService appboxService;
 	
 	// error
-	Message msg = new Message();
+	private Message msg = new Message();
 	
 	// return 
-	String url;
+	private String url;
 	
 	// action methods
 
@@ -61,8 +61,9 @@ public class AppboxItemAction extends ActionSupport {
 		else if(method.equals("POST")) {
 			appboxItem.setPostTime(System.currentTimeMillis());
 			try{
-				appboxService.addItem(appboxItem);
+				appboxItemId = appboxService.addItem(appboxItem);
 				addActionMessage(getText("operation.success"));
+				url = "get_item.do?appboxItemId=" + appboxItemId;
 				return SUCCESS;
 			} catch (ServiceException se) {
 				addActionError(getText(se.getMessage()));
@@ -97,6 +98,7 @@ public class AppboxItemAction extends ActionSupport {
 			try {
 				appboxService.updateItem(appboxItem);
 				addActionMessage(getText("operation.success"));
+				url = "get_item.do?appboxItemId=" + appboxItem.getId();
 				return SUCCESS;
 			} catch (ServiceException se) {
 				addActionError(getText(se.getMessage()));
@@ -115,6 +117,7 @@ public class AppboxItemAction extends ActionSupport {
 		try {
 			appboxService.deleteItem(appboxItemId);
 			addActionMessage(getText("operation.success"));
+			url = "get_item_list.do";
 			return SUCCESS;
 		} catch (ServiceException se) {
 			addActionError(getText(se.getMessage()));
@@ -129,7 +132,7 @@ public class AppboxItemAction extends ActionSupport {
 	@InputConfig(resultName=ERROR)
 	public String list() {
 		try {
-			listItem = appboxService.findItemByPage(page, Integer.parseInt(ServerConfig.get("appbox_item_list_page_size")));
+			listItem = appboxService.findItemByPageDesc(page, Integer.parseInt(ServerConfig.get("appbox_item_list_page_size")));
 			return SUCCESS;
 		} catch (RuntimeException re) {
 			addActionError(getText("operation.failed"));

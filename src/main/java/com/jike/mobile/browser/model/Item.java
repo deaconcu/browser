@@ -1,5 +1,8 @@
 package com.jike.mobile.browser.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Item entity. @author MyEclipse Persistence Tools
  */
@@ -20,7 +23,7 @@ public class Item implements java.io.Serializable {
 	private String mainPageUrl;
 	private String packageName;
 	private String description;
-	
+	private Long postTime;
 	private Category category;
 
 	// Constructors
@@ -154,11 +157,24 @@ public class Item implements java.io.Serializable {
 		this.description = description;
 	}
 	
+	public Long getPostTime() {
+		return postTime;
+	}
+
+	public void setPostTime(Long postTime) {
+		this.postTime = postTime;
+	}
+	
 	//保证持久化后逻辑上不出错的最低标准
 	public boolean validate() {
 		if(name == null || name.trim().equals("") ) return false;
 
 		return true;
+	}
+	
+	public String getDate() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd / HH:mm");
+		return format.format(new Date(postTime));
 	}
 }
 

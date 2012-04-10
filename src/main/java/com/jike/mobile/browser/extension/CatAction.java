@@ -15,18 +15,18 @@ public class CatAction extends ActionSupport {
 	private static final long serialVersionUID = -4423336504706740452L;
 	
 	// for add, modify, delete
-	Category category;
-	Integer categoryId;
+	private Category category;
+	private Integer categoryId;
 	
 	// for getList
-    Integer page;
-    List<Category> list;
+	private Integer page;
+	private List<Category> list;
     
     // for inject
-    ExtensionService extensionService;
+	private ExtensionService extensionService;
     
     // for return 
-    String url;
+	private String url;
 
 	@InputConfig(resultName=ERROR)
 	public String add() {
@@ -69,6 +69,7 @@ public class CatAction extends ActionSupport {
 			try {
 				extensionService.categoryModify(category);
 				addActionMessage(getText("operation.success"));
+				url = "list_cat.do";
 				return SUCCESS;
 			}
 			catch (RuntimeException re) {
@@ -90,6 +91,7 @@ public class CatAction extends ActionSupport {
 			else {
 				extensionService.categoryDelete(category);
 				addActionMessage(getText("operation.success"));
+				url = "list_cat.do";
 				return SUCCESS;
 			}
 		} catch(ServiceException se) {
@@ -106,7 +108,7 @@ public class CatAction extends ActionSupport {
 	public String list() {
 		try {
 			Integer length = Integer.parseInt(ServerConfig.get("category_list_page_size"));
-			list = extensionService.categoryGetList(page, length);
+			list = extensionService.categoryGetListDesc(page, length);
 			return SUCCESS;
 		}
 		catch (RuntimeException re) {

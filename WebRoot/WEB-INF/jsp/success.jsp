@@ -17,12 +17,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     
     <body>
-        <s:property value="actionMessages[0]" />
-        ...1秒后自动跳转
+        <s:property value="actionMessages[0]" />，
+        1秒后自动跳转 ... ...
         <script language="javascript" type="text/javascript">
             setTimeout("window.location='<s:property value="url" />'", 1500);  
         </script>
         
-        url: <s:property value="url" />
+        <br /><br /><br />
+        url: <s:property value="url" />       
     </body>
 </html>

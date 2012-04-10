@@ -21,19 +21,22 @@ public class AppboxCategoryAction extends ActionSupport{
 	Logger log = LoggerFactory.getLogger(AppboxCategory.class);
 	
 	// add, modify, delete
-	AppboxCategory appboxCategory;
-	int appboxCategoryId;
+	private AppboxCategory appboxCategory;
+	private int appboxCategoryId;
 	
 	// list
-	int page;
-	List<AppboxCategory> list;
+	private int page;
+	private List<AppboxCategory> list;
 	
 	// inject
-	AppboxService appboxService;
+	private AppboxService appboxService;
 	
 	// validate
-	Message msg = new Message();
+	private Message msg = new Message();
 	
+	// return 
+	private String url;
+
 	@InputConfig(resultName=ERROR)
 	public String add() {
 		String method = ServletActionContext.getRequest().getMethod();
@@ -46,6 +49,7 @@ public class AppboxCategoryAction extends ActionSupport{
 				appboxCategory.setPostTime(System.currentTimeMillis());
 				appboxService.addCategory(appboxCategory);
 				addActionMessage(getText("operation.success"));
+				url = "list_cat.do";
 				return SUCCESS;
 			}
 			catch (RuntimeException re) {
@@ -75,6 +79,7 @@ public class AppboxCategoryAction extends ActionSupport{
 			try {
 				appboxService.updateCategory(appboxCategory);
 				addActionMessage(getText("operation.success"));
+				url = "list_cat.do";
 				return SUCCESS;
 			} catch (RuntimeException re) {
 				addActionError(getText("operation.failed"));
@@ -89,7 +94,7 @@ public class AppboxCategoryAction extends ActionSupport{
 	public String list() {
 		int page_size = Integer.parseInt(ServerConfig.get("appbox_category_list_page_size"));
 		try {
-			list = appboxService.listCategoryByPage(page, page_size);
+			list = appboxService.listCategoryByPageDesc(page, page_size);
 			return SUCCESS;
 		} catch (RuntimeException re) {
 			addActionError(getText("operation.failed"));
@@ -108,6 +113,7 @@ public class AppboxCategoryAction extends ActionSupport{
 			}
 			appboxService.deleteCategory(appboxCategory);
 			addActionMessage(getText("operation.success"));
+			url = "list_cat.do";
 			return SUCCESS;
 		}catch(ServiceException se) {
 			addActionError(getText(se.getMessage()));
@@ -200,5 +206,11 @@ public class AppboxCategoryAction extends ActionSupport{
 		this.msg = msg;
 	}
 	
-	
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
 }

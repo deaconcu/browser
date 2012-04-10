@@ -12,6 +12,7 @@
             <div class="post">    
 		        <s:form action="modify_item" method="post" theme="simple">
 		            <s:hidden name="appboxItem.id"/>
+		            <s:hidden name="appboxItem.postTime"/>
 		            <label>name: </label> 
 		              <s:textfield name="appboxItem.name" cssClass="text-input"/> <br /><br />
 		            <label>source: </label> 

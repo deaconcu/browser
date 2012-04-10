@@ -7,19 +7,19 @@ import com.jike.mobile.browser.model.AppboxItem;
 
 public interface AppboxService {
 
-	public void addCategory(AppboxCategory appboxCategory);
+	public Integer addCategory(AppboxCategory appboxCategory);
 	
 	public AppboxCategory findCategoryById(int appboxCategoryId);
 
 	public void updateCategory(AppboxCategory appboxCategory);
 
-	public List<AppboxCategory> listCategoryByPage(int page, int page_size);
+	public List<AppboxCategory> listCategoryByPageDesc(int page, int page_size);
 
 	public void deleteCategory(AppboxCategory appboxCategory);
 
 	public List<AppboxCategory> findCategoryAll();
 
-	public void addItem(AppboxItem appboxItem);
+	public Integer addItem(AppboxItem appboxItem);
 
 	public void updateItem(AppboxItem appboxItem);
 
@@ -27,7 +27,7 @@ public interface AppboxService {
 
 	public void deleteItem(int appboxItemId);
 
-	public List<AppboxItem> findItemByPage(int page, int page_size);
+	public List<AppboxItem> findItemByPageDesc(int page, int page_size);
 	
 	public AppboxItem match(int appboxItemId, boolean check);
 

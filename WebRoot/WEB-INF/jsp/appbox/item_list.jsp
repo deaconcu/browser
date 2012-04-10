@@ -32,7 +32,8 @@
 	                    <tr>
 	                      <td class="name"><p>
 	                          <span><a href="appbox/get_item.do?appboxItemId=<s:property value="id" />"><s:property value="name" /></a></span>
-	                          -- <s:property value="appboxCategory.name" /></p>
+	                          <s:property value="appboxCategory.name" />  | 
+	                          <s:property value="date" /></p>
 	                      </td>
 	                      <td class="op">
 	                          <p>

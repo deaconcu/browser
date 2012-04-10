@@ -44,6 +44,7 @@ public class ExtensionServiceImpl implements ExtensionService{
 	public Integer itemAdd(Item item, UploadFile ext, UploadFile icon, UploadFile largeIcon) {
 		if(!prepareAndUpload(item, ext, icon, largeIcon)) throw new ServiceException("fileUploadException");	
 		try {
+			item.setPostTime(System.currentTimeMillis());
 			return (Integer)(itemDao.save(item));
 		}
 		catch (DataAccessException dse) {
@@ -81,8 +82,8 @@ public class ExtensionServiceImpl implements ExtensionService{
 	}
 
 	@Override
-	public List<Item> getList(Integer page, Integer length) {
-		return itemDao.findByPage(page, length);
+	public List<Item> getListDesc(Integer page, Integer length) {
+		return itemDao.findByPageOrderByProperty(page, length, "id", true);
 	}
 	
 	@Override
@@ -104,6 +105,7 @@ public class ExtensionServiceImpl implements ExtensionService{
 	@Override
 	public Integer categoryAdd(Category category) {
 		try {
+			category.setPostTime(System.currentTimeMillis());
 			return (Integer)(categoryDao.save(category));
 		}
 		catch (DataAccessException dse) {
@@ -137,9 +139,9 @@ public class ExtensionServiceImpl implements ExtensionService{
 	}
 
 	@Override
-	public List<Category> categoryGetList(Integer page, Integer length) {
+	public List<Category> categoryGetListDesc(Integer page, Integer length) {
 		try {
-			return categoryDao.findByPage(page, length);
+			return categoryDao.findByPageOrderByProperty(page, length, "id", true);
 		}
 		catch (DataAccessException dse) {
 			throw new ServiceException("DataAccessException", dse);

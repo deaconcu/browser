@@ -1,5 +1,8 @@
 package com.jike.mobile.browser.model;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * AppboxCategory entity. @author MyEclipse Persistence Tools
  */
@@ -15,7 +18,7 @@ public class AppboxCategory implements java.io.Serializable {
 	private Integer id;
 	private String name;
 	private Integer root;
-	private long postTime;
+	private Long postTime;
 
 	// Constructors
 
@@ -56,12 +59,17 @@ public class AppboxCategory implements java.io.Serializable {
 		this.root = root;
 	}
 
-	public long getPostTime() {
+	public Long getPostTime() {
 		return this.postTime;
 	}
 
-	public void setPostTime(long postTime) {
+	public void setPostTime(Long postTime) {
 		this.postTime = postTime;
+	}
+	
+	public String getDate() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd / HH:mm");
+		return format.format(new Date(postTime));
 	}
 
 }

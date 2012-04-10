@@ -15,6 +15,7 @@
 	            <s:hidden name="item.url"/>
 	            <s:hidden name="item.iconUrl"/>
 	            <s:hidden name="item.largeIconUrl"/>
+	            <s:hidden name="item.postTime"/>
 	            <label>name:</label> 
 	              <s:textfield name="item.name" size="50" cssClass="text-input"/><br /><br />
 	            <label>versionName:</label> 

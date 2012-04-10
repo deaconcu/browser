@@ -13,5 +13,8 @@
         <property name="name" type="string">
             <column name="name" length="64" not-null="true" />
         </property>
+        <property name="postTime" type="long">
+            <column name="postTime" not-null="true" />
+        </property>
     </class>
 </hibernate-mapping>

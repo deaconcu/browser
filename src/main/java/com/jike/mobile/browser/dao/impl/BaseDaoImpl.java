@@ -136,6 +136,26 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T>{
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	public List<T> findByPageOrderByProperty(int page, final int length, final String propertyName, final boolean isDesc) {		
+		final int offset = (page - 1) * length;
+		List<T> list = getHibernateTemplate().executeFind(new HibernateCallback<List<T>>() {
+			public List<T> doInHibernate(Session session)
+			throws HibernateException, SQLException {
+				String desc = "";
+				if(isDesc) desc = " desc";
+				String s = "select f from " + entityClassSimpleName + " as f order by " + propertyName + desc;
+				Query query = session.createQuery(s);
+				query.setFirstResult(offset);
+				query.setMaxResults(length);
+				List<T> list = query.list();
+				return list;
+			}
+		});
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<T> findAll() {
 		try {
 			String queryString = "from " + entityClassSimpleName;

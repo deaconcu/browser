@@ -45,6 +45,8 @@ public class ItemAction extends ActionSupport {
 	//inject
 	private ExtensionService extensionService;
 	
+	//return
+	private String url;
 	
 	//Methods
 	
@@ -67,13 +69,14 @@ public class ItemAction extends ActionSupport {
 			//值有可能为空
 			UploadFile largeIconFile = new UploadFile(largeIcon, largeIconContentType, largeIconFileName);
 			try {
-				extensionService.itemAdd(item, extFile, iconFile, largeIconFile);
+				itemId = extensionService.itemAdd(item, extFile, iconFile, largeIconFile);
 			}
 			catch (RuntimeException re) {
 				addActionError(getText("file.upload.failed")); 
 				return ERROR;
 			}
 			addActionMessage(getText("file.upload.success")); 
+			url = "get_item.do?itemId=" + itemId;
 			return SUCCESS;
 		}
 		return NONE;
@@ -105,6 +108,7 @@ public class ItemAction extends ActionSupport {
 				return ERROR;
 			}
 			addActionMessage(getText("file.upload.success")); 
+			url = "get_item.do?itemId=" + item.getId();
 			return SUCCESS;
 		}
 		return NONE;
@@ -120,6 +124,7 @@ public class ItemAction extends ActionSupport {
 		}
 		
 		addActionMessage(getText("file.delete.success"));
+		url = "get_item_list.do";
 		return SUCCESS;
 	}
 	
@@ -127,7 +132,7 @@ public class ItemAction extends ActionSupport {
 	public String list() {
 		try {
 			int length = Integer.parseInt(ServerConfig.get("item_list_page_size"));
-			itemList = extensionService.getList(page, length);
+			itemList = extensionService.getListDesc(page, length);
 		}
 		catch (RuntimeException re) {
 			addActionError(getText("list.fetch.failed")); return ERROR;
@@ -348,5 +353,13 @@ public class ItemAction extends ActionSupport {
 
 	public void setItemList(List<Item> itemList) {
 		this.itemList = itemList;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
 }

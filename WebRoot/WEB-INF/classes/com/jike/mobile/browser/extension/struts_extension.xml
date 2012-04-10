@@ -51,6 +51,8 @@
             <result name="success">/WEB-INF/jsp/success.jsp</result>
             <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
+        
+       
     
         <!-- temp!!! -->
         <action name="download" class="com.jike.mobile.browser.temp.Download">

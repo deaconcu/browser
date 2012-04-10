@@ -223,10 +223,13 @@ input, textarea, select{
     color:#fff;
 }
 
-
-
 #content .name {
-	width:80%;
+	width:80%;	
+}
+
+#content .name span{
+    width:80%;
+    display:block;
 }
 
 #content .name a{
@@ -245,14 +248,15 @@ input, textarea, select{
 
 #content td {
 	border-bottom:1px dashed #ddd;
+	vertical-align:bottom;
 }
 
 #content tr p{
-	font-size:12px;
+	font-size:13px;
 	color:#999;
-	line-height: 200%;
+	line-height: 180%;
 	margin:0;
-    padding-top: 30px;
+    padding-top: 20px;
 }
 
 #content tr span{

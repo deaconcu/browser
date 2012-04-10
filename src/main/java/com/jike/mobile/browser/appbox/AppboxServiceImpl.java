@@ -33,8 +33,9 @@ public class AppboxServiceImpl implements AppboxService{
 	}
 
 	@Override
-	public void addCategory(AppboxCategory appboxCategory) {
-		appboxCategoryDao.save(appboxCategory);	
+	public Integer addCategory(AppboxCategory appboxCategory) {
+		appboxCategory.setPostTime(System.currentTimeMillis());
+		return (Integer)appboxCategoryDao.save(appboxCategory);	
 	}
 
 	@Override
@@ -48,8 +49,8 @@ public class AppboxServiceImpl implements AppboxService{
 	}
 
 	@Override
-	public List<AppboxCategory> listCategoryByPage(int page, int page_size) {
-		return appboxCategoryDao.findByPage(page, page_size);
+	public List<AppboxCategory> listCategoryByPageDesc(int page, int page_size) {
+		return appboxCategoryDao.findByPageOrderByProperty(page, page_size, "id", true);
 	}
 
 	@Override
@@ -67,10 +68,12 @@ public class AppboxServiceImpl implements AppboxService{
 	}
 
 	@Override
-	public void addItem(AppboxItem appboxItem) {
+	public Integer addItem(AppboxItem appboxItem) {
 		AppboxCategory appboxCategory = findCategoryById(appboxItem.getAppboxCategory().getId());
 		if(appboxCategory == null) throw new ServiceException("appbox.category.is.not.exist");
-		appboxItemDao.save(appboxItem);
+		
+		appboxItem.setPostTime(System.currentTimeMillis());
+		return (Integer)appboxItemDao.save(appboxItem);
 	}
 
 	@Override
@@ -93,8 +96,8 @@ public class AppboxServiceImpl implements AppboxService{
 	}
 
 	@Override
-	public List<AppboxItem> findItemByPage(int page, int page_size) {
-		return appboxItemDao.findByPage(page, page_size);
+	public List<AppboxItem> findItemByPageDesc(int page, int page_size) {
+		return appboxItemDao.findByPageOrderByProperty(page, page_size, "id", true);
 	}
 	
 	@Override

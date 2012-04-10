@@ -24,7 +24,7 @@ public interface ExtensionService {
 
 	public void delete(int itemId);
 
-	public List<Item> getList(Integer page, Integer length);
+	public List<Item> getListDesc(Integer page, Integer length);
 	
 	public Integer categoryAdd(Category category);
 	
@@ -32,7 +32,7 @@ public interface ExtensionService {
 	
 	public void categoryDelete(Category category);
 	
-	public List<Category> categoryGetList(Integer page, Integer length);
+	public List<Category> categoryGetListDesc(Integer page, Integer length);
 	
 	public Category categoryFindById(Integer categoryId);
 

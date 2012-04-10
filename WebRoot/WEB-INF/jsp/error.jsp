@@ -16,6 +16,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
     <body>
         <s:property value="actionErrors[0]" />
-        <a href="javascript:history.go(-1);">后退</a> 
+        
+        
+        <script language="javascript" type="text/javascript">
+            setTimeout("window.location='javascript:history.go(-1)'", 3000);  
+        </script>
+        <br /><br /><br />3秒后自动返回，或<a href="javascript:history.go(-1);">点击返回</a>
     </body>
 </html>

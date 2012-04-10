@@ -26,6 +26,8 @@
                    <tr><td class="title">imgUrl: </td><td><s:property value="%{appboxItem.imgUrl}" /></td></tr>
                   
                    <tr><td class="title">category:</td><td><s:property value="%{appboxItem.appboxCategory.name}" /></td></tr>
+                   
+                   <tr><td class="title">postTime: </td><td><s:property value="%{appboxItem.date}" /></td></tr>
 
                </table>
                <div class="modify">

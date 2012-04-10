@@ -40,7 +40,9 @@
         <property name="description" type="string">
             <column name="description" length="1024"/>
         </property>
-        
+        <property name="postTime" type="long">
+            <column name="postTime" not-null="true" />
+        </property>
         <many-to-one name="category" class="com.jike.mobile.browser.model.Category" column="categoryId" lazy="false"/>
     </class>
 </hibernate-mapping>

@@ -13,6 +13,7 @@
             <div class="post">
 		        <s:form action="modify_cat" method="post" theme="simple">
 		            <s:hidden name="category.id"/>
+		            <s:hidden name="category.postTime"/>
 		            <label>分类名:</label>
 		            <s:textfield name="category.name" cssClass="text-input"/><br /><br />
 		            <s:submit value="submit" cssClass="button"/>

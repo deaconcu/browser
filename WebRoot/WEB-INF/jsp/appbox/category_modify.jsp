@@ -14,6 +14,7 @@
 		        <s:form action="modify_cat" method="post" theme="simple">
 		            <s:hidden name="appboxCategory.id"/> 
 		            <s:hidden name="appboxCategory.root"/>
+		            <s:hidden name="appboxCategory.postTime"/>
 		            <label>分类名:</label> 
 		            <s:textfield name="appboxCategory.name" cssClass="text-input"/><br /><br />
 		            <s:submit value="submit" cssClass="button"/>

@@ -30,8 +30,9 @@
 		            <tr>
 		              <td class="name"><p>
 		                  <span><a href="extension/get_item.do?itemId=<s:property value="id" />"><s:property value="name" /></a></span>
-		                  <s:property value="description" /> -- 
-		                  <s:property value="category.name" /></p>
+		                  <s:property value="description" /> |
+		                  <s:property value="category.name" /> | 
+		                  <s:property value="date" /></p>
 		              </td>
 		              <td class="op">
 			              <p>
