@@ -31,7 +31,7 @@
                     <tr>
                       <td class="name"><p>
                           <span><s:property value="name" /></span>
-                          <s:property value="date" /></p>
+                                                                    创建于：<s:property value="date" /></p>
                       </td>
                       <td class="op">
                           <p>

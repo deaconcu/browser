@@ -16,7 +16,7 @@
                 <table>
                    <tr><td class="title">name:</td><td><s:property value="%{appboxItem.name}" /></td></tr>
                    <tr><td class="title">source: </td><td><s:property value="%{appboxItem.source}" /></td></tr>
-                   
+                   <tr><td class="title">sourceCharSet: </td><td><s:property value="%{appboxItem.charSet}" /></td></tr>
                    <tr><td class="title">titelRegex:</td><td><s:property value="%{appboxItem.titleRegex}" /></td></tr>
                    <tr><td class="title">urlRegex: </td><td><s:property value="%{appboxItem.urlRegex}" /></td></tr>
                    <tr><td class="title">picRegex: </td><td><s:property value="%{appboxItem.picRegex}" /></td></tr>

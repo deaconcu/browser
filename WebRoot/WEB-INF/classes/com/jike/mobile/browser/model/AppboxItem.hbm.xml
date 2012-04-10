@@ -28,6 +28,9 @@
         <property name="source" type="string">
             <column name="source" length="65535" not-null="true" />
         </property>
+        <property name="charSet" type="string">
+            <column name="charSet" length="64" not-null="true" />
+        </property>
         <property name="titleRegex" type="string">
             <column name="titleRegex" length="65535" not-null="true" />
         </property>

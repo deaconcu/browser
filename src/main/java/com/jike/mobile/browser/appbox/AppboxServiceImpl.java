@@ -2,8 +2,8 @@ package com.jike.mobile.browser.appbox;
 
 import java.util.List;
 
-import com.jike.mobile.browser.commom.crawler.CrawlerMatcher;
-import com.jike.mobile.browser.commom.crawler.crawlerException;
+import com.jike.mobile.browser.common.crawler.CrawlerMatcher;
+import com.jike.mobile.browser.common.crawler.crawlerException;
 import com.jike.mobile.browser.dao.AppboxCategoryDao;
 import com.jike.mobile.browser.dao.AppboxItemDao;
 import com.jike.mobile.browser.model.AppboxCategory;
@@ -118,6 +118,7 @@ public class AppboxServiceImpl implements AppboxService{
 			String[] regexs = {appboxItem.getTitleRegex(), appboxItem.getUrlRegex(), appboxItem.getPicRegex()};
 			
 			cm.setRegexs(regexs);
+			cm.setCharSet(appboxItem.getCharSet());
 			cm.execute();
 			
 			appboxItem.setTitle((cm.getResult())[0]);

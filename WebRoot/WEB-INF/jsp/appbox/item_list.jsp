@@ -32,8 +32,8 @@
 	                    <tr>
 	                      <td class="name"><p>
 	                          <span><a href="appbox/get_item.do?appboxItemId=<s:property value="id" />"><s:property value="name" /></a></span>
-	                          <s:property value="appboxCategory.name" />  | 
-	                          <s:property value="date" /></p>
+	                                                                     类别：<s:property value="appboxCategory.name" />  | 
+	                          postTime: <s:property value="date" /></p>
 	                      </td>
 	                      <td class="op">
 	                          <p>

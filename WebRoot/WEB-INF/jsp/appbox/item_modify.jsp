@@ -17,6 +17,8 @@
 		              <s:textfield name="appboxItem.name" cssClass="text-input"/> <br /><br />
 		            <label>source: </label> 
 		              <s:textfield name="appboxItem.source" cssClass="text-input"/> <br /><br />
+		            <label>sourceCharSet:</label> 
+                      <s:textfield name="appboxItem.charSet" cssClass="text-input"/> <br /><br />
 		            <label>titelRegex:</label>  
 		              <s:textfield name="appboxItem.titleRegex" cssClass="text-input"/> <br /><br />
 		            <label>urlRegex: </label> 

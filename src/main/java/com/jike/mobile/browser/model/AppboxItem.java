@@ -22,6 +22,7 @@ public class AppboxItem implements java.io.Serializable {
 	private String imgUrl;
 	private Long postTime;
 	private String source;
+	private String charSet;
 	private String titleRegex;
 	private String urlRegex;
 	private String picRegex;
@@ -155,5 +156,13 @@ public class AppboxItem implements java.io.Serializable {
 	public String getDate() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd / HH:mm");
 		return format.format(new Date(postTime));
+	}
+
+	public String getCharSet() {
+		return charSet;
+	}
+
+	public void setCharSet(String charSet) {
+		this.charSet = charSet;
 	}
 }

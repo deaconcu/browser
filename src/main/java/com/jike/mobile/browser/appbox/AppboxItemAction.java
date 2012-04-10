@@ -166,7 +166,8 @@ public class AppboxItemAction extends ActionSupport {
 			}
 			else if(appboxItem.getTitle() == null && appboxItem.getUrl() == null && appboxItem.getImgUrl() == null) {
 				addActionError(getText("match.falied"));
-				return ERROR;
+				url = "get_item.do?appboxItemId=" + appboxItemId;
+				return SUCCESS;
 			}
 			else {
 				addActionMessage(getText("match.partly.success"));
