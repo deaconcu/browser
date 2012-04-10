@@ -121,9 +121,13 @@ public class AppboxServiceImpl implements AppboxService{
 			cm.setCharSet(appboxItem.getCharSet());
 			cm.execute();
 			
-			appboxItem.setTitle((cm.getResult())[0]);
-			appboxItem.setUrl((cm.getResult())[1]);
-			appboxItem.setImgUrl((cm.getResult())[2]);
+			String title = cm.getResult()[0];
+			String url = cm.getResult()[1];
+			String imgUrl = cm.getResult()[2];
+			
+			appboxItem.setTitle(title);
+			appboxItem.setUrl(url);
+			appboxItem.setImgUrl(imgUrl);
 			
 			appboxItemDao.update(appboxItem);
 			return appboxItem;
