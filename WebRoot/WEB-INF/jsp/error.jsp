@@ -15,7 +15,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </head>
     
     <body>
-        <s:property value="actionErrors[0]" />
+        <s:property value="actionErrors[0]"  />
         
         
         <script type="text/javascript">
