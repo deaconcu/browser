@@ -34,7 +34,10 @@
 	                      <td class="name"><p>
 	                          <span><a href="appbox/get_item.do?appboxItemId=<s:property value="id" />"><s:property value="name" /></a></span>
 	                                                                     类别：<s:property value="appboxCategory.name" />  | 
-	                          postTime: <s:property value="date" /></p>
+	                          postTime: <s:property value="date" /> | 
+	                          <s:if test="matchStatue == 0"> 全部匹配到值</s:if>
+			                  <s:elseif test="matchStatue == -1">没有匹配到值</s:elseif>
+			                  <s:else> 部分匹配到值</s:else></p>
 	                      </td>
 	                      <td class="op">
 	                          <p>

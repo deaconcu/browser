@@ -28,7 +28,7 @@ public class Refresher extends TimerTask{
 			List<AppboxItem> appboxItems = appboxService.findItemAll();
 			for(AppboxItem appboxItem : appboxItems) {
 				try {
-					appboxService.match(appboxItem.getId(), false);
+					appboxService.match(appboxItem);
 				} catch (Exception e) {
 					log.error(appboxItem.getId() + " match failed");
 				}

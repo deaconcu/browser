@@ -29,7 +29,9 @@ public interface AppboxService {
 
 	public List<AppboxItem> findItemByPageDesc(int page, int page_size);
 	
-	public AppboxItem match(int appboxItemId, boolean check);
+	public int match(int appboxItemId);
+	
+	public int match(AppboxItem appboxItem);
 
 	public List<AppboxItem> findItemAll();
 	

@@ -105,13 +105,15 @@ public class AppboxServiceImpl implements AppboxService{
 		return appboxItemDao.findAll();
 	}
 	
-	public AppboxItem match(int appboxItemId, boolean check) {
-		AppboxItem appboxItem = null;
-		if(check) {
-			appboxItem = appboxItemDao.findById(appboxItemId);
-			if(appboxItem == null) throw new ServiceException("appbox.item.is.not.exist");
-		}
-
+	@Override
+	public int match(int appboxItemId) {
+		AppboxItem appboxItem = appboxItemDao.findById(appboxItemId);
+		if(appboxItem == null) throw new ServiceException("appbox.item.is.not.exist");
+		return match(appboxItem);
+	}
+	
+	public int match(AppboxItem appboxItem) {
+		
 		CrawlerMatcher cm = new CrawlerMatcher();
 		try {
 			cm.setUrl(appboxItem.getSource());
@@ -121,17 +123,37 @@ public class AppboxServiceImpl implements AppboxService{
 			cm.setCharSet(appboxItem.getCharSet());
 			cm.execute();
 			
-			String title = cm.getResult()[0];
-			String url = cm.getResult()[1];
-			String imgUrl = cm.getResult()[2];
+			int isUpdate = 0;
+			if(cm.getResult()[0] == null || !cm.getResult()[0].equals(appboxItem.getTitle())){
+				appboxItem.setTitle(cm.getResult()[0]);
+				isUpdate = 1;
+			}
+			if(cm.getResult()[1] == null || !cm.getResult()[1].equals(appboxItem.getUrl())){
+				appboxItem.setUrl(cm.getResult()[1]);
+				isUpdate = 1;
+			}
+			if(cm.getResult()[2] == null || !cm.getResult()[2].equals(appboxItem.getImgUrl())){
+				appboxItem.setImgUrl(cm.getResult()[2]);
+				isUpdate = 1;
+			}
 			
-			appboxItem.setTitle(title);
-			appboxItem.setUrl(url);
-			appboxItem.setImgUrl(imgUrl);
+			if(isUpdate == 1) {
+				appboxItem.setMatchTime(System.currentTimeMillis());
+			}
+			
+			int statue;
+			
+			if(cm.getResult()[0] == null && cm.getResult()[1] == null && cm.getResult()[2] == null) statue = -1;
+			else if(cm.getResult()[0] != null && cm.getResult()[1] != null && cm.getResult()[2] != null) statue = 0;
+			else statue = 1;
+			
+			appboxItem.setMatchStatue(statue);
 			
 			appboxItemDao.update(appboxItem);
-			return appboxItem;
+			return statue;
+			
 		} catch (crawlerException e) {
+			e.printStackTrace();
 			throw new ServiceException(e.getMessage(), e);
 		}
 	}

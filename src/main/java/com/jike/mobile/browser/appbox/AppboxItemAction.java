@@ -24,6 +24,9 @@ public class AppboxItemAction extends ActionSupport {
 	// modify, delete, detail
 	private int appboxItemId;
 	
+	// json
+	private String appboxItemIds;
+	
 	// list
 	private List<AppboxItem> listItem;
 	
@@ -104,6 +107,7 @@ public class AppboxItemAction extends ActionSupport {
 				addActionError(getText(se.getMessage()));
 				return ERROR;
 			} catch (RuntimeException re) {
+				re.printStackTrace();
 				addActionError(getText("operation.failed"));
 				return ERROR;
 			}
@@ -158,13 +162,13 @@ public class AppboxItemAction extends ActionSupport {
 	@InputConfig(resultName=ERROR)
 	public String match() {
 		try {
-			appboxItem = appboxService.match(appboxItemId, true);
-			if(appboxItem.getTitle() != null && appboxItem.getUrl() != null && appboxItem.getImgUrl() != null) {
+			int statue = appboxService.match(appboxItemId);
+			if(statue == 0) {
 				addActionMessage(getText("match.success"));
 				url = "get_item.do?appboxItemId=" + appboxItemId;
 				return SUCCESS;
 			}
-			else if(appboxItem.getTitle() == null && appboxItem.getUrl() == null && appboxItem.getImgUrl() == null) {
+			else if(statue == -1) {
 				addActionError(getText("match.falied"));
 				url = "get_item.do?appboxItemId=" + appboxItemId;
 				return SUCCESS;
@@ -182,6 +186,10 @@ public class AppboxItemAction extends ActionSupport {
 	
 	@InputConfig(resultName=ERROR)
 	public String json() {
+		if(appboxItemIds != null) {
+
+		}
+
 		addActionError(getText("operation.unsupported"));
 		return ERROR;
 	}
@@ -296,6 +304,14 @@ public class AppboxItemAction extends ActionSupport {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getAppboxItemIds() {
+		return appboxItemIds;
+	}
+
+	public void setAppboxItemIds(String appboxItemIds) {
+		this.appboxItemIds = appboxItemIds;
 	}
 }
 

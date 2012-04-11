@@ -26,6 +26,8 @@ public class AppboxItem implements java.io.Serializable {
 	private String titleRegex;
 	private String urlRegex;
 	private String picRegex;
+	private Integer matchStatue;
+	private Long matchTime;
 	private AppboxCategory appboxCategory;
 
 	// Constructors
@@ -153,11 +155,6 @@ public class AppboxItem implements java.io.Serializable {
 		this.appboxCategory = appboxCategory;
 	}
 	
-	public String getDate() {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd / HH:mm");
-		return format.format(new Date(postTime));
-	}
-
 	public String getCharSet() {
 		return charSet;
 	}
@@ -165,4 +162,32 @@ public class AppboxItem implements java.io.Serializable {
 	public void setCharSet(String charSet) {
 		this.charSet = charSet;
 	}
+
+	public Integer getMatchStatue() {
+		return matchStatue;
+	}
+
+	public void setMatchStatue(Integer matchStatue) {
+		this.matchStatue = matchStatue;
+	}
+	
+	public Long getMatchTime() {
+		return matchTime;
+	}
+
+	public void setMatchTime(Long matchTime) {
+		this.matchTime = matchTime;
+	}
+	
+	public String getDate() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd / HH:mm");
+		return format.format(new Date(postTime));
+	}
+	
+	public String getMatchDate() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd / HH:mm");
+		return format.format(new Date(matchTime));
+	}
+
+	
 }

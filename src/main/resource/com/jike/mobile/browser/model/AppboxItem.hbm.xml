@@ -40,7 +40,12 @@
         <property name="picRegex" type="string">
             <column name="picRegex" length="65535" not-null="true" />
         </property>
-        
+        <property name="matchStatue" type="integer">
+            <column name="matchStatue"/>
+        </property>
+        <property name="matchTime" type="long">
+            <column name="matchTime"/>
+        </property>
         <many-to-one name="appboxCategory" class="com.jike.mobile.browser.model.AppboxCategory" column="categoryId" lazy="false"/>
     </class>
 </hibernate-mapping>

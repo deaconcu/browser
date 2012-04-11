@@ -32,6 +32,7 @@
             <result name="error" type="json">actionErrors</result>
         </action>
         
+        
         <!-- cat -->
         <action name="add_cat" class="categoryAction" method="add">
             <result name="input">/WEB-INF/jsp/extension/category_add.jsp</result>

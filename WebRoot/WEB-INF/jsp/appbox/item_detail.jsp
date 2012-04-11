@@ -29,7 +29,13 @@
                    <tr><td class="title">category:</td><td><s:property value="%{appboxItem.appboxCategory.name}" /></td></tr>
                    
                    <tr><td class="title">postTime: </td><td><s:property value="%{appboxItem.date}" /></td></tr>
-
+                   <tr><td class="title">匹配状态: </td><td>
+                   <s:if test="appboxItem.matchStatue == 0"> 全部匹配到值</s:if>
+                   <s:elseif test="appboxItem.matchStatue == -1">没有匹配到值</s:elseif>
+                   <s:else> 部分匹配到值</s:else>
+                   </td></tr>
+                   
+                   <tr><td class="title">matchTime: </td><td><s:property value="%{appboxItem.matchDate}" /></td></tr>
                </table>
                <div class="modify">
                    <span><a href="appbox/match.do?appboxItemId=<s:property value="appboxItem.id" />">匹 配</a></span>&nbsp;
