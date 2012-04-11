@@ -11,17 +11,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <base href="<%=basePath%>">
         <meta http-equiv="pragma" content="no-cache">
         <meta http-equiv="cache-control" content="no-cache">
-        <meta http-equiv="expires" content="0">    
+        <meta http-equiv="expires" content="0">
     </head>
-    <!-- test git -->
+    
+    
+    
     <body>
-        <s:property value="actionErrors[0]"  />
-        
-        
+        <s:property value="actionMessages[0]" />，
+        1秒后自动跳转 ... ...
         <script type="text/javascript">
-            setTimeout("window.location='javascript:history.go(-1)'", 3000);  
+            setTimeout("window.location='<s:property value="url" />'", 1500);
         </script>
-        <br /><br /><br />3<s:text name="redirect.in.seconds" /> 
-        <a href="javascript:history.go(-1);"><s:text name="click.to.return" /></a>
+        
+        <br /><br /><br />
+        url: <s:property value="url" />
     </body>
 </html>
