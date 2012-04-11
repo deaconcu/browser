@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=utf-8"%>
 <%@ include file="../top.jsp" %>    
 
 <!DOCTYPE HTML>
@@ -9,7 +10,7 @@
 	  <div id="wrapper">
 	  </div>
 	    <div id="content">
-	        <div class="sign"><p>Extension > 新建</p></div>
+	        <div class="sign"><p>Extension &gt; 新建</p></div>
 		    <div class="post">    
 			  <s:form action="add_item" method="post" enctype="multipart/form-data" theme="simple">
 				  <label>name:</label> 

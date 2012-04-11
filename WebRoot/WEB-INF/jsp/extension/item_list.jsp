@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=utf-8"%>
 <%@ include file="../top.jsp" %>    
 
 <!DOCTYPE HTML>
@@ -10,7 +11,7 @@
       </div>
         <div id="content">
             <div class="post">
-                <div class="sign"><p>Extension > 列表</p></div>
+                <div class="sign"><p>Extension &gt; 列表</p></div>
                 <div class="add">
                     <span><a href="extension/add_item.do"> + 添加</a></span>
                 </div>

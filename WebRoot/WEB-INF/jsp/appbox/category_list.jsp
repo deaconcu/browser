@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=utf-8"%>
 <%@ include file="../top.jsp" %>    
 
 <!DOCTYPE HTML>
@@ -9,7 +10,7 @@
       <div id="wrapper">
       </div>
         <div id="content">
-            <div class="sign"><p>Appbox > 分类列表</p></div>
+            <div class="sign"><p>Appbox &gt; 分类列表</p></div>
             <div class="post">
                 <div class="add">
                     <span><a href="appbox/add_cat.do"> + 添加</a></span>

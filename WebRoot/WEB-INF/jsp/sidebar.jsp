@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=utf-8"%>
 <div id="sidebar">
     <ul>
         <li>

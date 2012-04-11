@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=utf-8"%>
 <%@ include file="../top.jsp" %>    
 
 <!DOCTYPE HTML>
@@ -9,12 +10,12 @@
       <div id="wrapper">
       </div>
         <div id="content">
-            <div class="sign"><p>Extension > 修改分类</p></div>
+            <div class="sign"><p>Extension &gt; <s:text name="modify.category" /></p></div>
             <div class="post">
 		        <s:form action="modify_cat" method="post" theme="simple">
 		            <s:hidden name="category.id"/>
 		            <s:hidden name="category.postTime"/>
-		            <label>分类名:</label>
+		            <label><s:text name="category.name" /></label>
 		            <s:textfield name="category.name" cssClass="text-input"/><br /><br />
 		            <s:submit value="submit" cssClass="button"/>
 		        

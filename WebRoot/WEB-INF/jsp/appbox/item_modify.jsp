@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=utf-8"%>
 <%@ include file="../top.jsp" %>    
 <!DOCTYPE HTML>
 <html>
@@ -8,7 +9,7 @@
       <div id="wrapper">
       </div>
         <div id="content">
-            <div class="sign"><p>Appbox > 修改</p></div>
+            <div class="sign"><p>Appbox &gt; 修改</p></div>
             <div class="post">    
 		        <s:form action="modify_item" method="post" theme="simple">
 		            <s:hidden name="appboxItem.id"/>

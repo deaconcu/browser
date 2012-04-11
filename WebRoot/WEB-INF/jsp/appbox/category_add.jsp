@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=utf-8"%>
 <%@ include file="../top.jsp" %>    
 
 <!DOCTYPE HTML>
@@ -9,7 +10,7 @@
       <div id="wrapper">
       </div>
         <div id="content">
-            <div class="sign"><p>Appbox > 新建分类</p></div>
+            <div class="sign"><p>Appbox &gt; 新建分类</p></div>
             <div class="post">
 		        <s:form action="add_cat" name="category" method="post" theme="simple">
 		            <label>name: </label>
