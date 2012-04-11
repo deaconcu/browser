@@ -1,11 +1,11 @@
-<%@ page contentType="text/html; charset=utf-8"%>
+﻿<%@ page contentType="text/html; charset=utf-8"%>
 <div id="sidebar">
     <ul>
         <li>
             <p>Extensions</p>
             <ul>
                 <li><a href="extension/get_item_list.do">查看全部</a></li>
-                <li><a href="extension/list_cat.do">管理分类</a></li>
+                <li><a href="extension/list_cat.do">sdfsfsdf</a></li>
             </ul>
         </li>
         
