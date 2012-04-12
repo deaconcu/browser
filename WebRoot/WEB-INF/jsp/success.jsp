@@ -21,9 +21,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         1秒后自动跳转 ... ...
         <script type="text/javascript">
             setTimeout("window.location='<s:property value="url" />'", 1500);  
-        </script>
-        
-        <br /><br /><br />
-        url: <s:property value="url" />       
+        </script>   
     </body>
 </html>

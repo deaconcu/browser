@@ -30,9 +30,9 @@
                    
                    <tr><td class="title">postTime: </td><td><s:property value="%{appboxItem.date}" /></td></tr>
                    <tr><td class="title">匹配状态: </td><td>
-                   <s:if test="appboxItem.matchStatue == 0"> 全部匹配到值</s:if>
+                   <s:if test="appboxItem.matchStatue == 0">全部匹配到值</s:if>
                    <s:elseif test="appboxItem.matchStatue == -1">没有匹配到值</s:elseif>
-                   <s:else> 部分匹配到值</s:else>
+                   <s:else>部分匹配到值</s:else>
                    </td></tr>
                    
                    <tr><td class="title">matchTime: </td><td><s:property value="%{appboxItem.matchDate}" /></td></tr>

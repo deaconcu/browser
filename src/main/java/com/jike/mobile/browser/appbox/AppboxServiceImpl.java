@@ -73,6 +73,8 @@ public class AppboxServiceImpl implements AppboxService{
 		if(appboxCategory == null) throw new ServiceException("appbox.category.is.not.exist");
 		
 		appboxItem.setPostTime(System.currentTimeMillis());
+		appboxItem.setMatchTime(0L);
+		appboxItem.setMatchStatue(-1);
 		return (Integer)appboxItemDao.save(appboxItem);
 	}
 
@@ -159,8 +161,8 @@ public class AppboxServiceImpl implements AppboxService{
 	}
 	
 	@Override
-	public List<AppboxItem> findItemByIds(Integer[] ids) {
-		return appboxItemDao.findItemByIds(ids);
+	public List<AppboxItem> findItemByIdsAndTime(Integer[] ids, long lastUpdateTime, int statue) {
+		return appboxItemDao.findItemByIdsAndTime(ids, lastUpdateTime, statue);
 	}
 
 	@Override

@@ -2,8 +2,14 @@
 <beans
 	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	   http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
@@ -33,6 +39,27 @@
             </list>
         </property>
 	</bean>
+	
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+		  <!-- all methods starting with 'get' are read-only -->
+		   <tx:method name="find*" read-only="true"/>
+		   <tx:method name="get*" read-only="true"/>
+		   <!-- other methods use the default transaction settings (see below) -->
+		   <tx:method name="*"/>
+		</tx:attributes>
+	</tx:advice>
+    
+    <aop:config>
+	    <aop:pointcut id="appboxServicePointcut" expression="execution(* com.jike.mobile.browser.appbox.*Impl.*(..))"/>
+	    <aop:pointcut id="extensionServicePointcut" expression="execution(* com.jike.mobile.browser.extension.*Impl.*(..))"/>
+	    <aop:advisor advice-ref="txAdvice" pointcut-ref="appboxServicePointcut"/>
+	    <aop:advisor advice-ref="txAdvice" pointcut-ref="extensionServicePointcut"/>
+    </aop:config>
     
     <!-- dao -->
     <bean name="itemDao" class="com.jike.mobile.browser.dao.impl.ItemDaoImpl">

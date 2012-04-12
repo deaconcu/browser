@@ -69,15 +69,15 @@ public class ExtensionServiceImpl implements ExtensionService{
 	@Override
 	public void delete(int itemId) {
 		try {
-			Item item = new Item(itemId);
+			Item item = itemDao.findById(itemId);
+			if(item == null) {
+				throw new ServiceException("cannot find object");
+			}
 			itemDao.delete(item);
 		}
 		catch (DataAccessException dse) {
-			if(dse.getCause().getClass().getSimpleName().equals("StaleStateException")) throw new ServiceException("cannot find object");
-			else {
-				log.error(dse.toString());
-				throw new ServiceException("DataAccessException", dse);
-			}
+			log.error(dse.toString());
+			throw new ServiceException("DataAccessException", dse);
 		}
 	}
 

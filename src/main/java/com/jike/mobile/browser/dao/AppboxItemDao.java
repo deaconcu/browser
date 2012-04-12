@@ -5,5 +5,5 @@ import java.util.List;
 import com.jike.mobile.browser.model.AppboxItem;
 
 public interface AppboxItemDao extends BaseDao<AppboxItem>{
-	public List<AppboxItem> findItemByIds(Integer[] ids);
+	public List<AppboxItem> findItemByIdsAndTime(Integer[] ids, final long lastUpdateTime, int statue);
 }

@@ -31,6 +31,7 @@ public class AppboxItemAction extends ActionSupport {
 	// json
 	private String appboxItemIdString;
 	private Integer[] appboxItemIds;
+	private Long lastUpdateTime;
 	
 	// list
 	private List<AppboxItem> listItem;
@@ -192,7 +193,7 @@ public class AppboxItemAction extends ActionSupport {
 	@InputConfig(resultName=ERROR)
 	public String json() {
 		try {
-			listItem = appboxService.findItemByIds(appboxItemIds);
+			listItem = appboxService.findItemByIdsAndTime(appboxItemIds, lastUpdateTime, 0);
 			return SUCCESS;
 		}catch (RuntimeException re) {
 			addActionError(getText(re.getMessage()));
@@ -247,26 +248,27 @@ public class AppboxItemAction extends ActionSupport {
 	}
 	
 	public void validateJson() {
-		if(appboxItemIdString != null && (!appboxItemIdString.equals(""))) {
-			String[] idsInString = appboxItemIdString.split(",");
-			List<Integer> idsInList = new ArrayList<Integer>();
-			for(String idInString : idsInString) {
-				idInString = idInString.trim();
-				if(idInString.equals("")) continue;
-				try{
-					int id = Integer.parseInt(idInString);
-					idsInList.add(id);
-				} catch (NumberFormatException e) {
-					log.info("appboxItemIdString parseInt error: " + idInString);
-					addActionError(getText("appbox.input.is.invalid"));
-				}
-			}
-			appboxItemIds = idsInList.toArray(new Integer[0]);
-			if(appboxItemIds.length == 0) addActionError(getText("appbox.input.is.invalid"));
-		}
-		else{
+		if(appboxItemIdString == null || "".equals(appboxItemIdString)) {
 			addActionError(getText("appbox.input.is.empty"));
+			return; 
 		}
+		if(lastUpdateTime == null ) lastUpdateTime = 0L;
+		
+		String[] idsInString = appboxItemIdString.split(",");
+		List<Integer> idsInList = new ArrayList<Integer>();
+		for(String idInString : idsInString) {
+			idInString = idInString.trim();
+			if(idInString.equals("")) continue;
+			try{
+				int id = Integer.parseInt(idInString);
+				idsInList.add(id);
+			} catch (NumberFormatException e) {
+				log.info("appboxItemIdString parseInt error: " + idInString);
+				addActionError(getText("appbox.input.is.invalid"));
+			}
+		}
+		appboxItemIds = idsInList.toArray(new Integer[0]);
+		if(appboxItemIds.length == 0) addActionError(getText("appbox.input.is.invalid"));
 	}
 	
 	public void addValidateError(boolean result) {
@@ -355,6 +357,14 @@ public class AppboxItemAction extends ActionSupport {
 
 	public void setAppboxItemIds(Integer[] appboxItemIds) {
 		this.appboxItemIds = appboxItemIds;
+	}
+
+	public Long getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+
+	public void setLastUpdateTime(Long lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
 	}
 
 	
