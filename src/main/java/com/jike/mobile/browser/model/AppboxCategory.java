@@ -2,6 +2,10 @@ package com.jike.mobile.browser.model;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.struts2.json.annotations.JSON;
 
 /**
  * AppboxCategory entity. @author MyEclipse Persistence Tools
@@ -19,6 +23,9 @@ public class AppboxCategory implements java.io.Serializable {
 	private String name;
 	private Integer root;
 	private Long postTime;
+	
+	
+	private Set<AppboxItem> itemList = new HashSet<AppboxItem>();
 
 	// Constructors
 
@@ -50,7 +57,8 @@ public class AppboxCategory implements java.io.Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	@JSON(serialize=false)
 	public Integer getRoot() {
 		return this.root;
 	}
@@ -59,6 +67,7 @@ public class AppboxCategory implements java.io.Serializable {
 		this.root = root;
 	}
 
+	@JSON(serialize=false)
 	public Long getPostTime() {
 		return this.postTime;
 	}
@@ -67,9 +76,20 @@ public class AppboxCategory implements java.io.Serializable {
 		this.postTime = postTime;
 	}
 	
+	@JSON(serialize=false)
 	public String getDate() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd / HH:mm");
 		return format.format(new Date(postTime));
 	}
+	
+	public Set<AppboxItem> getItemList() {
+		return itemList;
+	}
+
+	public void setItemList(Set<AppboxItem> itemList) {
+		this.itemList = itemList;
+	}
+
+	
 
 }

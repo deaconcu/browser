@@ -34,5 +34,9 @@ public interface AppboxService {
 	public int match(AppboxItem appboxItem);
 
 	public List<AppboxItem> findItemAll();
+
+	public List<AppboxItem> findItemByIds(Integer[] ids);
+
+	public List<AppboxCategory> findCategoryAllWithItem();
 	
 }

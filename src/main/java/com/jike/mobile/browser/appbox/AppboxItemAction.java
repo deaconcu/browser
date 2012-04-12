@@ -1,8 +1,11 @@
 package com.jike.mobile.browser.appbox;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.jike.mobile.browser.model.AppboxCategory;
 import com.jike.mobile.browser.model.AppboxItem;
@@ -16,7 +19,8 @@ import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 public class AppboxItemAction extends ActionSupport {
 	
 	private static final long serialVersionUID = 5447588905866456204L;
-
+	private Logger log = LoggerFactory.getLogger(AppboxItemAction.class);
+	
 	// add, modify, detail
 	private AppboxItem appboxItem;
 	private List<AppboxCategory> listCategory;
@@ -25,7 +29,8 @@ public class AppboxItemAction extends ActionSupport {
 	private int appboxItemId;
 	
 	// json
-	private String appboxItemIds;
+	private String appboxItemIdString;
+	private Integer[] appboxItemIds;
 	
 	// list
 	private List<AppboxItem> listItem;
@@ -186,12 +191,23 @@ public class AppboxItemAction extends ActionSupport {
 	
 	@InputConfig(resultName=ERROR)
 	public String json() {
-		if(appboxItemIds != null) {
-
+		try {
+			listItem = appboxService.findItemByIds(appboxItemIds);
+			return SUCCESS;
+		}catch (RuntimeException re) {
+			addActionError(getText(re.getMessage()));
+			return ERROR;
 		}
-
-		addActionError(getText("operation.unsupported"));
-		return ERROR;
+	}
+	
+	public String jsonAll() {
+		try {
+			listCategory = appboxService.findCategoryAllWithItem();
+		}catch (RuntimeException re) {
+			addActionError(getText(re.getMessage()));
+			return ERROR;
+		}
+		return SUCCESS;
 	}
 	
 	// validate methods
@@ -231,7 +247,26 @@ public class AppboxItemAction extends ActionSupport {
 	}
 	
 	public void validateJson() {
-		
+		if(appboxItemIdString != null && (!appboxItemIdString.equals(""))) {
+			String[] idsInString = appboxItemIdString.split(",");
+			List<Integer> idsInList = new ArrayList<Integer>();
+			for(String idInString : idsInString) {
+				idInString = idInString.trim();
+				if(idInString.equals("")) continue;
+				try{
+					int id = Integer.parseInt(idInString);
+					idsInList.add(id);
+				} catch (NumberFormatException e) {
+					log.info("appboxItemIdString parseInt error: " + idInString);
+					addActionError(getText("appbox.input.is.invalid"));
+				}
+			}
+			appboxItemIds = idsInList.toArray(new Integer[0]);
+			if(appboxItemIds.length == 0) addActionError(getText("appbox.input.is.invalid"));
+		}
+		else{
+			addActionError(getText("appbox.input.is.empty"));
+		}
 	}
 	
 	public void addValidateError(boolean result) {
@@ -306,13 +341,23 @@ public class AppboxItemAction extends ActionSupport {
 		this.url = url;
 	}
 
-	public String getAppboxItemIds() {
+	public String getAppboxItemIdString() {
+		return appboxItemIdString;
+	}
+
+	public void setAppboxItemIdString(String appboxItemIdString) {
+		this.appboxItemIdString = appboxItemIdString;
+	}
+
+	public Integer[] getAppboxItemIds() {
 		return appboxItemIds;
 	}
 
-	public void setAppboxItemIds(String appboxItemIds) {
+	public void setAppboxItemIds(Integer[] appboxItemIds) {
 		this.appboxItemIds = appboxItemIds;
 	}
+
+	
 }
 
 

@@ -31,8 +31,21 @@
             <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
         <action name="get_item_json" class="appboxItemAction" method="json">
-            <result name="success">/WEB-INF/jsp/appbox/get_json.jsp</result>
-            <result name="error" type="json">actionErrors</result>
+            <result name="success" type="json">
+                <param name="root">listItem</param>
+            </result>
+            <result name="error" type="json">
+                <param name="root">actionErrors</param>
+            </result>
+        </action>
+        
+        <action name="get_all_json" class="appboxItemAction" method="jsonAll">
+            <result name="success" type="json">
+                <param name="root">listCategory</param>
+            </result>
+            <result name="error" type="json">
+                <param name="root">actionErrors</param>
+            </result>
         </action>
         
         <!-- cat -->

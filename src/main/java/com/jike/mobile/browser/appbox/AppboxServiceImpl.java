@@ -125,15 +125,15 @@ public class AppboxServiceImpl implements AppboxService{
 			
 			int isUpdate = 0;
 			if(cm.getResult()[0] == null || !cm.getResult()[0].equals(appboxItem.getTitle())){
-				appboxItem.setTitle(cm.getResult()[0]);
+				appboxItem.setTitle(completionUrl(appboxItem.getSource(), cm.getResult()[0]));
 				isUpdate = 1;
 			}
 			if(cm.getResult()[1] == null || !cm.getResult()[1].equals(appboxItem.getUrl())){
-				appboxItem.setUrl(cm.getResult()[1]);
+				appboxItem.setUrl(completionUrl(appboxItem.getSource(), cm.getResult()[1]));
 				isUpdate = 1;
 			}
 			if(cm.getResult()[2] == null || !cm.getResult()[2].equals(appboxItem.getImgUrl())){
-				appboxItem.setImgUrl(cm.getResult()[2]);
+				appboxItem.setImgUrl(completionUrl(appboxItem.getSource(), cm.getResult()[2]));
 				isUpdate = 1;
 			}
 			
@@ -157,8 +157,48 @@ public class AppboxServiceImpl implements AppboxService{
 			throw new ServiceException(e.getMessage(), e);
 		}
 	}
-
 	
+	@Override
+	public List<AppboxItem> findItemByIds(Integer[] ids) {
+		return appboxItemDao.findItemByIds(ids);
+	}
+
+	@Override
+	public List<AppboxCategory> findCategoryAllWithItem() {
+		// TODO Auto-generated method stub
+		return appboxCategoryDao.findAll();
+	}
+
+	/**
+	 * 将相对路径补全为绝对路径
+	 * 
+	 * @return
+	 */
+	private String completionUrl(String source, String url) {
+		if (url == null || "".equals(url.trim())) {
+			return "";
+		}
+		if (url.startsWith("http://")) {// 已经是绝对路径
+			return url;
+		}
+		if (source == null || "".equals(source.trim())) {
+			return url;
+		}
+
+		if (source.indexOf("?") != -1) {//去掉源url的参数列表
+			source = source.substring(0, source.indexOf("?"));	
+		}
+		
+		// 以下逻辑处理“/”
+		if (source.endsWith("/") && url.startsWith("/")) {
+			return source.substring(0, source.length() - 1) + url;
+		}
+		if (!source.endsWith("/") && !url.startsWith("/")) {
+			return source + "/" + url;
+		}
+		return source + url;
+	}
+
 }
 
 

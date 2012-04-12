@@ -19,5 +19,9 @@
         <property name="postTime" type="long">
             <column name="postTime" not-null="true" />
         </property>
+        <set name="itemList" inverse="true" lazy='false'>
+            <key column="categoryId" />
+            <one-to-many class="com.jike.mobile.browser.model.AppboxItem" />
+        </set>
     </class>
 </hibernate-mapping>

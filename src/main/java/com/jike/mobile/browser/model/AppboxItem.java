@@ -3,6 +3,8 @@ package com.jike.mobile.browser.model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.struts2.json.annotations.JSON;
+
 /**
  * AppboxItem entity. @author MyEclipse Persistence Tools
  */
@@ -75,6 +77,7 @@ public class AppboxItem implements java.io.Serializable {
 		this.id = id;
 	}
 
+	@JSON(serialize=false)
 	public String getName() {
 		return this.name;
 	}
@@ -107,6 +110,7 @@ public class AppboxItem implements java.io.Serializable {
 		this.imgUrl = imgUrl;
 	}
 
+	@JSON(serialize=false)
 	public Long getPostTime() {
 		return this.postTime;
 	}
@@ -115,6 +119,7 @@ public class AppboxItem implements java.io.Serializable {
 		this.postTime = postTime;
 	}
 
+	@JSON(serialize=false)
 	public String getSource() {
 		return this.source;
 	}
@@ -123,6 +128,7 @@ public class AppboxItem implements java.io.Serializable {
 		this.source = source;
 	}
 
+	@JSON(serialize=false)
 	public String getTitleRegex() {
 		return this.titleRegex;
 	}
@@ -130,7 +136,8 @@ public class AppboxItem implements java.io.Serializable {
 	public void setTitleRegex(String titleRegex) {
 		this.titleRegex = titleRegex;
 	}
-
+	
+	@JSON(serialize=false)
 	public String getUrlRegex() {
 		return this.urlRegex;
 	}
@@ -139,6 +146,7 @@ public class AppboxItem implements java.io.Serializable {
 		this.urlRegex = urlRegex;
 	}
 
+	@JSON(serialize=false)
 	public String getPicRegex() {
 		return this.picRegex;
 	}
@@ -147,6 +155,7 @@ public class AppboxItem implements java.io.Serializable {
 		this.picRegex = picRegex;
 	}
 
+	@JSON(serialize=false)
 	public AppboxCategory getAppboxCategory() {
 		return appboxCategory;
 	}
@@ -155,6 +164,7 @@ public class AppboxItem implements java.io.Serializable {
 		this.appboxCategory = appboxCategory;
 	}
 	
+	@JSON(serialize=false)
 	public String getCharSet() {
 		return charSet;
 	}
@@ -163,6 +173,7 @@ public class AppboxItem implements java.io.Serializable {
 		this.charSet = charSet;
 	}
 
+	@JSON(serialize=false)
 	public Integer getMatchStatue() {
 		return matchStatue;
 	}
@@ -171,6 +182,7 @@ public class AppboxItem implements java.io.Serializable {
 		this.matchStatue = matchStatue;
 	}
 	
+	@JSON(serialize=false)
 	public Long getMatchTime() {
 		return matchTime;
 	}
@@ -179,11 +191,13 @@ public class AppboxItem implements java.io.Serializable {
 		this.matchTime = matchTime;
 	}
 	
+	@JSON(serialize=false)
 	public String getDate() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd / HH:mm");
 		return format.format(new Date(postTime));
 	}
 	
+	@JSON(serialize=false)
 	public String getMatchDate() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd / HH:mm");
 		return format.format(new Date(matchTime));

@@ -13,13 +13,8 @@
 	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.lib.spring3.MYECLIPSE_SPRING30_AOP"/>
 	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.lib.spring3.MYECLIPSE_SPRING30_Persistence_CORE"/>
 	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.lib.spring3.MYECLIPSE_SPRING30_Persistence_JDBC"/>
-	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mysql-connector-java-5.1.18-bin.jar"/>
 	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.struts2.MYECLIPSE_STRUTS21_SPRING"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="C:/Users/JACOB/Desktop/jar/httpClient/httpclient-4.1.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/JACOB/Desktop/jar/httpClient/httpclient-cache-4.1.3.jar"/>
-	<classpathentry kind="lib" path="C:/Users/JACOB/Desktop/jar/httpClient/httpcore-4.1.4.jar"/>
-	<classpathentry kind="lib" path="C:/Users/JACOB/Desktop/jar/httpClient/httpmime-4.1.3.jar"/>
 	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.struts2.MYECLIPSE_STRUTS21_CORE"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
