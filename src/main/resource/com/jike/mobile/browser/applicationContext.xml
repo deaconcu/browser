@@ -57,8 +57,10 @@
     <aop:config>
 	    <aop:pointcut id="appboxServicePointcut" expression="execution(* com.jike.mobile.browser.appbox.*Impl.*(..))"/>
 	    <aop:pointcut id="extensionServicePointcut" expression="execution(* com.jike.mobile.browser.extension.*Impl.*(..))"/>
+	    <aop:pointcut id="quickStartServicePointcut" expression="execution(* com.jike.mobile.browser.quickStart.*Impl.*(..))"/>
 	    <aop:advisor advice-ref="txAdvice" pointcut-ref="appboxServicePointcut"/>
 	    <aop:advisor advice-ref="txAdvice" pointcut-ref="extensionServicePointcut"/>
+	    <aop:advisor advice-ref="txAdvice" pointcut-ref="quickStartServicePointcut"/>
     </aop:config>
     
     <!-- dao -->
@@ -78,9 +80,13 @@
         <property name="sessionFactory"><ref bean="sessionFactory" /></property>
     </bean>
     
+    <bean name="quickStartIconDao" class="com.jike.mobile.browser.dao.impl.QuickStartIconDaoImpl">
+    	<property name="sessionFactory"><ref bean="sessionFactory" /></property>
+    </bean>
+    
     <import resource="extension/applicationContext_extension.xml" />
     <import resource="appbox/applicationContext_appbox.xml" />
-    
+    <import resource="quickStart/applicationContext_quickStart.xml"/>
 </beans>
 
 
