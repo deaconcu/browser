@@ -26,10 +26,17 @@
 			<generator class="native"></generator>
 		</primary-key>
 	</table>
-<table name="browser_quickstart" catalog="browser"
-	class="com.jike.mobile.browser.model.QuickStart">
-	<primary-key>
-		<generator class="native"></generator>
-	</primary-key>
-</table>
+
+	<table name="browser_quickstart" catalog="browser"
+		class="com.jike.mobile.browser.model.QuickStart">
+		<primary-key>
+			<generator class="native"></generator>
+		</primary-key>
+	</table>
+	<table name="browser_quickstart_icon" catalog="browser"
+		class="com.jike.mobile.browser.model.QuickStartIcon">
+		<primary-key>
+			<generator class="native"></generator>
+		</primary-key>
+	</table>
 </hibernate-reverse-engineering>

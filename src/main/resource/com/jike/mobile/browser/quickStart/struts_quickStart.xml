@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    
+    <package name="extension" extends="json-default" namespace="/quickStart">
+        
+        <!-- icon -->
+        <action name="add_icon" class="QuickStartIconAction" method="add">
+            <result name="input">/WEB-INF/jsp/extension/icon_add.jsp</result>
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="modify_icon" class="QuickStartIconAction" method="modify">
+            <result name="input">/WEB-INF/jsp/extension/icon_modify.jsp</result>
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+    </package>
+</struts>    
