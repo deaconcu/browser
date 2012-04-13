@@ -10,8 +10,9 @@
       <div id="wrapper">
       </div>
         <div id="content">
-            <div class="sign"><p>Appbox &gt; 新建分类</p></div>
+            
             <div class="post">
+                <div class="sign"><p>Appbox &gt; 新建分类</p></div>
 		        <s:form action="add_cat" name="category" method="post" theme="simple">
 		            <label>name: </label>
 		            <s:textfield name="appboxCategory.name" cssClass="text-input"/> <br /><br />

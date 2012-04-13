@@ -10,8 +10,9 @@
       <div id="wrapper">
       </div>
         <div id="content">
-            <div class="sign"><p>Appbox &gt; 修改分类</p></div>
+            
             <div class="post">
+                <div class="sign"><p>Appbox &gt; 修改分类</p></div>
 		        <s:form action="modify_cat" method="post" theme="simple">
 		            <s:hidden name="appboxCategory.id"/> 
 		            <s:hidden name="appboxCategory.root"/>

@@ -2,6 +2,9 @@
 <div id="sidebar">
     <ul>
         <li>
+            <p><a href="index.do">首页</a></p>
+        </li>
+        <li>
             <p>Extensions</p>
             <ul>
                 <li><a href="extension/get_item_list.do">查看全部</a></li>
@@ -17,14 +20,7 @@
             </ul>
         </li>
         
-        <li>
-            <p>Plugins</p>
-            <ul>
-                <li><a href="#">about us</a></li>
-                <li><a href="#">blogs</a></li>
-                <li><a href="#">arcade</a></li>
-            </ul>
-        </li>
+        
     </ul>
     <br />
 </div>

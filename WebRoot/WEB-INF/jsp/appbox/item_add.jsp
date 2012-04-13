@@ -10,9 +10,9 @@
       <div id="wrapper">
       </div>
         <div id="content">
-            <div class="sign"><p>Appbox &gt; 新建</p></div>
+            
             <div class="post">    
-                
+                <div class="sign"><p>Appbox &gt; 新建</p></div>
 		        <s:form action="add_item" name="item" method="post" theme="simple">
 		            <label>name:</label> 
 		              <s:textfield name="appboxItem.name" cssClass="text-input"/> <br /><br />

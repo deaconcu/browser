@@ -158,6 +158,16 @@ public class ExtensionServiceImpl implements ExtensionService{
 		}
 	}
 	
+	@Override
+	public List<Item> findItemByCategory(Category category) {
+		try {
+			return itemDao.findByProperty("category", category);
+		}
+		catch (DataAccessException dse) {
+			throw new ServiceException("DataAccessException", dse);
+		}
+	}
+	
 	private boolean prepareAndUpload(Item item, UploadFile ext, UploadFile icon, UploadFile largeIcon) {
 		//检查item是否合法
 		if(!item.validate()) {
@@ -184,48 +194,53 @@ public class ExtensionServiceImpl implements ExtensionService{
 		
 		if(ext.validate()) {
 			String filePath = "";
+			String fileName = ext.getFileName() + "_" + System.currentTimeMillis();
 			try {
-				ext.upload(ServerConfig.get("real_root_path") + outputPath);
+				ext.upload(ServerConfig.get("real_root_path") + outputPath, fileName);
 			} catch (IOException e) {
 				log.error("upload ext failed");
 				return false;
 			}
-			filePath = outputPath + ext.getFileName();
+			filePath = outputPath + fileName;
 			item.setUrl(filePath);
 			item.setSizeInByte((int)ext.getPath().length());
 		}
 		
 		if(icon.validate()) {
 			String filePath = "";
+			String fileName = icon.getFileName() + "_" + System.currentTimeMillis();
 			try {
-				icon.upload(ServerConfig.get("real_root_path") + outputPath);
+				icon.upload(ServerConfig.get("real_root_path") + outputPath, fileName);
 			} catch (IOException e) {
 				log.error("upload icon failed");
 				return false;
 			}
-			filePath = outputPath + icon.getFileName();
+			filePath = outputPath + fileName;
 			item.setIconUrl(filePath);
 			item.setSizeInByte((int)icon.getPath().length());
 		}
 		
 		if(largeIcon.validate()) {
 			String filePath = "";
+			String fileName = icon.getFileName() + "_" + System.currentTimeMillis();
 			try {
-				largeIcon.upload(ServerConfig.get("real_root_path") + outputPath);
+				largeIcon.upload(ServerConfig.get("real_root_path") + outputPath, fileName);
 			} catch (IOException e) {
 				log.error("upload largeIcon failed");
 				return false;
 			}
-			filePath = outputPath + largeIcon.getFileName();
+			filePath = outputPath + fileName;
 			item.setLargeIconUrl(filePath);
 			item.setSizeInByte((int)largeIcon.getPath().length());
+		}
+		else {
+			item.setLargeIconUrl("");
+			item.setSizeInByte(0);
 		}
 		
 		return true;
 	}
 
 	
-
-
 	
 }

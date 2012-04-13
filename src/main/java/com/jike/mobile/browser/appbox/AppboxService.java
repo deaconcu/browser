@@ -38,5 +38,5 @@ public interface AppboxService {
 	public List<AppboxItem> findItemByIdsAndTime(Integer[] ids, long lastUpdateTime, int statue);
 
 	public List<AppboxCategory> findCategoryAllWithItem();
-	
+
 }

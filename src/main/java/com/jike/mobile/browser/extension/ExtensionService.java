@@ -36,4 +36,6 @@ public interface ExtensionService {
 	
 	public Category categoryFindById(Integer categoryId);
 
+	public List<Item> findItemByCategory(Category category);
+
 }

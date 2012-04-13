@@ -1,6 +1,9 @@
 package com.jike.mobile.browser.util;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
@@ -19,6 +22,7 @@ public class ServerConfig {
 			properties.load(in);
 
 			properties.setProperty("real_root_path", sc.getRealPath("/"));
+			properties.setProperty("serverConfigLocation", sc.getInitParameter("serverConfigLocation"));
 			log.info("ServerConfig load Success");
 		}
 		catch (Exception e) {
@@ -28,5 +32,12 @@ public class ServerConfig {
 	
 	public static String get(String key) {
 		return properties.getProperty(key);
+	}
+	
+	public static synchronized void set(String key, String value)  {
+		properties.setProperty(key, value);
+		//OutputStream outputStream = new BufferedOutputStream(new FileOutputStream(
+		//properties.getProperty("serverConfigLocation")));
+		//properties.store(out, comments)
 	}
 }

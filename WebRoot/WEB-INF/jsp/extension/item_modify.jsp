@@ -9,9 +9,10 @@
       <div id="wrapper">
       </div>
         <div id="content">
-            <div class="sign"><p>Extension &gt; 修改</p></div>
+            
             <div class="post">    
-              <s:form action="modify_item" method="post" enctype="multipart/form-data" theme="simple">
+                <div class="sign"><p>Extension &gt; 修改</p></div>
+                <s:form action="modify_item" method="post" enctype="multipart/form-data" theme="simple">
 	            <s:hidden name="item.id"/>
 	            <s:hidden name="item.url"/>
 	            <s:hidden name="item.iconUrl"/>

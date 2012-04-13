@@ -20,8 +20,14 @@
 			<generator class="native"></generator>
 		</primary-key>
 	</table>
-<table name="browser_appbox_item" catalog="browser"
-	class="com.jike.mobile.browser.model.AppboxItem">
+	<table name="browser_appbox_item" catalog="browser"
+		class="com.jike.mobile.browser.model.AppboxItem">
+		<primary-key>
+			<generator class="native"></generator>
+		</primary-key>
+	</table>
+<table name="browser_quickstart" catalog="browser"
+	class="com.jike.mobile.browser.model.QuickStart">
 	<primary-key>
 		<generator class="native"></generator>
 	</primary-key>

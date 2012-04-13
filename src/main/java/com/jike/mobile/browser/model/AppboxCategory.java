@@ -82,6 +82,7 @@ public class AppboxCategory implements java.io.Serializable {
 		return format.format(new Date(postTime));
 	}
 	
+	@JSON(serialize=false)
 	public Set<AppboxItem> getItemList() {
 		return itemList;
 	}

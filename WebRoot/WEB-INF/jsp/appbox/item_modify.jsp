@@ -9,8 +9,9 @@
       <div id="wrapper">
       </div>
         <div id="content">
-            <div class="sign"><p>Appbox &gt; 修改</p></div>
+            
             <div class="post">    
+                <div class="sign"><p>Appbox &gt; 修改</p></div>
 		        <s:form action="modify_item" method="post" theme="simple">
 		            <s:hidden name="appboxItem.id"/>
 		            <s:hidden name="appboxItem.postTime"/>

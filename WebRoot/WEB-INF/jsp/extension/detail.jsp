@@ -10,8 +10,9 @@
       <div id="wrapper">
       </div>
         <div id="content">
-        <div class="sign"><p>Extension &gt; 详情</p></div>
+        
             <div class="post">
+                <div class="sign"><p>Extension &gt; 详情</p></div>
                 <div class="detail">
 	                <table>
 	                    <tr><td class="title">name:</td><td><s:property value="item.name" /></td></tr>

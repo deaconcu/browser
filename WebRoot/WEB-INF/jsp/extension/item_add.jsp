@@ -10,8 +10,9 @@
 	  <div id="wrapper">
 	  </div>
 	    <div id="content">
-	        <div class="sign"><p>Extension &gt; 新建</p></div>
+	        
 		    <div class="post">    
+		      <div class="sign"><p>Extension &gt; 新建</p></div>
 			  <s:form action="add_item" method="post" enctype="multipart/form-data" theme="simple">
 				  <label>name:</label> 
                     <s:textfield name="item.name" cssClass="text-input"/><br /><br />

@@ -1,6 +1,7 @@
 package com.jike.mobile.browser.extension;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
@@ -48,8 +49,11 @@ public class ItemAction extends ActionSupport {
 	//return
 	private String url;
 	
-	//Methods
+	//download
+	private String field, file;
 	
+	//Methods
+
 	@InputConfig(resultName=ERROR)
 	public String add() {
 		if(ServletActionContext.getRequest().getMethod().equals("GET")) {
@@ -160,6 +164,43 @@ public class ItemAction extends ActionSupport {
 	public String json() {
 		return NONE;
 	}
+	
+	
+	public InputStream getTargetFile() {
+		if("url".equals(field)) {
+			String fileName = new File(item.getUrl()).getName();
+			file = fileName.substring(0, fileName.lastIndexOf("_"));
+			return ServletActionContext.getServletContext().getResourceAsStream("/" + item.getUrl());
+		}
+		if("iconUrl".equals(field)) {
+			String fileName = new File(item.getIconUrl()).getName();
+			file = fileName.substring(0, fileName.lastIndexOf("_"));
+			System.out.println("/" + item.getIconUrl());
+			return ServletActionContext.getServletContext().getResourceAsStream("/" + item.getIconUrl());
+		}
+		else {
+			String fileName = new File(item.getLargeIconUrl()).getName();
+			file = fileName.substring(0, fileName.lastIndexOf("_"));
+			return ServletActionContext.getServletContext().getResourceAsStream("/" + item.getLargeIconUrl());
+		}
+	}
+	
+	@InputConfig(resultName=ERROR)
+	public String download() {
+		
+		try {
+			item = extensionService.findItemById(itemId);
+			if(item == null) {
+				addActionError(getText("item.can.not.find"));
+				return ERROR;
+			}
+			return SUCCESS;
+		}
+		catch (RuntimeException re) {
+			addActionError(getText("input.item.id.is.wrong"));
+			return ERROR;
+		}	
+	}
 
 	public void validateAdd() {
 		if(ServletActionContext.getRequest().getMethod().equals("POST")) {
@@ -188,6 +229,13 @@ public class ItemAction extends ActionSupport {
 	}
 	
 	public void validateDetail() {
+		validateItemId();
+	}
+	
+	public void validateDownload() {
+		if(!"url".equals(field) && !"iconUrl".equals(field) && !"largeIconUrl".equals(field)) {
+			addActionError(getText("input.param.is.invalid"));
+		}
 		validateItemId();
 	}
 	
@@ -361,5 +409,22 @@ public class ItemAction extends ActionSupport {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	
+	
+	public String getField() {
+		return field;
+	}
+
+	public void setField(String field) {
+		this.field = field;
+	}
+
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.struts2.ServletActionContext;
 
 import com.jike.mobile.browser.model.Category;
+import com.jike.mobile.browser.model.Item;
 import com.jike.mobile.browser.util.ServerConfig;
 import com.jike.mobile.browser.util.ServiceException;
 import com.opensymphony.xwork2.ActionSupport;
@@ -21,12 +22,17 @@ public class CatAction extends ActionSupport {
 	// for getList
 	private Integer page;
 	private List<Category> list;
-    
-    // for inject
+	
+	// listByCategory
+	private List<Item> itemList;
+
+	// for inject
 	private ExtensionService extensionService;
     
     // for return 
 	private String url;
+	
+	private JsonView jsonView;
 
 	@InputConfig(resultName=ERROR)
 	public String add() {
@@ -116,6 +122,24 @@ public class CatAction extends ActionSupport {
 			return ERROR;
 		}
 	}
+    
+    @InputConfig(resultName=ERROR)
+	public String listByCategory() {
+		try {
+			Category category = extensionService.categoryFindById(categoryId);
+			if(category == null) {
+				addActionError(getText("record.is.not.exist"));
+				return ERROR;
+			}
+			itemList = extensionService.findItemByCategory(category);
+			jsonView = new JsonView(itemList);
+			return SUCCESS;
+		}
+		catch (RuntimeException re) {
+			addActionError(getText("operation.failed"));
+			return ERROR;
+		}
+	}
 	
 	public void validateAdd() {
 		String method = ServletActionContext.getRequest().getMethod();
@@ -136,6 +160,10 @@ public class CatAction extends ActionSupport {
 	
 	public void validateList() {
 		validatePage();
+	}
+	
+	public void validateListByCategory() {
+		validateCategoryId();
 	}
 	
 	public void validateCategoryWithoutId() {
@@ -212,6 +240,21 @@ public class CatAction extends ActionSupport {
 		this.url = url;
 	}
 
+    public List<Item> getItemList() {
+		return itemList;
+	}
+
+	public void setItemList(List<Item> itemList) {
+		this.itemList = itemList;
+	}
+	
+	public JsonView getJsonView() {
+		return jsonView;
+	}
+
+	public void setJsonView(JsonView jsonView) {
+		this.jsonView = jsonView;
+	}
 }
 
 

@@ -10,8 +10,9 @@
       <div id="wrapper">
       </div>
         <div id="content">
-            <div class="sign"><p>Appbox &gt; 详情</p></div>
+            
             <div class="post">
+                <div class="sign"><p>Appbox &gt; 详情</p></div>
                 <div class="detail">
                 
                 <table>

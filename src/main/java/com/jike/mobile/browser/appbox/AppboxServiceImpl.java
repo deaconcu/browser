@@ -127,7 +127,7 @@ public class AppboxServiceImpl implements AppboxService{
 			
 			int isUpdate = 0;
 			if(cm.getResult()[0] == null || !cm.getResult()[0].equals(appboxItem.getTitle())){
-				appboxItem.setTitle(completionUrl(appboxItem.getSource(), cm.getResult()[0]));
+				appboxItem.setTitle(cm.getResult()[0]);
 				isUpdate = 1;
 			}
 			if(cm.getResult()[1] == null || !cm.getResult()[1].equals(appboxItem.getUrl())){

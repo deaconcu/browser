@@ -6,7 +6,7 @@
 	http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
 	<display-name>browser</display-name>	
 	<welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 
 	<context-param>
@@ -68,7 +68,7 @@
 		<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
         
         <init-param>
-			<param-name>config</param-name>      
+			<param-name>config</param-name>
 			<param-value>struts-default.xml,struts-plugin.xml,com/jike/mobile/browser/struts.xml</param-value>
 		</init-param>
 		

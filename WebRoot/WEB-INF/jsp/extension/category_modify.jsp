@@ -10,8 +10,9 @@
       <div id="wrapper">
       </div>
         <div id="content">
-            <div class="sign"><p>Extension &gt; <s:text name="modify.category" /></p></div>
+            
             <div class="post">
+                <div class="sign"><p>Extension &gt; <s:text name="modify.category" /></p></div>
 		        <s:form action="modify_cat" method="post" theme="simple">
 		            <s:hidden name="category.id"/>
 		            <s:hidden name="category.postTime"/>

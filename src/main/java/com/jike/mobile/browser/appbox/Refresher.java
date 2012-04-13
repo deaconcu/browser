@@ -25,6 +25,7 @@ public class Refresher extends TimerTask{
 	@Override
 	public void run() {
 		try {
+			log.info("refresh appbox ... ...");
 			List<AppboxItem> appboxItems = appboxService.findItemAll();
 			for(AppboxItem appboxItem : appboxItems) {
 				try {

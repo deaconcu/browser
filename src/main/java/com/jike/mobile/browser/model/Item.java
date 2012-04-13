@@ -3,6 +3,8 @@ package com.jike.mobile.browser.model;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.struts2.json.annotations.JSON;
+
 /**
  * Item entity. @author MyEclipse Persistence Tools
  */
@@ -29,38 +31,29 @@ public class Item implements java.io.Serializable {
 	// Constructors
 
 	/** default constructor */
+	
 	public Item() {
-		this(0, "", "", "", 0, "", "", "", "", "", null);
+		
 	}
 	
-	public Item(int id) {
-		this(id, "", "", "", 0, "", "", "", "", "", null);
-	}
-
-	/** constructor - without id*/
-	public Item(String name, String versionName, String version, Integer sizeInByte, String url, String iconUrl,
-			String largeIconUrl, String mainPageUrl, String packageName, Category category) {
-		this(null, "", "", "", 0, "", "", "", "", "", null);
-	}
-
-	/** full constructor */
-	public Item(Integer id, String name, String versionName, String version, Integer sizeInByte, String url, String iconUrl,
-			String largeIconUrl, String mainPageUrl, String packageName, Category category) {
-		this.id = id;
-		this.name = name;
-		this.versionName = versionName;
-		this.version = version;
-		this.sizeInByte = sizeInByte;
-		this.url = url;
-		this.iconUrl = iconUrl;
-		this.largeIconUrl = largeIconUrl;
-		this.mainPageUrl = mainPageUrl;
-		this.packageName = packageName;
-		this.category = category;
+	public Item(Item item) {
+		this.id = item.getId();
+		this.name = item.getName();
+		this.versionName = item.getVersionName();
+		this.version = item.getVersion();
+		this.sizeInByte = item.getSizeInByte();
+		this.url = item.getUrl();
+		this.iconUrl = item.getIconUrl();
+		this.largeIconUrl = item.getLargeIconUrl();
+		this.mainPageUrl = item.getMainPageUrl();
+		this.packageName = item.getPackageName();
+		this.description = item.getDescription();
+		this.category = item.getCategory();
 	}
 
 	// Property accessors
 
+	@JSON(name="Id")
 	public Integer getId() {
 		return this.id;
 	}
@@ -69,6 +62,7 @@ public class Item implements java.io.Serializable {
 		this.id = id;
 	}
 
+	@JSON(name="Name")
 	public String getName() {
 		return this.name;
 	}
@@ -77,6 +71,7 @@ public class Item implements java.io.Serializable {
 		this.name = name;
 	}
 
+	@JSON(name="VersionName")
 	public String getVersionName() {
 		return this.versionName;
 	}
@@ -85,6 +80,7 @@ public class Item implements java.io.Serializable {
 		this.versionName = versionName;
 	}
 
+	@JSON(name="Version")
 	public String getVersion() {
 		return this.version;
 	}
@@ -93,6 +89,7 @@ public class Item implements java.io.Serializable {
 		this.version = version;
 	}
 
+	@JSON(name="SizeInBytes")
 	public Integer getSizeInByte() {
 		return this.sizeInByte;
 	}
@@ -101,6 +98,7 @@ public class Item implements java.io.Serializable {
 		this.sizeInByte = sizeInByte;
 	}
 
+	@JSON(name="Url")
 	public String getUrl() {
 		return this.url;
 	}
@@ -109,6 +107,7 @@ public class Item implements java.io.Serializable {
 		this.url = url;
 	}
 
+	@JSON(name="IconUrl")
 	public String getIconUrl() {
 		return this.iconUrl;
 	}
@@ -117,6 +116,7 @@ public class Item implements java.io.Serializable {
 		this.iconUrl = iconUrl;
 	}
 
+	@JSON(name="LargeIconUrl")
 	public String getLargeIconUrl() {
 		return this.largeIconUrl;
 	}
@@ -125,6 +125,7 @@ public class Item implements java.io.Serializable {
 		this.largeIconUrl = largeIconUrl;
 	}
 
+	@JSON(name="MainPageUrl")
 	public String getMainPageUrl() {
 		return this.mainPageUrl;
 	}
@@ -133,6 +134,7 @@ public class Item implements java.io.Serializable {
 		this.mainPageUrl = mainPageUrl;
 	}
 
+	@JSON(name="PackageName")
 	public String getPackageName() {
 		return this.packageName;
 	}
@@ -141,6 +143,7 @@ public class Item implements java.io.Serializable {
 		this.packageName = packageName;
 	}
 
+	@JSON(serialize=false)
 	public Category getCategory() {
 		return category;
 	}
@@ -149,6 +152,7 @@ public class Item implements java.io.Serializable {
 		this.category = category;
 	}
 	
+	@JSON(name="Description")
 	public String getDescription() {
 		return description;
 	}
@@ -157,6 +161,7 @@ public class Item implements java.io.Serializable {
 		this.description = description;
 	}
 	
+	@JSON(serialize=false)
 	public Long getPostTime() {
 		return postTime;
 	}
@@ -172,6 +177,7 @@ public class Item implements java.io.Serializable {
 		return true;
 	}
 	
+	@JSON(serialize=false)
 	public String getDate() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd / HH:mm");
 		return format.format(new Date(postTime));

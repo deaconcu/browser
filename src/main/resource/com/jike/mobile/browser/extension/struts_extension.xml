@@ -27,11 +27,15 @@
             <result name="success">/WEB-INF/jsp/extension/detail.jsp</result>
             <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
-        <action name="get_item_json" class="itemAction" method="json">
-            <result name="success">/WEB-INF/jsp/extension/get_json.jsp</result>
-            <result name="error" type="json">actionErrors</result>
+        <action name="download" class="itemAction" method="download">
+            <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">targetFile</param>
+                <param name="contentDisposition">attachment;filename="${file}"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
-        
         
         <!-- cat -->
         <action name="add_cat" class="categoryAction" method="add">
@@ -52,18 +56,19 @@
             <result name="success">/WEB-INF/jsp/success.jsp</result>
             <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
+        <action name="get_Item_by_category_json" class="categoryAction" method="listByCategory">
+            <result name="success" type="json">
+                <param name="root">jsonView</param>
+            </result>
+            <result name="error" type="json">
+                <param name="root">actionErrors</param>
+            </result>
+        </action>
+        
         
        
     
-        <!-- temp!!! -->
-        <action name="download" class="com.jike.mobile.browser.temp.Download">
-            <result name="success" type="stream">
-                <param name="contentType">application/octet-stream</param>
-                <param name="inputName">targetFile</param>
-                <param name="contentDisposition">attachment;filename="${file}"</param>
-                <param name="bufferSize">4096</param>
-            </result>
-        </action>
+        
     </package>
 </struts>    
 

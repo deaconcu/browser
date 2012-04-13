@@ -1,26 +1,28 @@
 <%@ page contentType="text/html; charset=utf-8"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
+<%@ include file="top.jsp" %>    
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>My JSP 'index.jsp' starting page</title>
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-  </head>
-  
+  <%@ include file="head.jsp" %>    
   <body>
-    This is my JSP page. <br>
+    <div id="page">
+    <%@ include file="header.jsp" %>
+      <div id="wrapper">
+      </div>
+        <div id="content">
+                            管理请点击右边链接<br /><br /><br />
+                            
+          json接口：<br /><br />
+          <a href="extension/list_cat.do">1. extension按类别列表</a><br /><br />
+          <a href="appbox/get_all_json.do">2. appbox全部列表</a><br /><br />
+          <a href="appbox/get_item_json.do?appboxItemIdString=17,19,21&lastUpdateTime=1334135171681">3. extension按指定内容列表（示例）</a><br /><br />
+        
+        </div>
+        <%@ include file="sidebar.jsp" %> 
+      
+      
+      <%@ include file="footer.jsp" %> 
+    </div>
+    
   </body>
 </html>

@@ -10,8 +10,9 @@
       <div id="wrapper">
       </div>
         <div id="content">
-            <div class="sign"><p>Appbox &gt; 分类列表</p></div>
             <div class="post">
+            <div class="sign"><p>Appbox &gt; 分类列表</p></div>
+            
                 <div class="add">
                     <span><a href="appbox/add_cat.do"> + 添加</a></span>
                 </div>
