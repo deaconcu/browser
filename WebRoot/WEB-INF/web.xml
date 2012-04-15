@@ -42,10 +42,6 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
-	<listener>
-        <listener-class>com.jike.mobile.browser.util.ServerConfigListener</listener-class>
-    </listener>
     
     <filter>
 		<filter-name>OpenSessionInViewFilter</filter-name>

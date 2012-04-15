@@ -9,8 +9,8 @@ import org.slf4j.LoggerFactory;
 
 import com.jike.mobile.browser.model.AppboxCategory;
 import com.jike.mobile.browser.model.AppboxItem;
+import com.jike.mobile.browser.sys.ServerConfig;
 import com.jike.mobile.browser.util.Message;
-import com.jike.mobile.browser.util.ServerConfig;
 import com.jike.mobile.browser.util.ServiceException;
 import com.jike.mobile.browser.util.Validate;
 import com.opensymphony.xwork2.ActionSupport;

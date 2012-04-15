@@ -13,8 +13,8 @@
 
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
-		<property name="jdbcUrl" value="jdbc:mysql://58.68.242.96:3306/browser?useUnicode=true&amp;characterEncoding=UTF8"></property>
-		<property name="user" value="br"></property>
+		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/browser?useUnicode=true&amp;characterEncoding=UTF8"></property>
+		<property name="user" value="root"></property>
 		<property name="password" value="zxcvbnm"></property>
 		<property name="minPoolSize"><value>5</value></property>
 		<property name="maxPoolSize"><value>30</value></property>  
@@ -62,6 +62,12 @@
 	    <aop:advisor advice-ref="txAdvice" pointcut-ref="extensionServicePointcut"/>
 	    <aop:advisor advice-ref="txAdvice" pointcut-ref="quickStartServicePointcut"/>
     </aop:config>
+    
+    <bean name="sysInfoService" class="com.jike.mobile.browser.sys.SysInfoServiceImpl"></bean>
+    
+    <bean name="ServerConfig" class="com.jike.mobile.browser.util.ServerConfig">
+        <property name="sysInfoService"><ref bean="sysInfoService" /></property>
+    </bean>
     
     <!-- dao -->
     <bean name="itemDao" class="com.jike.mobile.browser.dao.impl.ItemDaoImpl">

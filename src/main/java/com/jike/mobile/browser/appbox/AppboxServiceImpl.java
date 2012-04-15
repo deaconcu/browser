@@ -8,6 +8,7 @@ import com.jike.mobile.browser.dao.AppboxCategoryDao;
 import com.jike.mobile.browser.dao.AppboxItemDao;
 import com.jike.mobile.browser.model.AppboxCategory;
 import com.jike.mobile.browser.model.AppboxItem;
+import com.jike.mobile.browser.sys.SysInfoService;
 import com.jike.mobile.browser.util.ServiceException;
 
 public class AppboxServiceImpl implements AppboxService{
@@ -15,6 +16,8 @@ public class AppboxServiceImpl implements AppboxService{
 	// inject
 	AppboxCategoryDao appboxCategoryDao;
 	AppboxItemDao appboxItemDao;
+	
+	private SysInfoService sysInfoService;
 
 	public AppboxItemDao getAppboxItemDao() {
 		return appboxItemDao;
@@ -32,10 +35,15 @@ public class AppboxServiceImpl implements AppboxService{
 		this.appboxCategoryDao = appboxCategoryDao;
 	}
 
+	
+	
 	@Override
 	public Integer addCategory(AppboxCategory appboxCategory) {
 		appboxCategory.setPostTime(System.currentTimeMillis());
-		return (Integer)appboxCategoryDao.save(appboxCategory);	
+		Integer id = (Integer)appboxCategoryDao.save(appboxCategory);
+		sysInfoService.set("appboxRefreshTime", (new Long(System.currentTimeMillis())).toString(), true);
+		
+		return id;
 	}
 
 	@Override
@@ -200,6 +208,15 @@ public class AppboxServiceImpl implements AppboxService{
 		}
 		return source + url;
 	}
+
+	public SysInfoService getSysInfoService() {
+		return sysInfoService;
+	}
+
+	public void setSysInfoService(SysInfoService sysInfoService) {
+		this.sysInfoService = sysInfoService;
+	}
+
 
 }
 

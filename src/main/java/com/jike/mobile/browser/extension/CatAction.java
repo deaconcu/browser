@@ -6,7 +6,7 @@ import org.apache.struts2.ServletActionContext;
 
 import com.jike.mobile.browser.model.Category;
 import com.jike.mobile.browser.model.Item;
-import com.jike.mobile.browser.util.ServerConfig;
+import com.jike.mobile.browser.sys.ServerConfig;
 import com.jike.mobile.browser.util.ServiceException;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;

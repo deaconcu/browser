@@ -14,7 +14,7 @@ import com.jike.mobile.browser.dao.ItemDao;
 import com.jike.mobile.browser.model.Category;
 import com.jike.mobile.browser.model.Item;
 import com.jike.mobile.browser.model.UploadFile;
-import com.jike.mobile.browser.util.ServerConfig;
+import com.jike.mobile.browser.sys.ServerConfig;
 import com.jike.mobile.browser.util.ServiceException;
 
 public class ExtensionServiceImpl implements ExtensionService{

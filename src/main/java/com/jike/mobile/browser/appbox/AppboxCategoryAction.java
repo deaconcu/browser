@@ -7,8 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jike.mobile.browser.model.AppboxCategory;
+import com.jike.mobile.browser.sys.ServerConfig;
 import com.jike.mobile.browser.util.Message;
-import com.jike.mobile.browser.util.ServerConfig;
 import com.jike.mobile.browser.util.ServiceException;
 import com.jike.mobile.browser.util.Validate;
 import com.opensymphony.xwork2.ActionSupport;
@@ -94,7 +94,7 @@ public class AppboxCategoryAction extends ActionSupport{
 	public String list() {
 		int page_size = Integer.parseInt(ServerConfig.get("appbox_category_list_page_size"));
 		try {
-			list = appboxService.listCategoryByPageDesc(page, page_size);
+			list = appboxService.listCategoryByPageDesc(page, page_size);System.out.println(ServerConfig.get("file_save_path"));
 			return SUCCESS;
 		} catch (RuntimeException re) {
 			addActionError(getText("operation.failed"));

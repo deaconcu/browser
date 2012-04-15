@@ -12,7 +12,7 @@ import org.springframework.dao.DataAccessException;
 import com.jike.mobile.browser.dao.QuickStartIconDao;
 import com.jike.mobile.browser.model.QuickStartIcon;
 import com.jike.mobile.browser.model.UploadFile;
-import com.jike.mobile.browser.util.ServerConfig;
+import com.jike.mobile.browser.sys.ServerConfig;
 import com.jike.mobile.browser.util.ServiceException;
 
 public class QuickStartServiceImpl implements QuickStartService {

@@ -7,7 +7,7 @@ import org.apache.struts2.ServletActionContext;
 
 import com.jike.mobile.browser.model.QuickStartIcon;
 import com.jike.mobile.browser.model.UploadFile;
-import com.jike.mobile.browser.util.ServerConfig;
+import com.jike.mobile.browser.sys.ServerConfig;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.interceptor.annotations.InputConfig;
 
