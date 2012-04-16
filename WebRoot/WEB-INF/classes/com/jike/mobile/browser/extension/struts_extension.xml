@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    
+    <package name="extension" extends="json-default" namespace="/extension">
+        
+        <!-- item -->
+        <action name="add_item" class="itemAction" method="add">
+            <result name="input">/WEB-INF/jsp/extension/item_add.jsp</result>
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>        
+        <action name="modify_item" class="itemAction" method="modify">
+            <result name="input">/WEB-INF/jsp/extension/item_modify.jsp</result>
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="delete_item" class="itemAction" method="delete">
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="get_item_list" class="itemAction" method="list">
+            <result name="success">/WEB-INF/jsp/extension/item_list.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="get_item" class="itemAction" method="detail">
+            <result name="success">/WEB-INF/jsp/extension/detail.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="download" class="itemAction" method="download">
+            <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">targetFile</param>
+                <param name="contentDisposition">attachment;filename="${file}"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        
+        <!-- cat -->
+        <action name="add_cat" class="categoryAction" method="add">
+            <result name="input">/WEB-INF/jsp/extension/category_add.jsp</result>
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="modify_cat" class="categoryAction" method="modify">
+            <result name="input">/WEB-INF/jsp/extension/category_modify.jsp</result>
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="list_cat" class="categoryAction" method="list">
+            <result name="success">/WEB-INF/jsp/extension/category_list.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="delete_cat" class="categoryAction" method="delete">
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="get_Item_by_category_json" class="categoryAction" method="listByCategory">
+            <result name="success" type="json">
+                <param name="root">jsonView</param>
+            </result>
+            <result name="error" type="json">
+                <param name="root">actionErrors</param>
+            </result>
+        </action>
+        
+        
+       
+    
+        
+    </package>
+</struts>    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
