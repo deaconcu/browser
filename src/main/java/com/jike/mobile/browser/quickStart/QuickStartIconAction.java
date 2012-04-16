@@ -1,6 +1,7 @@
 package com.jike.mobile.browser.quickStart;
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
@@ -27,14 +28,18 @@ public class QuickStartIconAction extends ActionSupport {
 	private String iconContentType;
 	private String iconFileName;
 	
-	private List<QuickStartIcon> quickStartIconList;
+	private List<QuickStartIcon> iconList;
 	
+	private Integer page;
 	//inject
 	QuickStartService quickStartService;
 	
 	
 	//return
 	private String url;
+	
+	//download
+	private String file;
 	/**
 	 * 上传quickstart icon到服务器,并保存
 	 * @return String
@@ -85,7 +90,7 @@ public class QuickStartIconAction extends ActionSupport {
 	public String list() {
 		try {
 			int length = Integer.parseInt(ServerConfig.get("item_list_page_size"));
-			//quickStartIconList = quickStartService.getListDesc(page, length);
+			iconList = quickStartService.getListDesc(page, length);
 			//itemList = extensionService.getListDesc(page, length);
 		}
 		catch (RuntimeException re) {
@@ -94,6 +99,31 @@ public class QuickStartIconAction extends ActionSupport {
 		}
 		return SUCCESS;
 	}
+	
+	public InputStream getTargetFile() {
+
+	    String fileName = new File(quickStartIcon.getImgUrl()).getName();
+		file = fileName.substring(0, fileName.lastIndexOf("_"));
+		return ServletActionContext.getServletContext().getResourceAsStream("/" + quickStartIcon.getImgUrl());
+	}
+	
+	@InputConfig(resultName=ERROR)
+	public String download() {
+		
+		try {
+			quickStartIcon = quickStartService.findIconById(iconId);
+			if(quickStartIcon == null) {
+				addActionError(getText("icon.can.not.find"));
+				return ERROR;
+			}
+			return SUCCESS;
+		}
+		catch (RuntimeException re) {
+			addActionError(getText("input.icon.id.is.wrong"));
+			return ERROR;
+		}	
+	}
+	
 	
 	/**
 	 * @return the icon
@@ -190,6 +220,76 @@ public class QuickStartIconAction extends ActionSupport {
 	 */
 	public void setIconId(Integer iconId) {
 		this.iconId = iconId;
+	}
+
+	/**
+	 * @return the iconList
+	 */
+	public List<QuickStartIcon> getIconList() {
+		return iconList;
+	}
+
+	/**
+	 * @param iconList the iconList to set
+	 */
+	public void setIconList(List<QuickStartIcon> iconList) {
+		this.iconList = iconList;
+	}
+
+	/**
+	 * @return the page
+	 */
+	public Integer getPage() {
+		return page;
+	}
+
+	/**
+	 * @param page the page to set
+	 */
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+
+	/**
+	 * @return the url
+	 */
+	public String getUrl() {
+		return url;
+	}
+
+	/**
+	 * @param url the url to set
+	 */
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	/**
+	 * @return the file
+	 */
+	public String getFile() {
+		return file;
+	}
+
+	/**
+	 * @param file the file to set
+	 */
+	public void setFile(String file) {
+		this.file = file;
+	}
+
+	/**
+	 * @return the quickStartService
+	 */
+	public QuickStartService getQuickStartService() {
+		return quickStartService;
+	}
+
+	/**
+	 * @param quickStartService the quickStartService to set
+	 */
+	public void setQuickStartService(QuickStartService quickStartService) {
+		this.quickStartService = quickStartService;
 	}
 
 

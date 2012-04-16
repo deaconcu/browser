@@ -2,7 +2,7 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
     
-    <package name="extension" extends="json-default" namespace="/quickStart">
+    <package name="quickStart" extends="json-default" namespace="/quickStart">
         
         <!-- icon -->
         <action name="add_icon" class="QuickStartIconAction" method="add">
@@ -15,5 +15,28 @@
             <result name="success">/WEB-INF/jsp/success.jsp</result>
             <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
+        <action name="delete_icon" class="QuickStartIconAction" method="delete">
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="get_icon_list" class="QuickStartIconAction" method="list">
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+         <action name="get_icon" class="QuickStartIconAction" method="detail">
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
+        <action name="download" class="QuickStartIconAction" method="download">
+            <result name="success" type="stream">
+            	<param name="contentType">application/octet-stream</param>
+                <param name="inputName">targetFile</param>
+                <param name="contentDisposition">attachment;filename="${file}"</param>
+                <param name="bufferSize">4096</param>
+            </result>
+            <result name="error" type="json">actionErrors</result>
+        </action>
+        
+        
     </package>
 </struts>    

@@ -26,6 +26,8 @@
     
     <include file="com/jike/mobile/browser/appbox/struts_appbox.xml" />
     <include file="com/jike/mobile/browser/extension/struts_extension.xml" />
+    <include file="com/jike/mobile/browser/quickStart/struts_quickStart.xml"/>
+    <include file="com/jike/mobile/browser/bookMark/struts_bookMark.xml" />
 </struts>
 
 
