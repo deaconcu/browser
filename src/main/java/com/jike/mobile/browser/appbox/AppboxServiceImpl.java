@@ -170,8 +170,9 @@ public class AppboxServiceImpl implements AppboxService{
 	}
 
 	@Override
-	public List<AppboxCategory> findCategoryAllWithItem() {
-		// TODO Auto-generated method stub
+	public List<AppboxCategory> findCategoryAllWithItem(Long lastUpdateTime) {
+		AppboxCategory appboxCategory = appboxCategoryDao.findById(0); System.out.println(appboxCategory.getModifyTime());
+		if(appboxCategory.getModifyTime() < lastUpdateTime) return null;
 		return appboxCategoryDao.findAllWithoutRoot();
 	}
 	
@@ -256,12 +257,12 @@ public class AppboxServiceImpl implements AppboxService{
 
 	
 	/**
-	 * 更新类别的被更新时间
+	 * 更新顶级类的被更新时间
 	 * 
 	 */
 	private void updateRootTime() {
 		try {
-			AppboxCategory root = findCategoryById(0);
+			AppboxCategory root = appboxCategoryDao.findById(0);
 			root.setModifyTime(System.currentTimeMillis());
 			appboxCategoryDao.update(root);
 		} catch(RuntimeException re) {
