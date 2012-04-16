@@ -1,7 +1,12 @@
 package com.jike.mobile.browser.appbox;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
@@ -49,6 +54,20 @@ public class AppboxItemAction extends ActionSupport {
 	private String url;
 	
 	// action methods
+	
+	public InputStream getItems() {
+		JSONArray root = new JSONArray();
+		for(AppboxItem appboxItem : listItem) {
+			JSONObject item = new JSONObject();
+			item.put("id", appboxItem.getId());
+			item.put("imgUrl", appboxItem.getImgUrl());
+			item.put("title", appboxItem.getTitle());
+			item.put("url", appboxItem.getUrl());
+			root.add(item);
+		}
+	    byte[] json = root.toString().getBytes();
+		return new ByteArrayInputStream(json);
+	}
 
 	@InputConfig(resultName=ERROR)
 	public String add() {
@@ -201,15 +220,6 @@ public class AppboxItemAction extends ActionSupport {
 		}
 	}
 	
-	public String jsonAll() {
-		try {
-			listCategory = appboxService.findCategoryAllWithItem();
-		}catch (RuntimeException re) {
-			addActionError(getText(re.getMessage()));
-			return ERROR;
-		}
-		return SUCCESS;
-	}
 	
 	// validate methods
 	

@@ -1,12 +1,18 @@
 package com.jike.mobile.browser.appbox;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.List;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.jike.mobile.browser.model.AppboxCategory;
+import com.jike.mobile.browser.model.AppboxItem;
 import com.jike.mobile.browser.sys.ServerConfig;
 import com.jike.mobile.browser.util.Message;
 import com.jike.mobile.browser.util.ServiceException;
@@ -94,7 +100,7 @@ public class AppboxCategoryAction extends ActionSupport{
 	public String list() {
 		int page_size = Integer.parseInt(ServerConfig.get("appbox_category_list_page_size"));
 		try {
-			list = appboxService.listCategoryByPageDesc(page, page_size);System.out.println(ServerConfig.get("file_save_path"));
+			list = appboxService.listCategoryWithoutRootByPageDesc(page, page_size);
 			return SUCCESS;
 		} catch (RuntimeException re) {
 			addActionError(getText("operation.failed"));
@@ -124,6 +130,40 @@ public class AppboxCategoryAction extends ActionSupport{
 			log.error(re.toString());
 			return ERROR;
 		}
+	}
+	
+	@InputConfig(resultName=ERROR)
+	public String jsonAll() {
+		try {
+			list = appboxService.findCategoryAllWithItem();
+		}catch (RuntimeException re) {
+			addActionError(getText(re.getMessage()));
+			return ERROR;
+		}
+		return SUCCESS;
+	}
+	
+	public InputStream getRootCategory() {
+		JSONArray root = new JSONArray();
+		for(AppboxCategory appboxCategory : list) {
+			JSONObject category = new JSONObject();
+			category.put("id", appboxCategory.getId());System.out.println(appboxCategory.getId());
+			category.put("name", appboxCategory.getName());
+			JSONArray itemRoot = new JSONArray();
+			for(AppboxItem appboxItem : appboxCategory.getItemList()) {
+				JSONObject item = new JSONObject();
+				item.put("id", appboxItem.getId());
+				item.put("imgUrl", appboxItem.getImgUrl());
+				item.put("title", appboxItem.getTitle());
+				item.put("url", appboxItem.getUrl());
+				itemRoot.add(item);
+			}
+			category.put("itemList", itemRoot);
+			root.add(category);
+		}
+		System.out.println(root.toString());
+		byte[] json = root.toString().getBytes();
+		return new ByteArrayInputStream(json);
 	}
 	
 	public void validateAdd() {

@@ -16,8 +16,5 @@
         <property name="postTime" type="long">
             <column name="postTime" not-null="true" />
         </property>
-        <property name="modifyTime" type="long">
-            <column name="modifyTime" not-null="true" />
-        </property>
     </class>
 </hibernate-mapping>

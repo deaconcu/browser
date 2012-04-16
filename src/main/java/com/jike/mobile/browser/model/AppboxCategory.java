@@ -19,6 +19,7 @@ public class AppboxCategory implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 2940534534647339608L;
+	
 	private Integer id;
 	private String name;
 	private Integer root;
@@ -83,7 +84,6 @@ public class AppboxCategory implements java.io.Serializable {
 		return format.format(new Date(postTime));
 	}
 	
-	@JSON(serialize=false)
 	public Set<AppboxItem> getItemList() {
 		return itemList;
 	}
