@@ -3,6 +3,7 @@ package com.jike.mobile.browser.quickStart;
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 
 import com.jike.mobile.browser.dao.QuickStartIconDao;
+import com.jike.mobile.browser.model.Item;
 import com.jike.mobile.browser.model.QuickStartIcon;
 import com.jike.mobile.browser.model.UploadFile;
 import com.jike.mobile.browser.sys.ServerConfig;
@@ -60,7 +62,25 @@ public class QuickStartServiceImpl implements QuickStartService {
 		}
 	}
 
-
+	@Override
+	public void delete(int iconId){
+		try {
+			QuickStartIcon quickStartIcon = quickStartIconDao.findById(iconId);
+			if(quickStartIcon == null) {
+				throw new ServiceException("cannot find object");
+			}
+			quickStartIconDao.delete(quickStartIcon);
+		}
+		catch (DataAccessException dse) {
+			log.error(dse.toString());
+			throw new ServiceException("DataAccessException", dse);
+		}
+	}
+	
+	@Override
+	public List<QuickStartIcon> getListDesc(Integer page, Integer length) {
+		return quickStartIconDao.findByPageOrderByProperty(page, length, "id", true);
+	}
 
 	/**
 	 * 将mobile.jike.com/xxxxx转换成jike.com
