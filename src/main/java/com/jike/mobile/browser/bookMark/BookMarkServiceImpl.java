@@ -58,7 +58,6 @@ public class BookMarkServiceImpl implements BookMarkService {
 
 	private boolean add(BookMark bookMark) {
 		try {
-			// TODO 怎样判断插入数据成功
 			bookMarkDao.save(bookMark);
 			return true;
 		} catch (DataAccessException dse) {

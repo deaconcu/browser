@@ -3,6 +3,8 @@ package com.jike.mobile.browser.bookMark;
 import com.jike.mobile.browser.model.BookMark;
 import com.opensymphony.xwork2.ActionSupport;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 public class BookMarkAction extends ActionSupport {
 
@@ -62,7 +64,33 @@ public class BookMarkAction extends ActionSupport {
 		this.content = content;
 	}
 	
-
+	public void validateUpload(){
+		
+	}
 	
+	public void validateDownload(){
+		
+	}
 	
+	public void validateContent(boolean flag){
+		if(content == null){
+			addActionError(getText("input.content.is.null"));
+		}
+		else{
+			JSONObject contentJO = JSONObject.fromObject(content);
+			String code = contentJO.getString("code");
+			if(flag){//true => upload
+				if(code.equals("300")){
+					//upload
+				}
+				else{
+					//download
+					addActionError(getText("operation.conflict"));
+				}
+			}
+			else{
+				
+			}
+		}
+	}
 }
