@@ -55,7 +55,7 @@ public class AppboxItemAction extends ActionSupport {
 	
 	// action methods
 	
-	public InputStream getTargetFile() {
+	public InputStream getItems() {
 		JSONArray root = new JSONArray();
 		for(AppboxItem appboxItem : listItem) {
 			JSONObject item = new JSONObject();
@@ -67,10 +67,6 @@ public class AppboxItemAction extends ActionSupport {
 		}
 	    byte[] json = root.toString().getBytes();
 		return new ByteArrayInputStream(json);
-	}
-	
-	public String download() {
-		return SUCCESS;
 	}
 
 	@InputConfig(resultName=ERROR)
