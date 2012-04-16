@@ -2,6 +2,11 @@ package com.jike.mobile.browser.appbox;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import sun.util.logging.resources.logging;
+
 import com.jike.mobile.browser.common.crawler.CrawlerMatcher;
 import com.jike.mobile.browser.common.crawler.crawlerException;
 import com.jike.mobile.browser.dao.AppboxCategoryDao;
@@ -12,6 +17,8 @@ import com.jike.mobile.browser.sys.SysInfoService;
 import com.jike.mobile.browser.util.ServiceException;
 
 public class AppboxServiceImpl implements AppboxService{
+	
+	Logger log = LoggerFactory.getLogger(AppboxServiceImpl.class);
 	
 	// inject
 	AppboxCategoryDao appboxCategoryDao;
@@ -35,14 +42,21 @@ public class AppboxServiceImpl implements AppboxService{
 		this.appboxCategoryDao = appboxCategoryDao;
 	}
 
-	
+
+	public SysInfoService getSysInfoService() {
+		return sysInfoService;
+	}
+
+	public void setSysInfoService(SysInfoService sysInfoService) {
+		this.sysInfoService = sysInfoService;
+	}
 	
 	@Override
 	public Integer addCategory(AppboxCategory appboxCategory) {
 		appboxCategory.setPostTime(System.currentTimeMillis());
+		appboxCategory.setModifyTime(System.currentTimeMillis());
 		Integer id = (Integer)appboxCategoryDao.save(appboxCategory);
-		sysInfoService.set("appboxRefreshTime", (new Long(System.currentTimeMillis())).toString(), true);
-		
+		updateRootTime();
 		return id;
 	}
 
@@ -53,7 +67,9 @@ public class AppboxServiceImpl implements AppboxService{
 
 	@Override
 	public void updateCategory(AppboxCategory appboxCategory) {
-		appboxCategoryDao.update(appboxCategory);	
+		appboxCategory.setModifyTime(System.currentTimeMillis());
+		appboxCategoryDao.update(appboxCategory);
+		updateRootTime();
 	}
 
 	@Override
@@ -68,6 +84,7 @@ public class AppboxServiceImpl implements AppboxService{
 			throw new ServiceException("appbox.category.is.not.empty");
 		}
 		appboxCategoryDao.delete(appboxCategory);
+		updateRootTime();
 	}
 
 	@Override
@@ -83,7 +100,9 @@ public class AppboxServiceImpl implements AppboxService{
 		appboxItem.setPostTime(System.currentTimeMillis());
 		appboxItem.setMatchTime(0L);
 		appboxItem.setMatchStatue(-1);
-		return (Integer)appboxItemDao.save(appboxItem);
+		Integer id = (Integer)appboxItemDao.save(appboxItem);
+		updateRootTime();
+		return id;
 	}
 
 	@Override
@@ -91,6 +110,7 @@ public class AppboxServiceImpl implements AppboxService{
 		AppboxCategory appboxCategory = findCategoryById(appboxItem.getAppboxCategory().getId());
 		if(appboxCategory == null) throw new ServiceException("appbox.category.is.not.exist");
 		appboxItemDao.update(appboxItem);
+		updateRootTime();
 	}
 
 	@Override
@@ -122,6 +142,18 @@ public class AppboxServiceImpl implements AppboxService{
 		return match(appboxItem);
 	}
 	
+	@Override
+	public List<AppboxItem> findItemByIdsAndTime(Integer[] ids, long lastUpdateTime, int statue) {
+		return appboxItemDao.findItemByIdsAndTime(ids, lastUpdateTime, statue);
+	}
+
+	@Override
+	public List<AppboxCategory> findCategoryAllWithItem() {
+		// TODO Auto-generated method stub
+		return appboxCategoryDao.findAll();
+	}
+	
+	@Override
 	public int match(AppboxItem appboxItem) {
 		
 		CrawlerMatcher cm = new CrawlerMatcher();
@@ -168,16 +200,7 @@ public class AppboxServiceImpl implements AppboxService{
 		}
 	}
 	
-	@Override
-	public List<AppboxItem> findItemByIdsAndTime(Integer[] ids, long lastUpdateTime, int statue) {
-		return appboxItemDao.findItemByIdsAndTime(ids, lastUpdateTime, statue);
-	}
-
-	@Override
-	public List<AppboxCategory> findCategoryAllWithItem() {
-		// TODO Auto-generated method stub
-		return appboxCategoryDao.findAll();
-	}
+	
 
 	/**
 	 * 将相对路径补全为绝对路径
@@ -209,12 +232,15 @@ public class AppboxServiceImpl implements AppboxService{
 		return source + url;
 	}
 
-	public SysInfoService getSysInfoService() {
-		return sysInfoService;
-	}
-
-	public void setSysInfoService(SysInfoService sysInfoService) {
-		this.sysInfoService = sysInfoService;
+	private void updateRootTime() {
+		try {
+			AppboxCategory root = findCategoryById(0);
+			root.setModifyTime(System.currentTimeMillis());
+			appboxCategoryDao.update(root);
+		} catch(RuntimeException re) {
+			log.error("root Time update error");
+			throw new ServiceException("Internal Exception", re);
+		}
 	}
 
 

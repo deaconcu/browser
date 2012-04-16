@@ -13,11 +13,11 @@
 
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
 		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
-		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/browser?useUnicode=true&amp;characterEncoding=UTF8"></property>
-		<property name="user" value="root"></property>
+		<property name="jdbcUrl" value="jdbc:mysql://58.68.242.96:3306/browser?useUnicode=true&amp;characterEncoding=UTF8"></property>
+		<property name="user" value="br"></property>
 		<property name="password" value="zxcvbnm"></property>
 		<property name="minPoolSize"><value>5</value></property>
-		<property name="maxPoolSize"><value>30</value></property>  
+		<property name="maxPoolSize"><value>30</value></property>
 		<property name="initialPoolSize"><value>5</value></property>
 		<property name="maxIdleTime"><value>60</value></property>
 	</bean>
@@ -65,7 +65,7 @@
     
     <bean name="sysInfoService" class="com.jike.mobile.browser.sys.SysInfoServiceImpl"></bean>
     
-    <bean name="ServerConfig" class="com.jike.mobile.browser.util.ServerConfig">
+    <bean name="ServerConfig" class="com.jike.mobile.browser.sys.ServerConfig">
         <property name="sysInfoService"><ref bean="sysInfoService" /></property>
     </bean>
     
@@ -92,7 +92,7 @@
     
     <import resource="extension/applicationContext_extension.xml" />
     <import resource="appbox/applicationContext_appbox.xml" />
-    <import resource="quickStart/applicationContext_quickStart.xml"/>
+    <!-- <import resource="quickStart/applicationContext_quickStart.xml"/> -->
 </beans>
 
 

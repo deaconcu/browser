@@ -38,30 +38,4 @@ public class SysInfo implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public long getAppboxRefreshTime() {
-		return this.appboxRefreshTime;
-	}
-
-	public void setAppboxRefreshTime(long appboxRefreshTime) {
-		this.appboxRefreshTime = appboxRefreshTime;
-	}
-	
-	public void setAppboxRefreshTime(String appboxRefreshTime) {
-		long time = Long.parseLong(appboxRefreshTime);
-		setAppboxRefreshTime(time);
-	}
-
-	public long getExtensionRefreshTime() {
-		return this.extensionRefreshTime;
-	}
-
-	public void setExtensionRefreshTime(long extensionRefreshTime) {
-		this.extensionRefreshTime = extensionRefreshTime;
-	}
-	
-	public void setExtensionRefreshTime(String extensionRefreshTime) {
-		long time = Long.parseLong(extensionRefreshTime);
-		setAppboxRefreshTime(time);
-	}
-
 }

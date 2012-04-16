@@ -23,6 +23,7 @@ public class AppboxCategory implements java.io.Serializable {
 	private String name;
 	private Integer root;
 	private Long postTime;
+	private Long modifyTime;
 	
 	
 	private Set<AppboxItem> itemList = new HashSet<AppboxItem>();
@@ -89,6 +90,15 @@ public class AppboxCategory implements java.io.Serializable {
 
 	public void setItemList(Set<AppboxItem> itemList) {
 		this.itemList = itemList;
+	}
+
+	@JSON(serialize=false)
+	public Long getModifyTime() {
+		return modifyTime;
+	}
+
+	public void setModifyTime(Long modifyTime) {
+		this.modifyTime = modifyTime;
 	}
 
 	

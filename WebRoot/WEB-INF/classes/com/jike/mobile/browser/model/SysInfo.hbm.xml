@@ -10,11 +10,5 @@
             <column name="id" />
             <generator class="native"></generator>
         </id>
-        <property name="appboxRefreshTime" type="long">
-            <column name="appbox_refresh_time" not-null="true" />
-        </property>
-        <property name="extensionRefreshTime" type="long">
-            <column name="extension_refresh_time" not-null="true" />
-        </property>
     </class>
 </hibernate-mapping>
