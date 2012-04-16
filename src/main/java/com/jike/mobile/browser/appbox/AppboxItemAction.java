@@ -1,5 +1,7 @@
 package com.jike.mobile.browser.appbox;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,15 @@ public class AppboxItemAction extends ActionSupport {
 	private String url;
 	
 	// action methods
+	
+	public InputStream getTargetFile() {
+		String s = "11111111111111";
+		return new ByteArrayInputStream(s.getBytes());
+	}
+	
+	public String download() {
+		return SUCCESS;
+	}
 
 	@InputConfig(resultName=ERROR)
 	public String add() {
@@ -201,15 +212,6 @@ public class AppboxItemAction extends ActionSupport {
 		}
 	}
 	
-	public String jsonAll() {
-		try {
-			listCategory = appboxService.findCategoryAllWithItem();
-		}catch (RuntimeException re) {
-			addActionError(getText(re.getMessage()));
-			return ERROR;
-		}
-		return SUCCESS;
-	}
 	
 	// validate methods
 	

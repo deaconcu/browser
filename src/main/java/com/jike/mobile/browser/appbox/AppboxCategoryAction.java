@@ -94,7 +94,7 @@ public class AppboxCategoryAction extends ActionSupport{
 	public String list() {
 		int page_size = Integer.parseInt(ServerConfig.get("appbox_category_list_page_size"));
 		try {
-			list = appboxService.listCategoryByPageDesc(page, page_size);System.out.println(ServerConfig.get("file_save_path"));
+			list = appboxService.listCategoryWithoutRootByPageDesc(page, page_size);
 			return SUCCESS;
 		} catch (RuntimeException re) {
 			addActionError(getText("operation.failed"));
@@ -124,6 +124,16 @@ public class AppboxCategoryAction extends ActionSupport{
 			log.error(re.toString());
 			return ERROR;
 		}
+	}
+	
+	public String jsonAll() {
+		try {
+			list = appboxService.findCategoryAllWithItem();
+		}catch (RuntimeException re) {
+			addActionError(getText(re.getMessage()));
+			return ERROR;
+		}
+		return SUCCESS;
 	}
 	
 	public void validateAdd() {

@@ -30,6 +30,7 @@
             <result name="success">/WEB-INF/jsp/success.jsp</result>
             <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
+        <!-- 
         <action name="get_item_json" class="appboxItemAction" method="json">
             <result name="success" type="json">
                 <param name="root">listItem</param>
@@ -38,17 +39,27 @@
                 <param name="root">actionErrors</param>
             </result>
         </action>
+        -->
+        <action name="get_item_json" class="appboxItemAction" method="download">
+            <result name="success" type="stream">
+                <param name="contentType">text/html</param> 
+                <param name="inputName">targetFile</param>
+                <!-- <param name="contentDisposition">attachment;filename="${file}"</param>-->
+                <param name="bufferSize">4096</param>
+            </result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
         
-        <action name="get_all_json" class="appboxItemAction" method="jsonAll">
+        <!-- cat -->
+        <action name="get_all_json" class="appboxCategoryAction" method="jsonAll">
             <result name="success" type="json">
-                <param name="root">listCategory</param>
+                <param name="root">list</param>
             </result>
             <result name="error" type="json">
                 <param name="root">actionErrors</param>
             </result>
         </action>
-        
-        <!-- cat -->
+
         <action name="add_cat" class="appboxCategoryAction" method="add">
             <result name="input">/WEB-INF/jsp/appbox/category_add.jsp</result>
             <result name="success">/WEB-INF/jsp/success.jsp</result>

@@ -5,8 +5,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import sun.util.logging.resources.logging;
-
 import com.jike.mobile.browser.common.crawler.CrawlerMatcher;
 import com.jike.mobile.browser.common.crawler.crawlerException;
 import com.jike.mobile.browser.dao.AppboxCategoryDao;
@@ -26,6 +24,8 @@ public class AppboxServiceImpl implements AppboxService{
 	
 	private SysInfoService sysInfoService;
 
+	// setter & getter
+	
 	public AppboxItemDao getAppboxItemDao() {
 		return appboxItemDao;
 	}
@@ -51,25 +51,26 @@ public class AppboxServiceImpl implements AppboxService{
 		this.sysInfoService = sysInfoService;
 	}
 	
+	// category service
+	
 	@Override
 	public Integer addCategory(AppboxCategory appboxCategory) {
-		appboxCategory.setPostTime(System.currentTimeMillis());
-		appboxCategory.setModifyTime(System.currentTimeMillis());
-		Integer id = (Integer)appboxCategoryDao.save(appboxCategory);
-		updateRootTime();
-		return id;
+		prepareCategoryForNew(appboxCategory);
+		return (Integer)appboxCategoryDao.save(appboxCategory);
 	}
 
 	@Override
 	public AppboxCategory findCategoryById(int appboxCategoryId) {
+		if(appboxCategoryId == 0) throw new ServiceException("root_category_is_forbidden");
 		return appboxCategoryDao.findById(appboxCategoryId);
 	}
 
 	@Override
 	public void updateCategory(AppboxCategory appboxCategory) {
-		appboxCategory.setModifyTime(System.currentTimeMillis());
+		if(appboxCategory.getId() == 0) throw new ServiceException("root_category_is_forbidden");
+		prepareCategoryForModify(appboxCategory);
 		appboxCategoryDao.update(appboxCategory);
-		updateRootTime();
+
 	}
 
 	@Override
@@ -79,6 +80,7 @@ public class AppboxServiceImpl implements AppboxService{
 
 	@Override
 	public void deleteCategory(AppboxCategory appboxCategory) {
+		if(appboxCategory.getId() == 0) throw new ServiceException("root_category_is_forbidden");
 		List<AppboxItem> list = appboxItemDao.findByProperty("appboxCategory", appboxCategory);
 		if(list.size() > 0) {
 			throw new ServiceException("appbox.category.is.not.empty");
@@ -90,6 +92,25 @@ public class AppboxServiceImpl implements AppboxService{
 	@Override
 	public List<AppboxCategory> findCategoryAll() {
 		return appboxCategoryDao.findAll();
+	}
+	
+	/**
+	 * 查询除root外的其他分类，实现方法
+	 * 
+	 */
+	@Override
+	public List<AppboxCategory> categorySelectAllWithoutRoot() {
+		return appboxCategoryDao.findAllWithoutRoot();
+	}
+	
+
+	/**
+	 * 
+	 * 
+	 */
+	@Override
+	public List<AppboxCategory> listCategoryWithoutRootByPageDesc(int page, int page_size) {
+		return appboxCategoryDao.findByPageWithoutRootOrderByProperty(page, page_size, "id", true);
 	}
 
 	@Override
@@ -123,6 +144,7 @@ public class AppboxServiceImpl implements AppboxService{
 		AppboxItem appboxItem = appboxItemDao.findById(appboxItemId);
 		if(appboxItem == null) throw new ServiceException("appbox.item.is.not.exist");
 		appboxItemDao.delete(appboxItem);
+		updateRootTime();
 	}
 
 	@Override
@@ -150,7 +172,7 @@ public class AppboxServiceImpl implements AppboxService{
 	@Override
 	public List<AppboxCategory> findCategoryAllWithItem() {
 		// TODO Auto-generated method stub
-		return appboxCategoryDao.findAll();
+		return appboxCategoryDao.findAllWithoutRoot();
 	}
 	
 	@Override
@@ -232,6 +254,11 @@ public class AppboxServiceImpl implements AppboxService{
 		return source + url;
 	}
 
+	
+	/**
+	 * 更新类别的被更新时间
+	 * 
+	 */
 	private void updateRootTime() {
 		try {
 			AppboxCategory root = findCategoryById(0);
@@ -243,7 +270,29 @@ public class AppboxServiceImpl implements AppboxService{
 		}
 	}
 
-
+	/**
+	 * 为新建的category准备数据
+	 * 1. 设置提交时间
+	 * 2. 设置更新时间
+	 * 3. 更新根目录的更新时间
+	 * @param appboxCategory
+	 */
+	private void prepareCategoryForNew(AppboxCategory appboxCategory) {
+		appboxCategory.setPostTime(System.currentTimeMillis());
+		appboxCategory.setModifyTime(System.currentTimeMillis());
+		updateRootTime();
+	}
+	
+	/**
+	 * 为修改的category准备数据
+	 * 1. 设置更新时间
+	 * 2. 更新根目录的更新时间
+	 * @param appboxCategory
+	 */
+	private void prepareCategoryForModify(AppboxCategory appboxCategory) {
+		appboxCategory.setModifyTime(System.currentTimeMillis());
+		updateRootTime();
+	}
 }
 
 
