@@ -5,6 +5,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.struts2.ServletActionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,8 +56,17 @@ public class AppboxItemAction extends ActionSupport {
 	// action methods
 	
 	public InputStream getTargetFile() {
-		String s = "11111111111111";
-		return new ByteArrayInputStream(s.getBytes());
+		JSONArray root = new JSONArray();
+		for(AppboxItem appboxItem : listItem) {
+			JSONObject item = new JSONObject();
+			item.put("id", appboxItem.getId());
+			item.put("imgUrl", appboxItem.getImgUrl());
+			item.put("title", appboxItem.getTitle());
+			item.put("url", appboxItem.getUrl());
+			root.add(item);
+		}
+	    byte[] json = root.toString().getBytes();
+		return new ByteArrayInputStream(json);
 	}
 	
 	public String download() {

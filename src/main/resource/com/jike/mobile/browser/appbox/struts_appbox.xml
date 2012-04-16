@@ -40,7 +40,7 @@
             </result>
         </action>
         -->
-        <action name="get_item_json" class="appboxItemAction" method="download">
+        <action name="get_item_json" class="appboxItemAction" method="json">
             <result name="success" type="stream">
                 <param name="contentType">text/html</param> 
                 <param name="inputName">targetFile</param>
