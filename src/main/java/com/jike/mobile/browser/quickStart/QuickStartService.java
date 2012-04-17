@@ -15,4 +15,6 @@ public interface QuickStartService {
 	public void delete(int iconId);
 	
 	public List<QuickStartIcon> getListDesc(Integer page, Integer length);
+
+	public QuickStartIcon findIconByWebUrl(String webUrl);
 }

@@ -36,9 +36,7 @@ public class QuickStartServiceImpl implements QuickStartService {
 		}
 		try {
 			//将输入的url进行parse
-			parseUrl(quickStartIcon);
-			System.out.println(quickStartIcon.getImgUrl());
-			System.out.println(quickStartIcon.getWebUrl());
+			quickStartIcon.setWebUrl(parseUrl(quickStartIcon.getWebUrl().trim()));
 			return (Integer) (quickStartIconDao.save(quickStartIcon));
 		} catch (DataAccessException dse) {
 			log.error(dse.toString());
@@ -56,7 +54,7 @@ public class QuickStartServiceImpl implements QuickStartService {
 		}
 		try {
 			//将输入的url进行parse
-			parseUrl(quickStartIcon);
+			quickStartIcon.setWebUrl(parseUrl(quickStartIcon.getWebUrl().trim()));
 			quickStartIconDao.update(quickStartIcon);
 		} catch (DataAccessException dse) {
 			log.error(dse.toString());
@@ -84,26 +82,43 @@ public class QuickStartServiceImpl implements QuickStartService {
 		return quickStartIconDao.findByPageOrderByProperty(page, length, "id", true);
 	}
 
+	@Override
+	public QuickStartIcon findIconByWebUrl(String webUrl) {
+		try{
+			webUrl = parseUrl(webUrl);
+			List<QuickStartIcon> iconList = quickStartIconDao.findByProperty("webUrl", webUrl);
+			if(iconList.isEmpty()){
+				throw new ServiceException("cannot find object");
+			}
+			return iconList.get(0);
+		}
+		catch(DataAccessException dse){
+			log.error(dse.toString());
+			throw new ServiceException("DataAccessException", dse);
+		}
+	}
+	
+	
 	/**
 	 * 将mobile.jike.com/xxxxx转换成jike.com
 	 * 将mobile.jike.com.cn/xxxx转换成jike.com.cn
 	 * @param quickStartIcon
 	 */
-	private void parseUrl(QuickStartIcon quickStartIcon) {
-		String url = quickStartIcon.getWebUrl().trim();
+	
+	private String parseUrl(String url) {
 		String domain = url.replaceAll("(\\S+?)(/\\S*)", "$1");
 		String[] domains = domain.split("\\.");
 		int length = domains.length;
 		if (length > 2) {
 			if (domains[length - 1].equals("cn")) {
-				quickStartIcon.setWebUrl(domains[length - 3] + "."
-						+ domains[length - 2] + "." + domains[length - 1]);
+				return domains[length - 3] + "."
+						+ domains[length - 2] + "." + domains[length - 1];
 			} else {
-				quickStartIcon.setWebUrl(domains[length - 2] + "."
-						+ domains[length - 1]);
+				return domains[length - 2] + "."
+						+ domains[length - 1];
 			}
 		} else {
-			quickStartIcon.setWebUrl(domain);
+			return domain;
 		}
 	}
 
@@ -166,6 +181,9 @@ public class QuickStartServiceImpl implements QuickStartService {
 	public void setQuickStartIconDao(QuickStartIconDao quickStartIconDao) {
 		this.quickStartIconDao = quickStartIconDao;
 	}
+
+
+
 	
 
 }

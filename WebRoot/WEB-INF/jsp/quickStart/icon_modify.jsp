@@ -16,7 +16,7 @@
               	<s:hidden name="icon.webUrl"></s:hidden>
               	<s:hidden name="icon.imgUrl"></s:hidden>
               	<label>web url:</label>
-      			<s:textfield name="quickStartIcon.webUrl" cssClass="text-input"></s:textfield> <br /><br />
+      			<s:textfield name="quickStartIcon.webUrl" cssClass="text-input" readonly="true"></s:textfield> <br /><br />
               	<label>icon:<a href="<s:property value="quickStartIcon.imgUrl"/>">查看文件</a></label>
               	<s:file name="icon" cssClass="file-input"></s:file>
               	<s:submit label="submit" cssClass="button"/>
