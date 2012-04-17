@@ -87,6 +87,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements BaseDao<T>{
 			return instance;
 		} catch (RuntimeException re) {
 			log.error("get failed", re);
+			re.printStackTrace();
 			throw re;
 		}
 	}

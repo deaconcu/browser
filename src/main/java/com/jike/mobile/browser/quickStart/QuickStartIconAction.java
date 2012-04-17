@@ -59,6 +59,9 @@ public class QuickStartIconAction extends ActionSupport {
 				addActionError(getText("file.upload.failed")); 
 				return ERROR;
 			}
+			addActionMessage(getText("file.upload.success")); 
+			url = "quickStart/get_icon.do?iconId=" + iconId;
+			return SUCCESS;
 		}
 		
 		return NONE;
@@ -79,19 +82,49 @@ public class QuickStartIconAction extends ActionSupport {
 				return ERROR;
 			}
 			addActionMessage(getText("file.upload.success")); 
-			url = "get_item.do?itemId=" + quickStartIcon.getId();
+			url = "quickStart/get_item.do?itemId=" + quickStartIcon.getId();
 			return SUCCESS;
 		}
 		return INPUT;
 	}
 
+	@InputConfig(resultName=ERROR)
+	public String delete() {
+		try {
+			quickStartService.delete(iconId);
+		}
+		catch(RuntimeException re) {
+			addActionError(getText("file.delete.failed"));
+			return ERROR;
+		}
+		
+		addActionMessage(getText("file.delete.success"));
+		url = "quickStart/get_icon_list.do";
+		return SUCCESS;
+	}
+	
+	@InputConfig(resultName=ERROR)
+	public String detail(){
+		try{
+			quickStartIcon = quickStartService.findIconById(iconId);
+			System.out.println(quickStartIcon.getImgUrl());
+			if(quickStartIcon == null) {
+				addActionError(getText("icon.can.not.find"));
+				return ERROR;
+			}
+			return SUCCESS;
+		}
+		catch(RuntimeException re){
+			addActionError(getText("input.icon.id.is.wrong"));
+			return ERROR;
+		}
+	}
 	
 	@InputConfig(resultName=ERROR)
 	public String list() {
 		try {
 			int length = Integer.parseInt(ServerConfig.get("item_list_page_size"));
 			iconList = quickStartService.getListDesc(page, length);
-			//itemList = extensionService.getListDesc(page, length);
 		}
 		catch (RuntimeException re) {
 			addActionError(getText("list.fetch.failed"));
@@ -122,6 +155,68 @@ public class QuickStartIconAction extends ActionSupport {
 			addActionError(getText("input.icon.id.is.wrong"));
 			return ERROR;
 		}	
+	}
+	
+	public void validateAdd(){
+		if(ServletActionContext.getRequest().getMethod().equals("POST")) {
+			validateIcon();
+		}
+	}
+	
+	public void validateModify(){
+		if(ServletActionContext.getRequest().getMethod().equals("POST")) {
+			validateIcon();
+		}
+		else if(ServletActionContext.getRequest().getMethod().equals("GET")) {
+			validateIconId();
+		}
+	}
+	
+	public void validateDelete(){
+		validateIconId();
+	}
+	
+	public void validateDetail(){
+		validateIconId();
+	}
+	
+	public void validateList(){
+		validatePage();
+	}
+	
+	public void validateDownload(){
+		validateIconId();
+	}
+	
+	public void validateQuickStartIcon() {
+		if(quickStartIcon == null)
+			addActionError(getText("input.icon.all.is.empty"));
+			
+		else {
+			if(quickStartIcon.getWebUrl() == null || quickStartIcon.getWebUrl().trim().equals("")){
+				addActionError(getText("input.icon.weburl.is.empty"));
+			}
+		}
+	}
+	
+	public void validateIconId() {
+		if(iconId == null){
+			addActionError(getText("input.icon.id.is.empty"));	
+		}
+		else if(iconId <= 0){
+			addActionError(getText("input.icon.id.is.minus"));	
+		}
+	}
+	
+	//补文件大小和类型检测
+	public void validateIcon() {
+		if(icon == null){
+			addActionError(getText("input.icon.is.empty"));
+		}
+	}
+	
+	public void validatePage() {
+		if(page == null || page <= 0) page = 1;	
 	}
 	
 	

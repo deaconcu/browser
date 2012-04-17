@@ -7,13 +7,13 @@
 
 	<!-- action -->
 	<bean name="quickStartIconAction" class="com.jike.mobile.browser.quickStart.QuickStartIconAction" scope="prototype">
-	   <property name="quickStartService"><ref bean="QuickStartService" /></property>
+	   <property name="quickStartService"><ref bean="quickStartService" /></property>
 	</bean>
 
 	<!-- service -->
 	<!-- scope="singleton" -->
     <bean name="quickStartService" class="com.jike.mobile.browser.quickStart.QuickStartServiceImpl" scope="prototype">
-        <property name="quickStartIconDao"><ref bean="QuickStartIconDao" /></property>
+        <property name="quickStartIconDao"><ref bean="quickStartIconDao" /></property>
     </bean>
     
 </beans>

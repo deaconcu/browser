@@ -37,6 +37,8 @@ public class QuickStartServiceImpl implements QuickStartService {
 		try {
 			//将输入的url进行parse
 			parseUrl(quickStartIcon);
+			System.out.println(quickStartIcon.getImgUrl());
+			System.out.println(quickStartIcon.getWebUrl());
 			return (Integer) (quickStartIconDao.save(quickStartIcon));
 		} catch (DataAccessException dse) {
 			log.error(dse.toString());
@@ -89,9 +91,9 @@ public class QuickStartServiceImpl implements QuickStartService {
 	 */
 	private void parseUrl(QuickStartIcon quickStartIcon) {
 		String url = quickStartIcon.getWebUrl().trim();
-		String domain = url.replaceAll("(\\S+)(/\\S*)", "$1");
+		String domain = url.replaceAll("(\\S+?)(/\\S*)", "$1");
 		String[] domains = domain.split("\\.");
-		int length = domain.length();
+		int length = domains.length;
 		if (length > 2) {
 			if (domains[length - 1].equals("cn")) {
 				quickStartIcon.setWebUrl(domains[length - 3] + "."
@@ -144,7 +146,7 @@ public class QuickStartServiceImpl implements QuickStartService {
 			}
 			filePath = outputPath + icon.getFileName();
 			// 需要将文件存放路径记录下来
-			quickStartIcon.setWebUrl(filePath);
+			quickStartIcon.setImgUrl(filePath);
 		}
 
 		return true;
