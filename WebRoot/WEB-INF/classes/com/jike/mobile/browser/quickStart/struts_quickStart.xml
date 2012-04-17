@@ -37,12 +37,13 @@
             <result name="error" type="json">actionErrors</result>
         </action>
         <action name="get_icon_json" class="quickStartIconAction" method="json">
-        	<result name="success" type="json">
-        		<param name="root">jsonView</param>
+        	<result name="success" type="stream">
+        		<param name="contentType">text/html</param> 
+                <param name="inputName">iconUrlJsonSuc</param>
         	</result>
-        	<result name="error" type="plainText">
-        		<param name="location">/WEB-INF/jsp/quickStart/icon_json.jsp</param>
-        		<param name="charSet">utf-8</param>
+        	<result name="error" type="stream">
+                <param name="contentType">text/html</param> 
+                <param name="inputName">iconUrlJsonFail</param>
         	</result>
         </action>
         

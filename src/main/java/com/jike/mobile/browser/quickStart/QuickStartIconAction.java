@@ -1,8 +1,13 @@
 package com.jike.mobile.browser.quickStart;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import net.sf.json.JSONObject;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -39,9 +44,7 @@ public class QuickStartIconAction extends ActionSupport {
 	
 	//return
 	private String url;
-	
-	//json
-	private JsonView jsonView;
+
 	
 	//download
 	private String file;
@@ -168,10 +171,7 @@ public class QuickStartIconAction extends ActionSupport {
 				addActionError("input.icon.weburl.not.exists");
 				return ERROR;
 			}
-			else{
-				jsonView = new JsonView(quickStartIcon);
 				return SUCCESS;
-			}
 		}
 		catch(RuntimeException re){
 			addActionError(getText("input.icon.weburl.is.wrong"));
@@ -179,7 +179,20 @@ public class QuickStartIconAction extends ActionSupport {
 		}
 	}
 	
-	
+	public InputStream getIconUrlJsonSuc(){
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String path = request.getContextPath();
+		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+		
+		JSONObject root = new JSONObject();
+		root.put("url", quickStartIcon.getWebUrl());
+		root.put("location", basePath+quickStartIcon.getImgUrl());
+		byte[] json = root.toString().getBytes();
+		return new ByteArrayInputStream(json);
+	}
+	public InputStream getIconUrlJsonFail(){
+		return new ByteArrayInputStream("NULL".getBytes());
+	}
 	public void validateAdd(){
 		if(ServletActionContext.getRequest().getMethod().equals("POST")) {
 			validateIcon();
@@ -311,14 +324,6 @@ public class QuickStartIconAction extends ActionSupport {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public JsonView getJsonView() {
-		return jsonView;
-	}
-
-	public void setJsonView(JsonView jsonView) {
-		this.jsonView = jsonView;
 	}
 
 	public String getFile() {
