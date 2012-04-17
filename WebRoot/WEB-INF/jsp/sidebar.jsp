@@ -19,7 +19,12 @@
                 <li><a href="appbox/list_cat.do">管理分类</a></li>
             </ul>
         </li>
-        
+        <li>
+        	<p>quickStart</p>
+        	<ul>
+        		<li><a href="quickStart/get_icon_list.do">查看全部</a></li>
+        	</ul>
+        </li>
         
     </ul>
     <br />
