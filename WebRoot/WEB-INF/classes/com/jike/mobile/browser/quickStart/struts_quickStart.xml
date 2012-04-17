@@ -40,7 +40,7 @@
         	<result name="success" type="json">
         		<param name="root">jsonView</param>
         	</result>
-        	<result name="error" type="plaintext">
+        	<result name="error" type="plainText">
         		<param name="location">/WEB-INF/jsp/quickStart/icon_json.jsp</param>
         		<param name="charSet">utf-8</param>
         	</result>
