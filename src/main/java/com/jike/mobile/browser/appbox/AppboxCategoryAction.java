@@ -34,6 +34,9 @@ public class AppboxCategoryAction extends ActionSupport{
 	private int page;
 	private List<AppboxCategory> list;
 	
+	// json
+	private long lastUpdateTime = 0;
+	
 	// inject
 	private AppboxService appboxService;
 	
@@ -135,7 +138,7 @@ public class AppboxCategoryAction extends ActionSupport{
 	@InputConfig(resultName=ERROR)
 	public String jsonAll() {
 		try {
-			list = appboxService.findCategoryAllWithItem();
+			list = appboxService.findCategoryAllWithItem(lastUpdateTime);
 		}catch (RuntimeException re) {
 			addActionError(getText(re.getMessage()));
 			return ERROR;
@@ -144,7 +147,9 @@ public class AppboxCategoryAction extends ActionSupport{
 	}
 	
 	public InputStream getRootCategory() {
-		JSONArray root = new JSONArray();
+		if(list == null) return new ByteArrayInputStream("".getBytes());
+		
+		JSONArray root = new JSONArray();		
 		for(AppboxCategory appboxCategory : list) {
 			JSONObject category = new JSONObject();
 			category.put("id", appboxCategory.getId());System.out.println(appboxCategory.getId());
@@ -153,15 +158,12 @@ public class AppboxCategoryAction extends ActionSupport{
 			for(AppboxItem appboxItem : appboxCategory.getItemList()) {
 				JSONObject item = new JSONObject();
 				item.put("id", appboxItem.getId());
-				item.put("imgUrl", appboxItem.getImgUrl());
-				item.put("title", appboxItem.getTitle());
-				item.put("url", appboxItem.getUrl());
+				item.put("name", appboxItem.getName());
 				itemRoot.add(item);
 			}
 			category.put("itemList", itemRoot);
 			root.add(category);
 		}
-		System.out.println(root.toString());
 		byte[] json = root.toString().getBytes();
 		return new ByteArrayInputStream(json);
 	}
@@ -252,5 +254,13 @@ public class AppboxCategoryAction extends ActionSupport{
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public long getLastUpdateTime() {
+		return lastUpdateTime;
+	}
+
+	public void setLastUpdateTime(long lastUpdateTime) {
+		this.lastUpdateTime = lastUpdateTime;
 	}
 }

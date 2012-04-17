@@ -98,7 +98,7 @@ public interface AppboxService {
 
 	public List<AppboxItem> findItemByIdsAndTime(Integer[] ids, long lastUpdateTime, int statue);
 
-	public List<AppboxCategory> findCategoryAllWithItem();
+	public List<AppboxCategory> findCategoryAllWithItem(Long lastUpdateTime);
 
 	
 
