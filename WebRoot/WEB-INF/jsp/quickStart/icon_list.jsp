@@ -13,7 +13,7 @@
             <div class="post">
                 <div class="sign"><p>QuickStart &gt; 列表</p></div>
                 <div class="add">
-                    <span><a href="extension/add_icon.do"> + 添加</a></span>
+                    <span><a href="quickStart/add_icon.do"> + 添加</a></span>
                 </div>
                 <div class="pages">
 	                <s:if test="page > 1">

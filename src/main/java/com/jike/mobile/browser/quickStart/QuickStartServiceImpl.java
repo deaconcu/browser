@@ -102,7 +102,7 @@ public class QuickStartServiceImpl implements QuickStartService {
 	/**
 	 * 将mobile.jike.com/xxxxx转换成jike.com
 	 * 将mobile.jike.com.cn/xxxx转换成jike.com.cn
-	 * @param quickStartIcon
+	 * @param url
 	 */
 	
 	private String parseUrl(String url) {
