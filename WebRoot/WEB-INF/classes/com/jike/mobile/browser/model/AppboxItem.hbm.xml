@@ -13,6 +13,12 @@
         <property name="name" type="string">
             <column name="name" length="64" not-null="true" />
         </property>
+        <property name="desc" type="string">
+            <column name="description" not-null="true" />
+        </property>
+        <property name="img" type="string">
+            <column name="img" not-null="true" />
+        </property>
         <property name="title" type="string">
             <column name="title" />
         </property>

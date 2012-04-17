@@ -13,9 +13,13 @@
             
             <div class="post">    
                 <div class="sign"><p>Appbox &gt; 新建</p></div>
-		        <s:form action="add_item" name="item" method="post" theme="simple">
+		        <s:form action="add_item" name="item" method="post" theme="simple" enctype="multipart/form-data">
 		            <label>name:</label> 
 		              <s:textfield name="appboxItem.name" cssClass="text-input"/> <br /><br />
+		            <label>description:</label> 
+                      <s:textfield name="appboxItem.desc" cssClass="text-input"/> <br /><br />
+		            <label>img:</label> 
+		              <s:file name="img" cssClass="file-input" />  <br /><br />
 		            <label>source:</label> 
 		              <s:textfield name="appboxItem.source" cssClass="text-input"/> <br /><br />
 		            <label>sourceCharSet:</label> 

@@ -75,6 +75,10 @@ public class SysInfoServiceImpl implements SysInfoService, ServletContextAware{
 			properties.load(in);
 
 			properties.setProperty("real_root_path", servletContext.getRealPath("/"));
+			
+			String baseUrl = servletContext.getRealPath("/");
+			
+			properties.setProperty("base_url", baseUrl);
 			properties.setProperty("serverConfigLocation", servletContext.getInitParameter("serverConfigLocation"));
 			log.info("ServerConfig load Success");
 		}

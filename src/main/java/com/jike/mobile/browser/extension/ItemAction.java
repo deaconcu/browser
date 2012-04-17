@@ -80,7 +80,7 @@ public class ItemAction extends ActionSupport {
 				return ERROR;
 			}
 			addActionMessage(getText("file.upload.success")); 
-			url = "get_item.do?itemId=" + itemId;
+			url = ServletActionContext.getServletContext().getContextPath() + "/extension/get_item.do?itemId=" + itemId;
 			return SUCCESS;
 		}
 		return NONE;
@@ -112,7 +112,7 @@ public class ItemAction extends ActionSupport {
 				return ERROR;
 			}
 			addActionMessage(getText("file.upload.success")); 
-			url = "get_item.do?itemId=" + item.getId();
+			url = ServletActionContext.getServletContext().getContextPath() + "/extension/get_item.do?itemId=" + item.getId();
 			return SUCCESS;
 		}
 		return NONE;
@@ -128,7 +128,7 @@ public class ItemAction extends ActionSupport {
 		}
 		
 		addActionMessage(getText("file.delete.success"));
-		url = "get_item_list.do";
+		url = ServletActionContext.getServletContext().getContextPath() + "/extension/get_item_list.do";
 		return SUCCESS;
 	}
 	

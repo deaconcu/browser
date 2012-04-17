@@ -19,6 +19,8 @@ public class AppboxItem implements java.io.Serializable {
 	private static final long serialVersionUID = 8514374967831436910L;
 	private Integer id;
 	private String name;
+	private String desc;
+	private String img;
 	private String title;
 	private String url;
 	private String imgUrl;
@@ -39,11 +41,12 @@ public class AppboxItem implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public AppboxItem(String name, long postTime, String source,
+	public AppboxItem(String name, String desc, long postTime, String img, String source,
 			String titleRegex, String urlRegex, String picRegex,
 			AppboxCategory appboxCategory) {
 		this.name = name;
 		this.postTime = postTime;
+		this.img = img;
 		this.source = source;
 		this.titleRegex = titleRegex;
 		this.urlRegex = urlRegex;
@@ -52,11 +55,12 @@ public class AppboxItem implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public AppboxItem(String name, String title, String url, String imgUrl,
+	public AppboxItem(String name, String desc, String title, String img, String url, String imgUrl,
 			long postTime, String source, String titleRegex, String urlRegex,
 			String picRegex, AppboxCategory appboxCategory) {
 		this.name = name;
 		this.title = title;
+		this.img = img;
 		this.url = url;
 		this.imgUrl = imgUrl;
 		this.postTime = postTime;
@@ -201,6 +205,22 @@ public class AppboxItem implements java.io.Serializable {
 	public String getMatchDate() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd / HH:mm");
 		return format.format(new Date(matchTime));
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
 
 	

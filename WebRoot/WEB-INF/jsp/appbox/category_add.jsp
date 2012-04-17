@@ -13,9 +13,11 @@
             
             <div class="post">
                 <div class="sign"><p>Appbox &gt; 新建分类</p></div>
-		        <s:form action="add_cat" name="category" method="post" theme="simple">
+		        <s:form action="add_cat" name="category" method="post" theme="simple" enctype="multipart/form-data">
 		            <label>name: </label>
 		            <s:textfield name="appboxCategory.name" cssClass="text-input"/> <br /><br />
+		            <label>上传图片</label>
+		            <s:file name="img" size="70" cssClass="file-input" /> <br /><br />
 		            <s:submit value="submit" cssClass="button"/>
 		        </s:form>
             </div>

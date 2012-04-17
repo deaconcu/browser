@@ -44,7 +44,7 @@ public class CatAction extends ActionSupport {
 			try {
 				extensionService.categoryAdd(category);
 				addActionMessage(getText("operation.success"));
-				url = "list_cat.do";
+				url = ServletActionContext.getServletContext().getContextPath() + "/extension/list_cat.do";
 				return SUCCESS;
 			}
 			catch (RuntimeException re) {
@@ -75,7 +75,7 @@ public class CatAction extends ActionSupport {
 			try {
 				extensionService.categoryModify(category);
 				addActionMessage(getText("operation.success"));
-				url = "list_cat.do";
+				url = ServletActionContext.getServletContext().getContextPath() + "/extension/list_cat.do";
 				return SUCCESS;
 			}
 			catch (RuntimeException re) {
@@ -97,7 +97,7 @@ public class CatAction extends ActionSupport {
 			else {
 				extensionService.categoryDelete(category);
 				addActionMessage(getText("operation.success"));
-				url = "list_cat.do";
+				url = ServletActionContext.getServletContext().getContextPath() + "/extension/list_cat.do";
 				return SUCCESS;
 			}
 		} catch(ServiceException se) {

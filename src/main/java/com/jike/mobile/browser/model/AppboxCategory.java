@@ -22,6 +22,7 @@ public class AppboxCategory implements java.io.Serializable {
 	
 	private Integer id;
 	private String name;
+	private String img;
 	private Integer root;
 	private Long postTime;
 	private Long modifyTime;
@@ -99,6 +100,14 @@ public class AppboxCategory implements java.io.Serializable {
 
 	public void setModifyTime(Long modifyTime) {
 		this.modifyTime = modifyTime;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 
 	

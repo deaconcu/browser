@@ -22,5 +22,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <script type="text/javascript">
             setTimeout("window.location='<s:property value="url" />'", 1500);  
         </script>   
+        
     </body>
 </html>

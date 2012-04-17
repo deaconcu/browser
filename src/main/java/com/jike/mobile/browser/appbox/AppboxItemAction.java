@@ -1,9 +1,12 @@
 package com.jike.mobile.browser.appbox;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -14,6 +17,7 @@ import org.slf4j.LoggerFactory;
 
 import com.jike.mobile.browser.model.AppboxCategory;
 import com.jike.mobile.browser.model.AppboxItem;
+import com.jike.mobile.browser.model.UploadFile;
 import com.jike.mobile.browser.sys.ServerConfig;
 import com.jike.mobile.browser.util.Message;
 import com.jike.mobile.browser.util.ServiceException;
@@ -32,6 +36,33 @@ public class AppboxItemAction extends ActionSupport {
 	
 	// modify, delete, detail
 	private int appboxItemId;
+	public File getImg() {
+		return img;
+	}
+
+	public void setImg(File img) {
+		this.img = img;
+	}
+
+	public String getImgContentType() {
+		return imgContentType;
+	}
+
+	public void setImgContentType(String imgContentType) {
+		this.imgContentType = imgContentType;
+	}
+
+	public String getImgFileName() {
+		return imgFileName;
+	}
+
+	public void setImgFileName(String imgFileName) {
+		this.imgFileName = imgFileName;
+	}
+
+	private File img;
+	private String imgContentType;
+	private String imgFileName;
 	
 	// json
 	private String appboxItemIdString;
@@ -56,13 +87,17 @@ public class AppboxItemAction extends ActionSupport {
 	// action methods
 	
 	public InputStream getItems() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String path = request.getContextPath();
+		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+		
 		JSONArray root = new JSONArray();
 		for(AppboxItem appboxItem : listItem) {
 			JSONObject item = new JSONObject();
 			item.put("id", appboxItem.getId());
-			item.put("imgUrl", appboxItem.getImgUrl());
 			item.put("title", appboxItem.getTitle());
 			item.put("url", appboxItem.getUrl());
+			item.put("imgUrl", appboxItem.getImgUrl());
 			root.add(item);
 		}
 	    byte[] json = root.toString().getBytes();
@@ -84,14 +119,14 @@ public class AppboxItemAction extends ActionSupport {
 				addActionError(getText("operation.failed"));
 				return ERROR;
 			}
-			
 		}
 		else if(method.equals("POST")) {
 			appboxItem.setPostTime(System.currentTimeMillis());
 			try{
-				appboxItemId = appboxService.addItem(appboxItem);
+				UploadFile imgFile = new UploadFile(img, imgContentType, imgFileName);
+				appboxItemId = appboxService.addItem(appboxItem, imgFile);
 				addActionMessage(getText("operation.success"));
-				url = "get_item.do?appboxItemId=" + appboxItemId;
+				url = ServletActionContext.getServletContext().getContextPath() + "/appbox/get_item.do?appboxItemId=" + appboxItemId;
 				return SUCCESS;
 			} catch (ServiceException se) {
 				addActionError(getText(se.getMessage()));
@@ -124,9 +159,11 @@ public class AppboxItemAction extends ActionSupport {
 		}
 		else if(method.equals("POST")) {
 			try {
-				appboxService.updateItem(appboxItem);
+				UploadFile imgFile = null;
+				if(img != null) imgFile = new UploadFile(img, imgContentType, imgFileName);
+				appboxService.updateItem(appboxItem, imgFile);
 				addActionMessage(getText("operation.success"));
-				url = "get_item.do?appboxItemId=" + appboxItem.getId();
+				url = ServletActionContext.getServletContext().getContextPath() + "/appbox/get_item.do?appboxItemId=" + appboxItem.getId();
 				return SUCCESS;
 			} catch (ServiceException se) {
 				addActionError(getText(se.getMessage()));
@@ -146,7 +183,7 @@ public class AppboxItemAction extends ActionSupport {
 		try {
 			appboxService.deleteItem(appboxItemId);
 			addActionMessage(getText("operation.success"));
-			url = "get_item_list.do";
+			url = ServletActionContext.getServletContext().getContextPath() + "/appbox/get_item_list.do";
 			return SUCCESS;
 		} catch (ServiceException se) {
 			addActionError(getText(se.getMessage()));
@@ -190,17 +227,17 @@ public class AppboxItemAction extends ActionSupport {
 			int statue = appboxService.match(appboxItemId);
 			if(statue == 0) {
 				addActionMessage(getText("match.success"));
-				url = "get_item.do?appboxItemId=" + appboxItemId;
+				url = ServletActionContext.getServletContext().getContextPath() + "/appbox/get_item.do?appboxItemId=" + appboxItemId;
 				return SUCCESS;
 			}
 			else if(statue == -1) {
 				addActionError(getText("match.falied"));
-				url = "get_item.do?appboxItemId=" + appboxItemId;
+				url = ServletActionContext.getServletContext().getContextPath() + "/appbox/get_item.do?appboxItemId=" + appboxItemId;
 				return SUCCESS;
 			}
 			else {
 				addActionMessage(getText("match.partly.success"));
-				url = "get_item.do?appboxItemId=" + appboxItemId;
+				url = ServletActionContext.getServletContext().getContextPath() + "/appbox/get_item.do?appboxItemId=" + appboxItemId;
 				return SUCCESS;
 			}
 		} catch (RuntimeException re) {
@@ -226,6 +263,7 @@ public class AppboxItemAction extends ActionSupport {
 	public void validateAdd() {
 		String method = ServletActionContext.getRequest().getMethod();
 		if(method.equals("POST")) {
+			if(img == null) addActionError(getText("input.object.is.null"));
 			addValidateError(Validate.appboxItemWithoutId(appboxItem, msg));
 		}
 	}

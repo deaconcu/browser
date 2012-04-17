@@ -13,19 +13,11 @@ public class SysInfo implements java.io.Serializable {
 	 */
 	private static final long serialVersionUID = 1895241964772725766L;
 	private Integer id;
-	private long appboxRefreshTime;
-	private long extensionRefreshTime;
 
 	// Constructors
 
 	/** default constructor */
 	public SysInfo() {
-	}
-
-	/** full constructor */
-	public SysInfo(long appboxRefreshTime, long extensionRefreshTime) {
-		this.appboxRefreshTime = appboxRefreshTime;
-		this.extensionRefreshTime = extensionRefreshTime;
 	}
 
 	// Property accessors

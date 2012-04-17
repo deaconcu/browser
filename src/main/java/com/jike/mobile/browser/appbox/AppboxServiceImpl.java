@@ -1,5 +1,8 @@
 package com.jike.mobile.browser.appbox;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,6 +14,8 @@ import com.jike.mobile.browser.dao.AppboxCategoryDao;
 import com.jike.mobile.browser.dao.AppboxItemDao;
 import com.jike.mobile.browser.model.AppboxCategory;
 import com.jike.mobile.browser.model.AppboxItem;
+import com.jike.mobile.browser.model.UploadFile;
+import com.jike.mobile.browser.sys.ServerConfig;
 import com.jike.mobile.browser.sys.SysInfoService;
 import com.jike.mobile.browser.util.ServiceException;
 
@@ -54,8 +59,8 @@ public class AppboxServiceImpl implements AppboxService{
 	// category service
 	
 	@Override
-	public Integer addCategory(AppboxCategory appboxCategory) {
-		prepareCategoryForNew(appboxCategory);
+	public Integer addCategory(AppboxCategory appboxCategory, UploadFile file) {
+		prepareCategoryForNew(appboxCategory, file);
 		return (Integer)appboxCategoryDao.save(appboxCategory);
 	}
 
@@ -66,9 +71,9 @@ public class AppboxServiceImpl implements AppboxService{
 	}
 
 	@Override
-	public void updateCategory(AppboxCategory appboxCategory) {
+	public void updateCategory(AppboxCategory appboxCategory, UploadFile uploadFile) {
 		if(appboxCategory.getId() == 0) throw new ServiceException("root_category_is_forbidden");
-		prepareCategoryForModify(appboxCategory);
+		prepareCategoryForModify(appboxCategory, uploadFile);
 		appboxCategoryDao.update(appboxCategory);
 
 	}
@@ -91,7 +96,7 @@ public class AppboxServiceImpl implements AppboxService{
 
 	@Override
 	public List<AppboxCategory> findCategoryAll() {
-		return appboxCategoryDao.findAll();
+		return appboxCategoryDao.findAllWithoutRoot();
 	}
 	
 	/**
@@ -114,22 +119,28 @@ public class AppboxServiceImpl implements AppboxService{
 	}
 
 	@Override
-	public Integer addItem(AppboxItem appboxItem) {
+	public Integer addItem(AppboxItem appboxItem, UploadFile img) {
 		AppboxCategory appboxCategory = findCategoryById(appboxItem.getAppboxCategory().getId());
 		if(appboxCategory == null) throw new ServiceException("appbox.category.is.not.exist");
 		
 		appboxItem.setPostTime(System.currentTimeMillis());
 		appboxItem.setMatchTime(0L);
 		appboxItem.setMatchStatue(-1);
+		
+		appboxItem.setImg(uploadImg(img));
+		
 		Integer id = (Integer)appboxItemDao.save(appboxItem);
 		updateRootTime();
 		return id;
 	}
 
 	@Override
-	public void updateItem(AppboxItem appboxItem) {
+	public void updateItem(AppboxItem appboxItem, UploadFile img) {
 		AppboxCategory appboxCategory = findCategoryById(appboxItem.getAppboxCategory().getId());
 		if(appboxCategory == null) throw new ServiceException("appbox.category.is.not.exist");
+		
+		if(img != null) appboxItem.setImg(uploadImg(img));
+		
 		appboxItemDao.update(appboxItem);
 		updateRootTime();
 	}
@@ -278,10 +289,11 @@ public class AppboxServiceImpl implements AppboxService{
 	 * 3. 更新根目录的更新时间
 	 * @param appboxCategory
 	 */
-	private void prepareCategoryForNew(AppboxCategory appboxCategory) {
+	private void prepareCategoryForNew(AppboxCategory appboxCategory, UploadFile uploadFile) {
 		appboxCategory.setPostTime(System.currentTimeMillis());
 		appboxCategory.setModifyTime(System.currentTimeMillis());
 		updateRootTime();
+		appboxCategory.setImg(uploadImg(uploadFile));
 	}
 	
 	/**
@@ -289,10 +301,47 @@ public class AppboxServiceImpl implements AppboxService{
 	 * 1. 设置更新时间
 	 * 2. 更新根目录的更新时间
 	 * @param appboxCategory
+	 * @param uploadFile 
 	 */
-	private void prepareCategoryForModify(AppboxCategory appboxCategory) {
+	private void prepareCategoryForModify(AppboxCategory appboxCategory, UploadFile uploadFile) {
 		appboxCategory.setModifyTime(System.currentTimeMillis());
 		updateRootTime();
+		if(uploadFile != null) appboxCategory.setImg(uploadImg(uploadFile));
+	}
+	
+	private String uploadImg(UploadFile uploadFile) {
+		String outputPath = "";
+		try {
+			Calendar calendar = Calendar.getInstance();
+			outputPath = ServerConfig.get("file_save_path") + File.separator
+					+ calendar.get(Calendar.YEAR) + File.separator
+					+ calendar.get(Calendar.MONTH) + File.separator
+					+ calendar.get(Calendar.DAY_OF_MONTH) + File.separator
+					+ calendar.get(Calendar.HOUR_OF_DAY) + File.separator;
+			File file = new File(ServerConfig.get("real_root_path") + outputPath);
+			file.mkdirs();
+			log.info(file.toString());
+		} catch (Exception e) {
+			log.error("can't create output path");
+			throw new ServiceException("file.upload.failed");
+		}
+		
+		if(uploadFile.validate()) {
+			String filePath = "";
+			String fileName = uploadFile.getFileName() + "_" + System.currentTimeMillis();
+			try {
+				uploadFile.upload(ServerConfig.get("real_root_path") + outputPath, fileName);
+			} catch (IOException e) {
+				log.error("UploadFile upload excute error");
+				throw new ServiceException("file.upload.failed");
+			}
+			filePath = outputPath + fileName;
+			return filePath;
+		}
+		else {
+			log.error("uploadFile validate failed");
+			throw new ServiceException("file.upload.failed");
+		}
 	}
 }
 

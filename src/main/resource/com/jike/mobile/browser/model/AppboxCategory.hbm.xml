@@ -13,6 +13,9 @@
         <property name="name" type="string">
             <column name="name" length="64" not-null="true" />
         </property>
+        <property name="img" type="string">
+            <column name="img" not-null="true" />
+        </property>
         <property name="root" type="integer">
             <column name="root" not-null="true" />
         </property>

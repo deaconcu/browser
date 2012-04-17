@@ -57,6 +57,7 @@ public class Validate {
 		} else {
 			if(!IntegerPositive(appboxItem.getId(), "appbox.item", "id", msg)) return false;
 			if(!StringLength(appboxItem.getName(), 0, 0, "appbox.item", "name", msg)) return false;
+			if(!StringLength(appboxItem.getDesc(), 0, 0, "appbox.desc", "desc", msg)) return false;
 			if(!StringLength(appboxItem.getSource(), 0, 0, "appbox.item", "source", msg)) return false;
 			if(!StringLength(appboxItem.getTitleRegex(), 0, 0, "appbox.item", "titelRegex", msg)) return false;
 			if(!StringLength(appboxItem.getUrlRegex(), 0, 0, "appbox.item", "urlRegex", msg)) return false;
@@ -71,6 +72,7 @@ public class Validate {
 			return false;
 		} else {
 			if(!StringLength(appboxItem.getName(), 0, 0, "appbox.item", "name", msg)) return false;
+			if(!StringLength(appboxItem.getDesc(), 0, 0, "appbox.item", "desc", msg)) return false;
 			if(!StringLength(appboxItem.getSource(), 0, 0, "appbox.item", "source", msg)) return false;
 			if(!StringLength(appboxItem.getTitleRegex(), 0, 0, "appbox.item", "titelRegex", msg)) return false;
 			if(!StringLength(appboxItem.getUrlRegex(), 0, 0, "appbox.item", "urlRegex", msg)) return false;

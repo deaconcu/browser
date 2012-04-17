@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.jike.mobile.browser.model.AppboxCategory;
 import com.jike.mobile.browser.model.AppboxItem;
+import com.jike.mobile.browser.model.UploadFile;
 
 
 public interface AppboxService {
@@ -15,9 +16,10 @@ public interface AppboxService {
 	/**
 	 * 添加appbox分类
 	 * @param appboxCategory
+	 * @param imgFile 
 	 * @return
 	 */
-	public Integer addCategory(AppboxCategory appboxCategory);
+	public Integer addCategory(AppboxCategory appboxCategory, UploadFile imgFile);
 	
 	/**
 	 * 删除分类
@@ -28,8 +30,9 @@ public interface AppboxService {
 	/**
 	 * 更新appbox分类
 	 * @param appboxCategory
+	 * @param imgFile 
 	 */
-	public void updateCategory(AppboxCategory appboxCategory);
+	public void updateCategory(AppboxCategory appboxCategory, UploadFile imgFile);
 	
 	/**
 	 * 按id查找appbox分类
@@ -76,13 +79,14 @@ public interface AppboxService {
 	
 	/**
 	 * @param appboxItem
+	 * @param img 
 	 * @return
 	 */
-	public Integer addItem(AppboxItem appboxItem);
+	public Integer addItem(AppboxItem appboxItem, UploadFile img);
 	
 	public void deleteItem(int appboxItemId);
 
-	public void updateItem(AppboxItem appboxItem);
+	public void updateItem(AppboxItem appboxItem, UploadFile imgFile);
 
 	public AppboxItem findItemById(int appboxItemId);
 

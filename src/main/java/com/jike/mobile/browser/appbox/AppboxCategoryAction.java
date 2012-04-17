@@ -1,8 +1,11 @@
 package com.jike.mobile.browser.appbox;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -13,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import com.jike.mobile.browser.model.AppboxCategory;
 import com.jike.mobile.browser.model.AppboxItem;
+import com.jike.mobile.browser.model.UploadFile;
 import com.jike.mobile.browser.sys.ServerConfig;
 import com.jike.mobile.browser.util.Message;
 import com.jike.mobile.browser.util.ServiceException;
@@ -29,6 +33,10 @@ public class AppboxCategoryAction extends ActionSupport{
 	// add, modify, delete
 	private AppboxCategory appboxCategory;
 	private int appboxCategoryId;
+	
+	private File img;
+	private String imgContentType;
+	private String imgFileName;
 	
 	// list
 	private int page;
@@ -56,9 +64,11 @@ public class AppboxCategoryAction extends ActionSupport{
 			try {
 				appboxCategory.setRoot(0);
 				appboxCategory.setPostTime(System.currentTimeMillis());
-				appboxService.addCategory(appboxCategory);
+				
+				UploadFile imgFile = new UploadFile(img, imgContentType, imgFileName);
+				appboxService.addCategory(appboxCategory, imgFile);
 				addActionMessage(getText("operation.success"));
-				url = "list_cat.do";
+				url = ServletActionContext.getServletContext().getContextPath() + "/appbox/list_cat.do";
 				return SUCCESS;
 			}
 			catch (RuntimeException re) {
@@ -86,9 +96,11 @@ public class AppboxCategoryAction extends ActionSupport{
 		}
 		else if(method.equals("POST")) {
 			try {
-				appboxService.updateCategory(appboxCategory);
+				UploadFile imgFile = null;
+				if(img != null) imgFile = new UploadFile(img, imgContentType, imgFileName);
+				appboxService.updateCategory(appboxCategory, imgFile);
 				addActionMessage(getText("operation.success"));
-				url = "list_cat.do";
+				url = ServletActionContext.getServletContext().getContextPath() + "/appbox/list_cat.do";
 				return SUCCESS;
 			} catch (RuntimeException re) {
 				addActionError(getText("operation.failed"));
@@ -122,7 +134,7 @@ public class AppboxCategoryAction extends ActionSupport{
 			}
 			appboxService.deleteCategory(appboxCategory);
 			addActionMessage(getText("operation.success"));
-			url = "list_cat.do";
+			url = ServletActionContext.getServletContext().getContextPath() + "/appbox/list_cat.do";
 			return SUCCESS;
 		}catch(ServiceException se) {
 			addActionError(getText(se.getMessage()));
@@ -149,16 +161,23 @@ public class AppboxCategoryAction extends ActionSupport{
 	public InputStream getRootCategory() {
 		if(list == null) return new ByteArrayInputStream("".getBytes());
 		
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String path = request.getContextPath();
+		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+		
 		JSONArray root = new JSONArray();		
 		for(AppboxCategory appboxCategory : list) {
 			JSONObject category = new JSONObject();
 			category.put("id", appboxCategory.getId());System.out.println(appboxCategory.getId());
 			category.put("name", appboxCategory.getName());
+			category.put("img", basePath + appboxCategory.getImg());
 			JSONArray itemRoot = new JSONArray();
 			for(AppboxItem appboxItem : appboxCategory.getItemList()) {
 				JSONObject item = new JSONObject();
 				item.put("id", appboxItem.getId());
 				item.put("name", appboxItem.getName());
+				item.put("img", basePath + appboxItem.getImg());
+				item.put("desc", appboxItem.getDesc());
 				itemRoot.add(item);
 			}
 			category.put("itemList", itemRoot);
@@ -171,6 +190,7 @@ public class AppboxCategoryAction extends ActionSupport{
 	public void validateAdd() {
 		String method = ServletActionContext.getRequest().getMethod();
 		if(method.equals("POST")) {
+			if(img == null) addActionError("input.object.is.null");
 			addValidateError(Validate.appboxCategoryWithoutId(appboxCategory, msg));
 		}
 	}
@@ -181,6 +201,7 @@ public class AppboxCategoryAction extends ActionSupport{
 			addValidateError(Validate.id(appboxCategoryId, msg));
 		}
 		else if(method.equals("POST")) {
+			if(img == null) addActionError("input.object.is.null");
 			addValidateError(Validate.appboxCategoryAll(appboxCategory, msg));
 		}
 	}
@@ -262,5 +283,29 @@ public class AppboxCategoryAction extends ActionSupport{
 
 	public void setLastUpdateTime(long lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
+	}
+
+	public File getImg() {
+		return img;
+	}
+
+	public void setImg(File img) {
+		this.img = img;
+	}
+
+	public String getImgContentType() {
+		return imgContentType;
+	}
+
+	public void setImgContentType(String imgContentType) {
+		this.imgContentType = imgContentType;
+	}
+
+	public String getImgFileName() {
+		return imgFileName;
+	}
+
+	public void setImgFileName(String imgFileName) {
+		this.imgFileName = imgFileName;
 	}
 }
