@@ -29,14 +29,19 @@ public class QuickStartIconAction extends ActionSupport {
 	private String iconFileName;
 	
 	private List<QuickStartIcon> iconList;
-	
 	private Integer page;
+	
+	private String webUrl;
+	
 	//inject
 	QuickStartService quickStartService;
 	
 	
 	//return
 	private String url;
+	
+	//json
+	private JsonView jsonView;
 	
 	//download
 	private String file;
@@ -59,6 +64,9 @@ public class QuickStartIconAction extends ActionSupport {
 				addActionError(getText("file.upload.failed")); 
 				return ERROR;
 			}
+			addActionMessage(getText("file.upload.success")); 
+			url = "quickStart/get_icon.do?iconId=" + iconId;
+			return SUCCESS;
 		}
 		
 		return NONE;
@@ -79,19 +87,49 @@ public class QuickStartIconAction extends ActionSupport {
 				return ERROR;
 			}
 			addActionMessage(getText("file.upload.success")); 
-			url = "get_item.do?itemId=" + quickStartIcon.getId();
+			url = "quickStart/get_item.do?itemId=" + quickStartIcon.getId();
 			return SUCCESS;
 		}
 		return INPUT;
 	}
 
+	@InputConfig(resultName=ERROR)
+	public String delete() {
+		try {
+			quickStartService.delete(iconId);
+		}
+		catch(RuntimeException re) {
+			addActionError(getText("file.delete.failed"));
+			return ERROR;
+		}
+		
+		addActionMessage(getText("file.delete.success"));
+		url = "quickStart/get_icon_list.do";
+		return SUCCESS;
+	}
+	
+	@InputConfig(resultName=ERROR)
+	public String detail(){
+		try{
+			quickStartIcon = quickStartService.findIconById(iconId);
+			System.out.println(quickStartIcon.getImgUrl());
+			if(quickStartIcon == null) {
+				addActionError(getText("icon.can.not.find"));
+				return ERROR;
+			}
+			return SUCCESS;
+		}
+		catch(RuntimeException re){
+			addActionError(getText("input.icon.id.is.wrong"));
+			return ERROR;
+		}
+	}
 	
 	@InputConfig(resultName=ERROR)
 	public String list() {
 		try {
 			int length = Integer.parseInt(ServerConfig.get("item_list_page_size"));
 			iconList = quickStartService.getListDesc(page, length);
-			//itemList = extensionService.getListDesc(page, length);
 		}
 		catch (RuntimeException re) {
 			addActionError(getText("list.fetch.failed"));
@@ -109,7 +147,6 @@ public class QuickStartIconAction extends ActionSupport {
 	
 	@InputConfig(resultName=ERROR)
 	public String download() {
-		
 		try {
 			quickStartIcon = quickStartService.findIconById(iconId);
 			if(quickStartIcon == null) {
@@ -124,173 +161,180 @@ public class QuickStartIconAction extends ActionSupport {
 		}	
 	}
 	
+	public String json(){
+		try{
+			quickStartIcon = quickStartService.findIconByWebUrl(webUrl);
+			if(quickStartIcon == null){
+				addActionError("input.icon.weburl.not.exists");
+				return ERROR;
+			}
+			else{
+				jsonView = new JsonView(quickStartIcon);
+				return SUCCESS;
+			}
+		}
+		catch(RuntimeException re){
+			addActionError(getText("input.icon.weburl.is.wrong"));
+			return ERROR;
+		}
+	}
 	
-	/**
-	 * @return the icon
-	 */
-	public File getIcon() {
-		return icon;
+	
+	public void validateAdd(){
+		if(ServletActionContext.getRequest().getMethod().equals("POST")) {
+			validateIcon();
+		}
+	}
+	
+	public void validateModify(){
+		if(ServletActionContext.getRequest().getMethod().equals("POST")) {
+			validateIcon();
+		}
+		else if(ServletActionContext.getRequest().getMethod().equals("GET")) {
+			validateIconId();
+		}
+	}
+	
+	public void validateDelete(){
+		validateIconId();
+	}
+	
+	public void validateDetail(){
+		validateIconId();
+	}
+	
+	public void validateList(){
+		validatePage();
+	}
+	
+	public void validateDownload(){
+		validateIconId();
+	}
+	
+	public void validateQuickStartIcon() {
+		if(quickStartIcon == null)
+			addActionError(getText("input.icon.all.is.empty"));
+		else {
+			if(quickStartIcon.getWebUrl() == null || quickStartIcon.getWebUrl().trim().equals("")){
+				addActionError(getText("input.icon.weburl.is.empty"));
+			}
+		}
+	}
+	
+	public void validateIconId() {
+		if(iconId == null){
+			addActionError(getText("input.icon.id.is.empty"));	
+		}
+		else if(iconId <= 0){
+			addActionError(getText("input.icon.id.is.minus"));	
+		}
+	}
+	
+	//补文件大小和类型检测
+	public void validateIcon() {
+		if(icon == null){
+			addActionError(getText("input.icon.is.empty"));
+		}
+	}
+	
+	public void validatePage() {
+		if(page == null || page <= 0) page = 1;	
 	}
 
-
-
-
-	/**
-	 * @param icon the icon to set
-	 */
-	public void setIcon(File icon) {
-		this.icon = icon;
-	}
-
-
-
-
-	/**
-	 * @return the iconContentType
-	 */
-	public String getIconContentType() {
-		return iconContentType;
-	}
-
-
-
-
-	/**
-	 * @param iconContentType the iconContentType to set
-	 */
-	public void setIconContentType(String iconContentType) {
-		this.iconContentType = iconContentType;
-	}
-
-
-
-
-	/**
-	 * @return the iconFileName
-	 */
-	public String getIconFileName() {
-		return iconFileName;
-	}
-
-
-
-
-	/**
-	 * @param iconFileName the iconFileName to set
-	 */
-	public void setIconFileName(String iconFileName) {
-		this.iconFileName = iconFileName;
-	}
-
-
-
-
-	/**
-	 * @return the quickStartIcon
-	 */
 	public QuickStartIcon getQuickStartIcon() {
 		return quickStartIcon;
 	}
 
-
-
-
-	/**
-	 * @param quickStartIcon the quickStartIcon to set
-	 */
 	public void setQuickStartIcon(QuickStartIcon quickStartIcon) {
 		this.quickStartIcon = quickStartIcon;
 	}
 
-
-
-
-	/**
-	 * @return the iconId
-	 */
 	public Integer getIconId() {
 		return iconId;
 	}
 
-
-
-
-	/**
-	 * @param iconId the iconId to set
-	 */
 	public void setIconId(Integer iconId) {
 		this.iconId = iconId;
 	}
 
-	/**
-	 * @return the iconList
-	 */
+	public File getIcon() {
+		return icon;
+	}
+
+	public void setIcon(File icon) {
+		this.icon = icon;
+	}
+
+	public String getIconContentType() {
+		return iconContentType;
+	}
+
+	public void setIconContentType(String iconContentType) {
+		this.iconContentType = iconContentType;
+	}
+
+	public String getIconFileName() {
+		return iconFileName;
+	}
+
+	public void setIconFileName(String iconFileName) {
+		this.iconFileName = iconFileName;
+	}
+
 	public List<QuickStartIcon> getIconList() {
 		return iconList;
 	}
 
-	/**
-	 * @param iconList the iconList to set
-	 */
 	public void setIconList(List<QuickStartIcon> iconList) {
 		this.iconList = iconList;
 	}
 
-	/**
-	 * @return the page
-	 */
 	public Integer getPage() {
 		return page;
 	}
 
-	/**
-	 * @param page the page to set
-	 */
 	public void setPage(Integer page) {
 		this.page = page;
 	}
 
-	/**
-	 * @return the url
-	 */
-	public String getUrl() {
-		return url;
-	}
-
-	/**
-	 * @param url the url to set
-	 */
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	/**
-	 * @return the file
-	 */
-	public String getFile() {
-		return file;
-	}
-
-	/**
-	 * @param file the file to set
-	 */
-	public void setFile(String file) {
-		this.file = file;
-	}
-
-	/**
-	 * @return the quickStartService
-	 */
 	public QuickStartService getQuickStartService() {
 		return quickStartService;
 	}
 
-	/**
-	 * @param quickStartService the quickStartService to set
-	 */
 	public void setQuickStartService(QuickStartService quickStartService) {
 		this.quickStartService = quickStartService;
 	}
 
+	public String getUrl() {
+		return url;
+	}
 
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public JsonView getJsonView() {
+		return jsonView;
+	}
+
+	public void setJsonView(JsonView jsonView) {
+		this.jsonView = jsonView;
+	}
+
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
+	}
+
+	public String getWebUrl() {
+		return webUrl;
+	}
+
+	public void setWebUrl(String webUrl) {
+		this.webUrl = webUrl;
+	}
+	
 }

@@ -31,7 +31,7 @@
 		            <tr>
 		              <td class="name"><p>
 		                  <span><a href="quickStart/get_icon.do?iconId=<s:property value="id" />"><s:property value="webUrl" /></a></span>
-		                  <s:property value="imgUrl" />
+		                  
 		                  </p>
 		              </td>
 		              <td class="op">

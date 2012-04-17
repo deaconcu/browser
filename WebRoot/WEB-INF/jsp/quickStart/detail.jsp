@@ -20,7 +20,7 @@
 	                    <tr>
 		                    <td class="title">Icon:</td>
 		                    <td>
-			                    <s:if test="!quickStartIcon.iconUrl.equals(\"\")">
+			                    <s:if test="!quickStartIcon.imgUrl.equals(\"\")">
 			                       <img src="<s:property value="quickStartIcon.imgUrl"/>" />
 			                    </s:if>
 			                    <s:else>没有上传文件</s:else>

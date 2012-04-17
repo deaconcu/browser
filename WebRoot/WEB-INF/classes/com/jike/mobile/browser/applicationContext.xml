@@ -36,6 +36,7 @@
                 <value>com/jike/mobile/browser/model/Item.hbm.xml</value>
                 <value>com/jike/mobile/browser/model/AppboxCategory.hbm.xml</value>
                 <value>com/jike/mobile/browser/model/AppboxItem.hbm.xml</value>
+                <value>com/jike/mobile/browser/model/QuickStartIcon.hbm.xml</value>
             </list>
         </property>
 	</bean>

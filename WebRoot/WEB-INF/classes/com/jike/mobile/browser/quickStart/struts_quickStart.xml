@@ -5,29 +5,29 @@
     <package name="quickStart" extends="json-default" namespace="/quickStart">
         
         <!-- icon -->
-        <action name="add_icon" class="QuickStartIconAction" method="add">
-            <result name="input">/WEB-INF/jsp/extension/icon_add.jsp</result>
+        <action name="add_icon" class="quickStartIconAction" method="add">
+            <result name="input">/WEB-INF/jsp/quickStart/icon_add.jsp</result>
             <result name="success">/WEB-INF/jsp/success.jsp</result>
             <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
-        <action name="modify_icon" class="QuickStartIconAction" method="modify">
-            <result name="input">/WEB-INF/jsp/extension/icon_modify.jsp</result>
+        <action name="modify_icon" class="quickStartIconAction" method="modify">
+            <result name="input">/WEB-INF/jsp/quickStart/icon_modify.jsp</result>
             <result name="success">/WEB-INF/jsp/success.jsp</result>
             <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
-        <action name="delete_icon" class="QuickStartIconAction" method="delete">
+        <action name="delete_icon" class="quickStartIconAction" method="delete">
             <result name="success">/WEB-INF/jsp/success.jsp</result>
             <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
-        <action name="get_icon_list" class="QuickStartIconAction" method="list">
-            <result name="success">/WEB-INF/jsp/success.jsp</result>
+        <action name="get_icon_list" class="quickStartIconAction" method="list">
+            <result name="success">/WEB-INF/jsp/quickStart/icon_list.jsp</result>
             <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
-         <action name="get_icon" class="QuickStartIconAction" method="detail">
-            <result name="success">/WEB-INF/jsp/success.jsp</result>
+         <action name="get_icon" class="quickStartIconAction" method="detail">
+            <result name="success">/WEB-INF/jsp/quickStart/detail.jsp</result>
             <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
-        <action name="download" class="QuickStartIconAction" method="download">
+        <action name="download" class="quickStartIconAction" method="download">
             <result name="success" type="stream">
             	<param name="contentType">application/octet-stream</param>
                 <param name="inputName">targetFile</param>
@@ -36,7 +36,15 @@
             </result>
             <result name="error" type="json">actionErrors</result>
         </action>
-        
+        <action name="get_icon_json" class="quickStartIconAction" method="json">
+        	<result name="success" type="json">
+        		<param name="root">jsonView</param>
+        	</result>
+        	<result name="error" type="plainText">
+        		<param name="location">/WEB-INF/jsp/quickStart/icon_json.jsp</param>
+        		<param name="charSet">utf-8</param>
+        	</result>
+        </action>
         
     </package>
 </struts>    
