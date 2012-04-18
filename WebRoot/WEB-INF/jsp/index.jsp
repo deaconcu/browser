@@ -15,7 +15,8 @@
           json接口：<br /><br />
           <a href="extension/list_cat.do">1. extension按类别列表</a><br /><br />
           <a href="appbox/get_all_json.do">2. appbox全部列表</a><br /><br />
-          <a href="appbox/get_item_json.do?appboxItemIdString=17,19,21&lastUpdateTime=1334135171681">3. extension按指定内容列表（示例）</a><br /><br />
+          <a href="appbox/get_default_json.do">3. appbox默认列表</a><br /><br />
+          <a href="appbox/get_item_json.do?appboxItemIdString=17,19,21&lastUpdateTime=1334135171681">4. appbox按指定内容列表（示例）</a><br /><br />
         
         </div>
         <%@ include file="sidebar.jsp" %> 

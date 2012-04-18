@@ -187,6 +187,15 @@ public class AppboxServiceImpl implements AppboxService{
 		return appboxCategoryDao.findAllWithoutRoot();
 	}
 	
+	
+	
+	@Override
+	public List<AppboxCategory> findCategoryDefaultWithItem(Long lastUpdateTime) {
+		AppboxCategory appboxCategory = appboxCategoryDao.findById(0); System.out.println(appboxCategory.getModifyTime());
+		if(appboxCategory.getModifyTime() < lastUpdateTime) return null;
+		return appboxCategoryDao.findDefaultWithoutRoot();
+	}
+
 	@Override
 	public int match(AppboxItem appboxItem) {
 		

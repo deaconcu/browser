@@ -109,7 +109,7 @@ public class QuickStartServiceImpl implements QuickStartService {
 			cm.setRegexs(regexs);
 			cm.execute();
 			String[] results = cm.getResult();
-			String charSet = cm.getCharSet();
+			//String charSet = cm.getCharSet();
 			String title = "";
 			if(results[0] == null || results[0].equals("")){
 				if(results[1] == null || results[1].equals("")){
@@ -119,7 +119,6 @@ public class QuickStartServiceImpl implements QuickStartService {
 			}
 			title = results[0];
 			//
-			System.out.println(title);
 			return title;
 		}
 		catch(crawlerException ce){

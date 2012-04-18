@@ -29,6 +29,19 @@ public class AppboxCategoryDaoImpl extends BaseDaoImpl<AppboxCategory> implement
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AppboxCategory> findDefaultWithoutRoot() {
+		try {
+			String queryString = "from AppboxCategory as f where f.id > 0 and f.isDefault = 0";
+			return getHibernateTemplate().find(queryString);
+		} catch (RuntimeException re) {
+			log.error("find all failed", re);
+			throw re;
+		}
+	}
+	
+	
 	@Override
 	public List<AppboxCategory> findByPageWithoutRootOrderByProperty(int page, final int page_size, final String propertyName, final boolean isDesc) {
 		final int offset = (page - 1) * page_size;
@@ -48,5 +61,7 @@ public class AppboxCategoryDaoImpl extends BaseDaoImpl<AppboxCategory> implement
 		});
 		return list;
 	}
+
+	
 	
 }

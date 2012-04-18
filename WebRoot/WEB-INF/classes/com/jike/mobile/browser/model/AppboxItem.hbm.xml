@@ -52,6 +52,9 @@
         <property name="matchTime" type="long">
             <column name="matchTime"/>
         </property>
+        <property name="isDefault" type="short">
+        	<column name="isDefault" not-null="true"/>
+        </property>
         <many-to-one name="appboxCategory" class="com.jike.mobile.browser.model.AppboxCategory" column="categoryId" lazy="false"/>
     </class>
 </hibernate-mapping>

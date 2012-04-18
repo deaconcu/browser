@@ -33,6 +33,7 @@ public class AppboxItem implements java.io.Serializable {
 	private Integer matchStatue;
 	private Long matchTime;
 	private AppboxCategory appboxCategory;
+	private Short isDefault;
 	// Constructors
 
 	/** default constructor */
@@ -42,7 +43,7 @@ public class AppboxItem implements java.io.Serializable {
 	/** minimal constructor */
 	public AppboxItem(String name, String desc, long postTime, String img, String source,
 			String titleRegex, String urlRegex, String picRegex,
-			AppboxCategory appboxCategory) {
+			AppboxCategory appboxCategory, Short isDefault) {
 		this.name = name;
 		this.postTime = postTime;
 		this.img = img;
@@ -51,12 +52,13 @@ public class AppboxItem implements java.io.Serializable {
 		this.urlRegex = urlRegex;
 		this.picRegex = picRegex;
 		this.appboxCategory = appboxCategory;
+		this.isDefault =isDefault;
 	}
 
 	/** full constructor */
 	public AppboxItem(String name, String desc, String title, String img, String url, String imgUrl,
 			long postTime, String source, String titleRegex, String urlRegex,
-			String picRegex, AppboxCategory appboxCategory) {
+			String picRegex, AppboxCategory appboxCategory, Short isDefault) {
 		this.name = name;
 		this.title = title;
 		this.img = img;
@@ -68,6 +70,7 @@ public class AppboxItem implements java.io.Serializable {
 		this.urlRegex = urlRegex;
 		this.picRegex = picRegex;
 		this.appboxCategory = appboxCategory;
+		this.isDefault = isDefault;
 	}
 
 	// Property accessors
@@ -220,6 +223,14 @@ public class AppboxItem implements java.io.Serializable {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
+	}
+
+	public Short getIsDefault() {
+		return isDefault;
+	}
+
+	public void setIsDefault(Short isDefault) {
+		this.isDefault = isDefault;
 	}
 
 	

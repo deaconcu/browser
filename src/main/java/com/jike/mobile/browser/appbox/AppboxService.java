@@ -104,6 +104,8 @@ public interface AppboxService {
 
 	public List<AppboxCategory> findCategoryAllWithItem(Long lastUpdateTime);
 
+	public List<AppboxCategory> findCategoryDefaultWithItem(Long lastUpdateTime);
+
 	
 
 }
