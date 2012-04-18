@@ -3,6 +3,7 @@ package com.jike.mobile.browser.quickStart;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -192,8 +193,18 @@ public class QuickStartIconAction extends ActionSupport {
 		root.put("title", title);
 		root.put("imgUrl", basePath+quickStartIcon.getImgUrl());
 		root.put("host", quickStartIcon.getWebUrl());
-		byte[] json = root.toString().getBytes();
-		return new ByteArrayInputStream(json);
+		
+		
+		
+		//return new ByteArrayInputStream(json);
+		try {
+			byte[] json = root.toString().getBytes("UTF-8");
+			return new ByteArrayInputStream(json);
+		} catch (UnsupportedEncodingException e) {
+			//TODO 直接使用原始编码
+			byte[] json = root.toString().getBytes();
+			return new ByteArrayInputStream(json);
+		}
 	}
 	public InputStream getIconUrlJsonFail(){
 		JSONObject root = new JSONObject();

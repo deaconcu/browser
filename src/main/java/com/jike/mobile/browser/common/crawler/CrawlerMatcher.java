@@ -40,6 +40,10 @@ public class CrawlerMatcher {
 		return result;
 	}
 
+	public String getCharSet() {
+		return charSet;
+	}
+
 	public void execute() throws crawlerException {
 		String html = getHtml();
 		for(int i = 0; i < regexs.length; i++) {
@@ -75,7 +79,6 @@ public class CrawlerMatcher {
 	    	if(charSet == null || charSet.equals("")) {
 	    		charSet = charSetAuto;
 	    	}
-	    	System.out.println("aaa");
 		    return new String(bytes, charSet);
 		    
 		} catch (Exception e) {

@@ -2,6 +2,7 @@ package com.jike.mobile.browser.quickStart;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.List;
 import org.slf4j.Logger;
@@ -107,19 +108,28 @@ public class QuickStartServiceImpl implements QuickStartService {
 			String[] regexs = {"<title>(.*?)</title>", "<TITLE>(.*?)</TITLE>"};
 			cm.setRegexs(regexs);
 			cm.execute();
-			String[] result = cm.getResult();
-			if(result[0] == null || result[0].equals("")){
-				if(result[1] == null || result[1].equals("")){
+			String[] results = cm.getResult();
+			String charSet = cm.getCharSet();
+			String title = "";
+			if(results[0] == null || results[0].equals("")){
+				if(results[1] == null || results[1].equals("")){
 					throw new crawlerException("cannot get tiltle from page");
 				}
-				return result[1];
+				title = results[1];
 			}
-			return result[0];
+			title = results[0];
+			//
+			System.out.println(title);
+			return title;
 		}
 		catch(crawlerException ce){
 			log.error(ce.toString());
 			throw new ServiceException("cannot get web page title");
 		}
+		/*catch(UnsupportedEncodingException uee){
+			log.error(uee.toString());
+			throw new ServiceException("encoding fail");
+		}*/
 	}
 	
 	

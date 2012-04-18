@@ -33,7 +33,6 @@ public class AppboxItem implements java.io.Serializable {
 	private Integer matchStatue;
 	private Long matchTime;
 	private AppboxCategory appboxCategory;
-
 	// Constructors
 
 	/** default constructor */
