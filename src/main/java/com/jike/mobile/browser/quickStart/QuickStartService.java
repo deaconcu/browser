@@ -17,4 +17,6 @@ public interface QuickStartService {
 	public List<QuickStartIcon> getListDesc(Integer page, Integer length);
 
 	public QuickStartIcon findIconByWebUrl(String webUrl);
+
+	public String getHtmlTitle(String webUrl);
 }

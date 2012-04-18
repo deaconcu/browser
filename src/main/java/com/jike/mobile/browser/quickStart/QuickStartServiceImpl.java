@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 
+import com.jike.mobile.browser.common.crawler.CrawlerMatcher;
+import com.jike.mobile.browser.common.crawler.crawlerException;
 import com.jike.mobile.browser.dao.QuickStartIconDao;
 import com.jike.mobile.browser.model.QuickStartIcon;
 import com.jike.mobile.browser.model.UploadFile;
@@ -95,6 +97,31 @@ public class QuickStartServiceImpl implements QuickStartService {
 		}
 	}
 	
+
+
+	@Override
+	public String getHtmlTitle(String webUrl) {
+		try{
+			CrawlerMatcher cm = new CrawlerMatcher();
+			cm.setUrl("http://"+webUrl);
+			String[] regexs = {"<title>(.*?)</title>", "<TITLE>(.*?)</TITLE>"};
+			cm.setRegexs(regexs);
+			cm.execute();
+			String[] result = cm.getResult();
+			if(result[0] == null || result[0].equals("")){
+				if(result[1] == null || result[1].equals("")){
+					throw new crawlerException("cannot get tiltle from page");
+				}
+				return result[1];
+			}
+			return result[0];
+		}
+		catch(crawlerException ce){
+			log.error(ce.toString());
+			throw new ServiceException("cannot get web page title");
+		}
+	}
+	
 	
 	/**
 	 * 将mobile.jike.com/xxxxx转换成jike.com
@@ -178,6 +205,8 @@ public class QuickStartServiceImpl implements QuickStartService {
 	public void setQuickStartIconDao(QuickStartIconDao quickStartIconDao) {
 		this.quickStartIconDao = quickStartIconDao;
 	}
+
+
 
 
 

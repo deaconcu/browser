@@ -72,9 +72,10 @@ public class CrawlerMatcher {
 
 	    	byte[] bytes = EntityUtils.toByteArray(entity);
 	    	String charSetAuto = EntityUtils.getContentCharSet(entity);
-	    	if(charSet.equals("")) {
+	    	if(charSet == null || charSet.equals("")) {
 	    		charSet = charSetAuto;
 	    	}
+	    	System.out.println("aaa");
 		    return new String(bytes, charSet);
 		    
 		} catch (Exception e) {

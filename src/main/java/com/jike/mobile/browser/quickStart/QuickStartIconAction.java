@@ -37,6 +37,8 @@ public class QuickStartIconAction extends ActionSupport {
 	private Integer page;
 	
 	private String webUrl;
+	//
+	private String title;
 	
 	//inject
 	QuickStartService quickStartService;
@@ -167,6 +169,7 @@ public class QuickStartIconAction extends ActionSupport {
 	public String json(){
 		try{
 			quickStartIcon = quickStartService.findIconByWebUrl(webUrl);
+			title = quickStartService.getHtmlTitle(webUrl);
 			if(quickStartIcon == null){
 				addActionError("input.icon.weburl.not.exists");
 				return ERROR;
@@ -186,6 +189,7 @@ public class QuickStartIconAction extends ActionSupport {
 		
 		JSONObject root = new JSONObject();
 		root.put("code", 0);
+		root.put("title", title);
 		root.put("imgUrl", basePath+quickStartIcon.getImgUrl());
 		root.put("host", quickStartIcon.getWebUrl());
 		byte[] json = root.toString().getBytes();
@@ -194,6 +198,7 @@ public class QuickStartIconAction extends ActionSupport {
 	public InputStream getIconUrlJsonFail(){
 		JSONObject root = new JSONObject();
 		root.put("code", 1);
+		root.put("title", "NULL");
 		root.put("imgUrl", "NULL");
 		root.put("host", "NULL");
 		byte[] json = root.toString().getBytes();
