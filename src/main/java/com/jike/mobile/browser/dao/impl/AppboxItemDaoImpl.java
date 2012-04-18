@@ -41,4 +41,10 @@ public class AppboxItemDaoImpl extends BaseDaoImpl<AppboxItem> implements Appbox
 			throw re;
 		}
 	}
+
+	@Override
+	public void updateDefault(int appboxItemId, short isDefault) {
+		// TODO Auto-generated method stub
+		
+	}
 }

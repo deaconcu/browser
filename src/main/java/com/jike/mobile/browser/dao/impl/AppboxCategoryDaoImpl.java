@@ -29,17 +29,6 @@ public class AppboxCategoryDaoImpl extends BaseDaoImpl<AppboxCategory> implement
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<AppboxCategory> findDefaultWithoutRoot() {
-		try {
-			String queryString = "from AppboxCategory as f where f.id > 0 and f.isDefault = 0";
-			return getHibernateTemplate().find(queryString);
-		} catch (RuntimeException re) {
-			log.error("find all failed", re);
-			throw re;
-		}
-	}
 	
 	
 	@Override

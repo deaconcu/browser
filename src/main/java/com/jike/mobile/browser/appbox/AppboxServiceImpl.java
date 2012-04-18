@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
 
 import com.jike.mobile.browser.common.crawler.CrawlerMatcher;
 import com.jike.mobile.browser.common.crawler.crawlerException;
@@ -187,14 +188,7 @@ public class AppboxServiceImpl implements AppboxService{
 		return appboxCategoryDao.findAllWithoutRoot();
 	}
 	
-	
-	
-	@Override
-	public List<AppboxCategory> findCategoryDefaultWithItem(Long lastUpdateTime) {
-		AppboxCategory appboxCategory = appboxCategoryDao.findById(0); System.out.println(appboxCategory.getModifyTime());
-		if(appboxCategory.getModifyTime() < lastUpdateTime) return null;
-		return appboxCategoryDao.findDefaultWithoutRoot();
-	}
+
 
 	@Override
 	public int match(AppboxItem appboxItem) {
@@ -351,6 +345,25 @@ public class AppboxServiceImpl implements AppboxService{
 			log.error("uploadFile validate failed");
 			throw new ServiceException("file.upload.failed");
 		}
+	}
+
+	@Override
+	public void setItemDefaultById(int appboxItemId, short isDefault) {
+		try{
+			AppboxItem appboxItem = appboxItemDao.findById(appboxItemId);
+			if(appboxItem == null){
+				//TODO
+				//throw new DataAccessException("input id is wrong");
+				throw new RuntimeException("input id is wrong");
+			}
+			appboxItem.setIsDefault(isDefault);
+			appboxItemDao.update(appboxItem);
+		}
+		catch(DataAccessException dse){
+			log.error(dse.toString());
+			throw new ServiceException("DataAccessException", dse);
+		}
+		
 	}
 }
 

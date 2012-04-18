@@ -36,6 +36,10 @@ public class AppboxItemAction extends ActionSupport {
 	
 	// modify, delete, detail
 	private int appboxItemId;
+	
+	//default
+	private short isDefault;
+	
 	public File getImg() {
 		return img;
 	}
@@ -257,6 +261,18 @@ public class AppboxItemAction extends ActionSupport {
 		}
 	}
 	
+	@InputConfig(resultName=ERROR)
+	public String handleDefault(){
+		try{
+			appboxService.setItemDefaultById(appboxItemId, isDefault);
+			addActionMessage(getText("setting.default.success"));
+			return SUCCESS;
+		}catch(RuntimeException re){
+			addActionError(getText("setting.default.fail"));
+			return ERROR;
+		}
+	}
+	
 	
 	// validate methods
 	
@@ -413,6 +429,14 @@ public class AppboxItemAction extends ActionSupport {
 
 	public void setLastUpdateTime(Long lastUpdateTime) {
 		this.lastUpdateTime = lastUpdateTime;
+	}
+
+	public short getIsDefault() {
+		return isDefault;
+	}
+
+	public void setIsDefault(short isDefault) {
+		this.isDefault = isDefault;
 	}
 
 	

@@ -30,7 +30,10 @@
             <result name="success">/WEB-INF/jsp/success.jsp</result>
             <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
-        
+         <action name="default_item" class="appboxItemAction" method="handleDefault">
+            <result name="success">/WEB-INF/jsp/success.jsp</result>
+            <result name="error">/WEB-INF/jsp/error.jsp</result>
+        </action>
         <!-- 
         <action name="get_item_json" class="appboxItemAction" method="json">
             <result name="success" type="json">
@@ -60,16 +63,6 @@
                 <param name="root">actionErrors</param>
             </result>
         </action>
-		<action name="get_default_json" class="appboxCategoryAction" method="jsonDefault">
-			<result name="success" type="stream">
-                <param name="contentType">text/html</param> 
-                <param name="inputName">rootDefaultCategorySuc</param>
-            </result>
-            <result name="error" type="stream">
-                <param name="contentType">text/html</param> 
-                <param name="inputName">rootDefaultCategoryFail</param>
-            </result>
-		</action>
         <action name="add_cat" class="appboxCategoryAction" method="add">
             <result name="input">/WEB-INF/jsp/appbox/category_add.jsp</result>
             <result name="success">/WEB-INF/jsp/success.jsp</result>

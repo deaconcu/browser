@@ -157,16 +157,6 @@ public class AppboxCategoryAction extends ActionSupport{
 		}
 		return SUCCESS;
 	}
-	@InputConfig(resultName=ERROR)
-	public String jsonDefault(){
-		try {
-			list = appboxService.findCategoryDefaultWithItem(lastUpdateTime);
-		}catch (RuntimeException re) {
-			addActionError(getText(re.getMessage()));
-			return ERROR;
-		}
-		return SUCCESS;
-	}
 	
 	public InputStream getRootCategory() {
 		if(list == null) return new ByteArrayInputStream("".getBytes());
@@ -186,6 +176,7 @@ public class AppboxCategoryAction extends ActionSupport{
 				JSONObject item = new JSONObject();
 				item.put("id", appboxItem.getId());
 				item.put("name", appboxItem.getName());
+				item.put("top_suggest", appboxItem.getIsDefault());
 				item.put("img", basePath + appboxItem.getImg());
 				item.put("desc", appboxItem.getDesc());
 				itemRoot.add(item);
@@ -195,40 +186,6 @@ public class AppboxCategoryAction extends ActionSupport{
 		}
 		byte[] json = root.toString().getBytes();
 		return new ByteArrayInputStream(json);
-	}
-	
-	public InputStream getRootDefaultCategorySuc(){
-		if(list == null){
-			return new ByteArrayInputStream("".getBytes());
-		}
-		HttpServletRequest request = ServletActionContext.getRequest();
-		String path = request.getContextPath();
-		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-		
-		JSONArray root = new JSONArray();		
-		for(AppboxCategory appboxCategory : list) {
-			JSONObject category = new JSONObject();
-			category.put("id", appboxCategory.getId());System.out.println(appboxCategory.getId());
-			category.put("name", appboxCategory.getName());
-			category.put("img", basePath + appboxCategory.getImg());
-			JSONArray itemRoot = new JSONArray();
-			for(AppboxItem appboxItem : appboxCategory.getItemList()) {
-				JSONObject item = new JSONObject();
-				item.put("id", appboxItem.getId());
-				item.put("name", appboxItem.getName());
-				item.put("img", basePath + appboxItem.getImg());
-				item.put("desc", appboxItem.getDesc());
-				itemRoot.add(item);
-			}
-			category.put("itemList", itemRoot);
-			root.add(category);
-		}
-		byte[] json = root.toString().getBytes();
-		return new ByteArrayInputStream(json);
-	}
-	
-	public InputStream getRootDefaultCategoryFail(){
-		return new ByteArrayInputStream("".getBytes());
 	}
 	
 	public void validateAdd() {
