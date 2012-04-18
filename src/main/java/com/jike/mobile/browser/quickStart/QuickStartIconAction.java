@@ -185,13 +185,19 @@ public class QuickStartIconAction extends ActionSupport {
 		String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 		
 		JSONObject root = new JSONObject();
-		root.put("url", quickStartIcon.getWebUrl());
-		root.put("location", basePath+quickStartIcon.getImgUrl());
+		root.put("code", 0);
+		root.put("imgUrl", basePath+quickStartIcon.getImgUrl());
+		root.put("host", quickStartIcon.getWebUrl());
 		byte[] json = root.toString().getBytes();
 		return new ByteArrayInputStream(json);
 	}
 	public InputStream getIconUrlJsonFail(){
-		return new ByteArrayInputStream("NULL".getBytes());
+		JSONObject root = new JSONObject();
+		root.put("code", 1);
+		root.put("imgUrl", "NULL");
+		root.put("host", "NULL");
+		byte[] json = root.toString().getBytes();
+		return new ByteArrayInputStream(json);
 	}
 	public void validateAdd(){
 		if(ServletActionContext.getRequest().getMethod().equals("POST")) {

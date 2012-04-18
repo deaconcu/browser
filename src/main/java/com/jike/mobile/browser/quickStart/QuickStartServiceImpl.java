@@ -4,14 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
-import java.util.regex.Pattern;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 
 import com.jike.mobile.browser.dao.QuickStartIconDao;
-import com.jike.mobile.browser.model.Item;
 import com.jike.mobile.browser.model.QuickStartIcon;
 import com.jike.mobile.browser.model.UploadFile;
 import com.jike.mobile.browser.sys.ServerConfig;
