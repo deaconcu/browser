@@ -78,8 +78,12 @@ public class AppboxItemAction extends ActionSupport {
 			item.put("id", appboxItem.getId());
 			item.put("title", appboxItem.getTitle());
 			item.put("url", appboxItem.getUrl());
-			//TODO modify the imgURL to fit the screen
-			item.put("imgUrl", appboxItem.getImgUrl());
+			//TODO modify the imgURL to fit the screen according to size
+			//TODO img storage
+			if(size == 0)
+				item.put("imgUrl", appboxItem.getImgUrl() + "0.jpg");
+			else
+				item.put("imgUrl", appboxItem.getImgUrl() + "1.jpg");
 			root.add(item);
 		}
 	    byte[] json = root.toString().getBytes();

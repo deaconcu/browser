@@ -22,6 +22,7 @@ import com.jike.mobile.browser.model.AppboxItem;
 import com.jike.mobile.browser.model.UploadFile;
 import com.jike.mobile.browser.sys.ServerConfig;
 import com.jike.mobile.browser.sys.SysInfoService;
+import com.jike.mobile.browser.util.ImageResizer;
 import com.jike.mobile.browser.util.ServiceException;
 
 public class AppboxServiceImpl implements AppboxService{
@@ -218,7 +219,10 @@ public class AppboxServiceImpl implements AppboxService{
 			if(cm.getResult()[2] == null || !cm.getResult()[2].equals(appboxItem.getImgUrl())){
 				//TODO processing image
 				String completeUrl = completionUrl(appboxItem.getSource(), cm.getResult()[2]);
+				fileStore(appboxItem, completeUrl);
 				BufferedImage originalImage = ImageIO.read(new URL(completeUrl));
+				//set image file storage path
+				ImageIO.write(originalImage, "jpg", new File(""));
 				//TODO delete old image
 				String oldUrl = appboxItem.getImgUrl();
 				//TODO set new image
@@ -250,6 +254,79 @@ public class AppboxServiceImpl implements AppboxService{
 		}
 	}
 	
+	/**
+	 * store and scale new image, delete old image file
+	 * 
+	 * @param appboxItem
+	 * @param url
+	 */
+	private void fileStore(AppboxItem appboxItem ,String url){
+		//计算文件名前缀
+		String fileNamePrefix = url.substring(0, url.length()-3).replaceAll("/.", "");
+		
+		// 计算上传路径
+		String outputPath = "";
+		try {
+			Calendar calendar = Calendar.getInstance();
+			outputPath = ServerConfig.get("file_save_path") + File.separator
+					+ calendar.get(Calendar.YEAR) + File.separator
+					+ calendar.get(Calendar.MONTH) + File.separator
+					+ calendar.get(Calendar.DAY_OF_MONTH) + File.separator
+					+ calendar.get(Calendar.HOUR_OF_DAY) + File.separator;
+					File file = new File(ServerConfig.get("real_root_path")
+					+ outputPath);
+			file.mkdirs();
+			log.info(file.toString());
+		} catch (Exception e) {
+				log.error("can't create output path");
+				return;
+		}
+		
+		String filePath = "";
+		try {
+			filePath = ServerConfig.get("real_root_path") + outputPath + fileNamePrefix;
+			//TODO
+			BufferedImage originalImage = ImageIO.read(new URL(url));
+			//set image file storage path
+			//TODO 
+			ImageIO.write(originalImage, "jpg", new File(filePath));
+			//start to scale the image
+			ImageResizer imageResizer = new ImageResizer();
+			imageResizer.setWidth(110);
+			imageResizer.setHeight((int)(110*originalImage.getHeight()/originalImage.getWidth()));
+			imageResizer.setOriginalImage(originalImage);
+			imageResizer.execute();
+			BufferedImage resizedImage = imageResizer.getResizedImage();
+			ImageIO.write(resizedImage, "jpg", new File(filePath + "0"));
+			
+			imageResizer.setWidth(210);
+			imageResizer.setHeight((int)(210*originalImage.getHeight()/originalImage.getWidth()));
+			imageResizer.setOriginalImage(originalImage);
+			resizedImage = imageResizer.getResizedImage();
+			ImageIO.write(resizedImage, "jpg", new File(filePath + "1"));
+			//TODO delete old image
+			String oldUrl = appboxItem.getImgUrl();
+			File origFile = new File(appboxItem.getImgUrl()+".jpg");
+			if(origFile.exists()){
+				origFile.delete();
+			}
+			origFile = new File(appboxItem.getImgUrl() + "0.jpg");
+			if(origFile.exists()){
+				origFile.delete();
+			}
+			origFile = new File(appboxItem.getImgUrl() + "1.jpg");
+			if(origFile.exists()){
+				origFile.delete();
+			}
+			//key step
+			appboxItem.setImgUrl(filePath);
+		} catch (IOException e) {
+			log.error("fetch image file failed");
+			return;
+		}
+		
+		return;
+	}
 	
 
 	/**
@@ -365,7 +442,6 @@ public class AppboxServiceImpl implements AppboxService{
 		try{
 			AppboxItem appboxItem = appboxItemDao.findById(appboxItemId);
 			if(appboxItem == null){
-				//TODO
 				//throw new DataAccessException("input id is wrong");
 				throw new RuntimeException("input id is wrong");
 			}
