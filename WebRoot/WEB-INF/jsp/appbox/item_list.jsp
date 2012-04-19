@@ -56,8 +56,8 @@
 									| <a
 										href="appbox/modify_item.do?appboxItemId=<s:property value="id" />">修改</a>
 									| <a
-										href="appbox/delete_item.do?appboxItemId=<s:property value="id" />">删除</a>
-									|
+										href="appbox/delete_item.do?appboxItemId=<s:property value="id" />">删除</a><br />
+									
 									<s:if test="isDefault == 0">
 										<a
 											href="appbox/default_item.do?isDefault=1&appboxItemId=<s:property value="id" /> ">设置首页显示</a>

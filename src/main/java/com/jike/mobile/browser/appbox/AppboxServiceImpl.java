@@ -1,9 +1,13 @@
 package com.jike.mobile.browser.appbox;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -212,7 +216,13 @@ public class AppboxServiceImpl implements AppboxService{
 				isUpdate = 1;
 			}
 			if(cm.getResult()[2] == null || !cm.getResult()[2].equals(appboxItem.getImgUrl())){
-				appboxItem.setImgUrl(completionUrl(appboxItem.getSource(), cm.getResult()[2]));
+				//TODO processing image
+				String completeUrl = completionUrl(appboxItem.getSource(), cm.getResult()[2]);
+				BufferedImage originalImage = ImageIO.read(new URL(completeUrl));
+				//TODO delete old image
+				String oldUrl = appboxItem.getImgUrl();
+				//TODO set new image
+				
 				isUpdate = 1;
 			}
 			
@@ -232,6 +242,9 @@ public class AppboxServiceImpl implements AppboxService{
 			return statue;
 			
 		} catch (crawlerException e) {
+			e.printStackTrace();
+			throw new ServiceException(e.getMessage(), e);
+		} catch(IOException e){
 			e.printStackTrace();
 			throw new ServiceException(e.getMessage(), e);
 		}

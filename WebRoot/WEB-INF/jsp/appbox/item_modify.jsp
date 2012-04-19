@@ -37,7 +37,18 @@
 		            <label>category: </label> 
 		              <s:select name="appboxItem.appboxCategory.id" value="appboxItem.appboxCategory.id" 
 		                 list="listCategory" listKey="id" listValue="name" /><br /><br />
-		            
+		            <label>top_suggest: </label>
+		            	<select name="appboxItem.isDefault">
+		            		<s:if test="appboxItem.isDefault == 0">
+								<option value="0" selected>不显示</option>
+								<option value="1" >显示</option>
+							</s:if>
+		            		<s:else>
+		            			<option value="0" >不显示</option>
+								<option value="1" selected>显示</option>
+		            		</s:else>
+		            	</select>
+		            	<br /><br />
 		            <s:submit value="submit" cssClass="button"/>
 		        </s:form>
             </div>

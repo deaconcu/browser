@@ -20,7 +20,6 @@ public class BookMarkServiceImpl implements BookMarkService {
 
 	@Override
 	public void upload(String content) {
-		// TODO Auto-generated method stub
 		try {
 			JSONObject contentJO = JSONObject.fromObject(content);
 			// 取出用户id/密码等操作

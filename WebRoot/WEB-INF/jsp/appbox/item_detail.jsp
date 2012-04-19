@@ -24,12 +24,13 @@
                    <tr><td class="title">titelRegex:</td><td><s:property value="%{appboxItem.titleRegex}" /></td></tr>
                    <tr><td class="title">urlRegex: </td><td><s:property value="%{appboxItem.urlRegex}" /></td></tr>
                    <tr><td class="title">picRegex: </td><td><s:property value="%{appboxItem.picRegex}" /></td></tr>
-
-                  
                    <tr><td class="title">category:</td><td><s:property value="%{appboxItem.appboxCategory.name}" /></td></tr>
-                   
                    <tr><td class="title">postTime: </td><td><s:property value="%{appboxItem.date}" /></td></tr>
-                   
+                   <tr><td class="title">top_Suggest:</td>
+                   		<td>
+                   			<s:if test="appboxItem.isDefault == 0">不显示</s:if>
+                   			<s:else>不显示</s:else>
+                   		</td></tr>
                    
                    
                </table>

@@ -40,35 +40,12 @@ public class AppboxItemAction extends ActionSupport {
 	//default
 	private short isDefault;
 	
-	public File getImg() {
-		return img;
-	}
-
-	public void setImg(File img) {
-		this.img = img;
-	}
-
-	public String getImgContentType() {
-		return imgContentType;
-	}
-
-	public void setImgContentType(String imgContentType) {
-		this.imgContentType = imgContentType;
-	}
-
-	public String getImgFileName() {
-		return imgFileName;
-	}
-
-	public void setImgFileName(String imgFileName) {
-		this.imgFileName = imgFileName;
-	}
-
 	private File img;
 	private String imgContentType;
 	private String imgFileName;
 	
 	// json
+	private int size;
 	private String appboxItemIdString;
 	private Integer[] appboxItemIds;
 	private Long lastUpdateTime;
@@ -101,6 +78,7 @@ public class AppboxItemAction extends ActionSupport {
 			item.put("id", appboxItem.getId());
 			item.put("title", appboxItem.getTitle());
 			item.put("url", appboxItem.getUrl());
+			//TODO modify the imgURL to fit the screen
 			item.put("imgUrl", appboxItem.getImgUrl());
 			root.add(item);
 		}
@@ -265,6 +243,7 @@ public class AppboxItemAction extends ActionSupport {
 	public String handleDefault(){
 		try{
 			appboxService.setItemDefaultById(appboxItemId, isDefault);
+			url="appbox/get_item_list.do";
 			addActionMessage(getText("setting.default.success"));
 			return SUCCESS;
 		}catch(RuntimeException re){
@@ -438,8 +417,38 @@ public class AppboxItemAction extends ActionSupport {
 	public void setIsDefault(short isDefault) {
 		this.isDefault = isDefault;
 	}
+	public int getSize() {
+		return size;
+	}
 
-	
+	public void setSize(int size) {
+		this.size = size;
+	}
+
+	public File getImg() {
+		return img;
+	}
+
+	public void setImg(File img) {
+		this.img = img;
+	}
+
+	public String getImgContentType() {
+		return imgContentType;
+	}
+
+	public void setImgContentType(String imgContentType) {
+		this.imgContentType = imgContentType;
+	}
+
+	public String getImgFileName() {
+		return imgFileName;
+	}
+
+	public void setImgFileName(String imgFileName) {
+		this.imgFileName = imgFileName;
+	}
+
 }
 
 
