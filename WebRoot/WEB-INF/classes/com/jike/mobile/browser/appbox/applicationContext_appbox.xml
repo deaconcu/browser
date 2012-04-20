@@ -30,7 +30,7 @@
     
 	<bean id="scheduleReportTask" class="org.springframework.scheduling.timer.ScheduledTimerTask">  
 	    <property name="timerTask" ref="reportTimerTask" />  
-	    <property name="period"><value>20000000</value></property>  
+	    <property name="period"><value>200000000</value></property>  
 	    <property name="delay"><value>20000000</value></property>  
 	</bean> 
 

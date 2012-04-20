@@ -67,6 +67,25 @@ public class AppboxItemAction extends ActionSupport {
 	
 	// action methods
 	
+	@InputConfig(resultName=ERROR)
+	public String test(){
+		//TODO test image scale
+		try {
+			AppboxItem appboxItem = appboxService.findItemById(26);
+			
+			try {
+				System.out.println(appboxItem.getSource());
+				appboxService.match(appboxItem);
+			} catch (Exception e) {
+				log.error(appboxItem.getId() + " match failed");
+			}
+		} catch(Exception e) {
+			log.error("find all appbox item failed");
+		}
+		addActionMessage(getText("operation.success"));
+		return SUCCESS;
+	}
+	
 	public InputStream getItems() {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		String path = request.getContextPath();

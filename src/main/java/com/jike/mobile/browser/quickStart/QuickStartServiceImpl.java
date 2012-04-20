@@ -193,6 +193,13 @@ public class QuickStartServiceImpl implements QuickStartService {
 				return false;
 			}
 			filePath = outputPath + icon.getFileName();
+			//delete old icon file, maybe not needed
+			File oldIconFile = new File(ServerConfig.get("real_root_path") 
+					+ ServerConfig.get("file_save_path") + quickStartIcon.getImgUrl());
+			if(oldIconFile.exists()){
+				oldIconFile.delete();
+			}
+			//end delete old icon file
 			// 需要将文件存放路径记录下来
 			quickStartIcon.setImgUrl(filePath);
 		}

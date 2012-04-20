@@ -216,17 +216,13 @@ public class AppboxServiceImpl implements AppboxService{
 				appboxItem.setUrl(completionUrl(appboxItem.getSource(), cm.getResult()[1]));
 				isUpdate = 1;
 			}
-			if(cm.getResult()[2] == null || !cm.getResult()[2].equals(appboxItem.getImgUrl())){
+			if(cm.getResult()[2] == null){
+				
+			}
+			else if(!cm.getResult()[2].equals(appboxItem.getImgUrl())){
 				//TODO processing image
 				String completeUrl = completionUrl(appboxItem.getSource(), cm.getResult()[2]);
 				fileStore(appboxItem, completeUrl);
-				BufferedImage originalImage = ImageIO.read(new URL(completeUrl));
-				//set image file storage path
-				ImageIO.write(originalImage, "jpg", new File(""));
-				//TODO delete old image
-				String oldUrl = appboxItem.getImgUrl();
-				//TODO set new image
-				
 				isUpdate = 1;
 			}
 			
@@ -248,9 +244,6 @@ public class AppboxServiceImpl implements AppboxService{
 		} catch (crawlerException e) {
 			e.printStackTrace();
 			throw new ServiceException(e.getMessage(), e);
-		} catch(IOException e){
-			e.printStackTrace();
-			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 	
@@ -262,7 +255,7 @@ public class AppboxServiceImpl implements AppboxService{
 	 */
 	private void fileStore(AppboxItem appboxItem ,String url){
 		//计算文件名前缀
-		String fileNamePrefix = url.substring(0, url.length()-3).replaceAll("/.", "");
+		String fileNamePrefix = url.substring(0, url.length()-3).replaceAll("http://", "").replaceAll("\\.", "").replaceAll("/", "");
 		
 		// 计算上传路径
 		String outputPath = "";
@@ -286,10 +279,26 @@ public class AppboxServiceImpl implements AppboxService{
 		try {
 			filePath = ServerConfig.get("real_root_path") + outputPath + fileNamePrefix;
 			//TODO
+			
+			//TODO delete old image
+			File origFile = new File(ServerConfig.get("real_root_path") + appboxItem.getImgUrl()+".jpg");
+			//System.out.println(ServerConfig.get("real_root_path") + appboxItem.getImgUrl()+".jpg");
+			if(origFile.exists()){
+				origFile.delete();
+			}
+			origFile = new File(ServerConfig.get("real_root_path") +  appboxItem.getImgUrl() + "0.jpg");
+			if(origFile.exists()){
+				origFile.delete();
+			}
+			origFile = new File(ServerConfig.get("real_root_path") + appboxItem.getImgUrl() + "1.jpg");
+			if(origFile.exists()){
+				origFile.delete();
+			}
+			
 			BufferedImage originalImage = ImageIO.read(new URL(url));
 			//set image file storage path
 			//TODO 
-			ImageIO.write(originalImage, "jpg", new File(filePath));
+			ImageIO.write(originalImage, "jpg", new File(filePath+".jpg"));
 			//start to scale the image
 			ImageResizer imageResizer = new ImageResizer();
 			imageResizer.setWidth(110);
@@ -297,29 +306,18 @@ public class AppboxServiceImpl implements AppboxService{
 			imageResizer.setOriginalImage(originalImage);
 			imageResizer.execute();
 			BufferedImage resizedImage = imageResizer.getResizedImage();
-			ImageIO.write(resizedImage, "jpg", new File(filePath + "0"));
+			ImageIO.write(resizedImage, "jpg", new File(filePath + "0.jpg"));
 			
+			imageResizer = new ImageResizer();
 			imageResizer.setWidth(210);
 			imageResizer.setHeight((int)(210*originalImage.getHeight()/originalImage.getWidth()));
 			imageResizer.setOriginalImage(originalImage);
+			imageResizer.execute(); 
 			resizedImage = imageResizer.getResizedImage();
-			ImageIO.write(resizedImage, "jpg", new File(filePath + "1"));
-			//TODO delete old image
-			String oldUrl = appboxItem.getImgUrl();
-			File origFile = new File(appboxItem.getImgUrl()+".jpg");
-			if(origFile.exists()){
-				origFile.delete();
-			}
-			origFile = new File(appboxItem.getImgUrl() + "0.jpg");
-			if(origFile.exists()){
-				origFile.delete();
-			}
-			origFile = new File(appboxItem.getImgUrl() + "1.jpg");
-			if(origFile.exists()){
-				origFile.delete();
-			}
+			ImageIO.write(resizedImage, "jpg", new File(filePath + "1.jpg"));
+			
 			//key step
-			appboxItem.setImgUrl(filePath);
+			appboxItem.setImgUrl(outputPath + fileNamePrefix);
 		} catch (IOException e) {
 			log.error("fetch image file failed");
 			return;

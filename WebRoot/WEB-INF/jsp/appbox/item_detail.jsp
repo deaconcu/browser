@@ -44,7 +44,7 @@
                    <s:else>部分匹配到值</s:else>
                    <tr><td class="title">matchTime: </td><td><s:property value="%{appboxItem.matchDate}" /></td></tr>
                    </td></tr>                   
-                   <tr><td class="title">titel:</td><td><s:property value="%{appboxItem.title}" /></td></tr>
+                   <tr><td class="title">title:</td><td><s:property value="%{appboxItem.title}" /></td></tr>
                    <tr><td class="title">url: </td><td><s:property value="%{appboxItem.url}" /></td></tr>
                    <tr><td class="title">imgUrl: </td><td><s:property value="%{appboxItem.imgUrl}" /></td></tr>
                </table>

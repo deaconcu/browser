@@ -95,7 +95,7 @@
     <import resource="appbox/applicationContext_appbox.xml" />
     <!-- <import resource="quickStart/applicationContext_quickStart.xml"/> -->
     <import resource="quickStart/applicationContext_quickStart.xml"/>
-    <import resource="bookMark/applicationContext_bookMark.xml"/>
+    <!-- <import resource="bookMark/applicationContext_bookMark.xml"/> -->
 </beans>
 
 
