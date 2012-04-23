@@ -66,15 +66,15 @@ public class AppboxItemAction extends ActionSupport {
 	private String url;
 	
 	// action methods
-	
+	//TODO test image scale
 	@InputConfig(resultName=ERROR)
 	public String test(){
-		//TODO test image scale
+		
 		try {
 			AppboxItem appboxItem = appboxService.findItemById(26);
 			
 			try {
-				System.out.println(appboxItem.getSource());
+				//System.out.println(appboxItem.getSource());
 				appboxService.match(appboxItem);
 			} catch (Exception e) {
 				log.error(appboxItem.getId() + " match failed");
@@ -85,7 +85,10 @@ public class AppboxItemAction extends ActionSupport {
 		addActionMessage(getText("operation.success"));
 		return SUCCESS;
 	}
-	
+	/**
+	 * relative to Action:test
+	 * @return
+	 */
 	public InputStream getItems() {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		String path = request.getContextPath();
@@ -97,12 +100,8 @@ public class AppboxItemAction extends ActionSupport {
 			item.put("id", appboxItem.getId());
 			item.put("title", appboxItem.getTitle());
 			item.put("url", appboxItem.getUrl());
-			//TODO modify the imgURL to fit the screen according to size
-			//TODO img storage
-			if(size == 0)
-				item.put("imgUrl", appboxItem.getImgUrl() + "0.jpg");
-			else
-				item.put("imgUrl", appboxItem.getImgUrl() + "1.jpg");
+			//TODO modify code to fit new structure
+			item.put("imgUrl", basePath + appboxService.convertImgUrl(size, appboxItem.getImgUrl()));
 			root.add(item);
 		}
 	    byte[] json = root.toString().getBytes();

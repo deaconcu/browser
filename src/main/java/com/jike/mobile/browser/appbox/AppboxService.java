@@ -101,10 +101,23 @@ public interface AppboxService {
 	public List<AppboxItem> findItemAll();
 
 	public List<AppboxItem> findItemByIdsAndTime(Integer[] ids, long lastUpdateTime, int statue);
-
+	
 	public List<AppboxCategory> findCategoryAllWithItem(Long lastUpdateTime);
-
+	
+	/**
+	 * set the item to be displayed on the page
+	 * @param appboxItemId
+	 * @param isDefault
+	 */
 	public void setItemDefaultById(int appboxItemId, short isDefault);
+	
+	/**
+	 * find storage path of image by imgUrl
+	 * @param size
+	 * @param imgUrl
+	 * @return
+	 */
+	public String convertImgUrl(int size, String imgUrl);
 
 	
 

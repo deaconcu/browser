@@ -81,6 +81,7 @@
             <result name="success">/WEB-INF/jsp/success.jsp</result>
             <result name="error">/WEB-INF/jsp/error.jsp</result>
         </action>
+        <!-- test -->
         <action name="test" class="appboxItemAction" method="test">
         	<result name="success">/WEB-INF/jsp/success.jsp</result>
             <result name="error">/WEB-INF/jsp/error.jsp</result>

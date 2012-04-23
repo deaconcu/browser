@@ -1,5 +1,6 @@
 package com.jike.mobile.browser.appbox;
 
+import java.awt.SystemColor;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,8 +17,10 @@ import org.springframework.dao.DataAccessException;
 import com.jike.mobile.browser.common.crawler.CrawlerMatcher;
 import com.jike.mobile.browser.common.crawler.crawlerException;
 import com.jike.mobile.browser.dao.AppboxCategoryDao;
+import com.jike.mobile.browser.dao.AppboxImgDao;
 import com.jike.mobile.browser.dao.AppboxItemDao;
 import com.jike.mobile.browser.model.AppboxCategory;
+import com.jike.mobile.browser.model.AppboxImg;
 import com.jike.mobile.browser.model.AppboxItem;
 import com.jike.mobile.browser.model.UploadFile;
 import com.jike.mobile.browser.sys.ServerConfig;
@@ -32,6 +35,7 @@ public class AppboxServiceImpl implements AppboxService{
 	// inject
 	AppboxCategoryDao appboxCategoryDao;
 	AppboxItemDao appboxItemDao;
+	AppboxImgDao appboxImgDao;
 	
 	private SysInfoService sysInfoService;
 
@@ -53,6 +57,14 @@ public class AppboxServiceImpl implements AppboxService{
 		this.appboxCategoryDao = appboxCategoryDao;
 	}
 
+
+	public AppboxImgDao getAppboxImgDao() {
+		return appboxImgDao;
+	}
+
+	public void setAppboxImgDao(AppboxImgDao appboxImgDao) {
+		this.appboxImgDao = appboxImgDao;
+	}
 
 	public SysInfoService getSysInfoService() {
 		return sysInfoService;
@@ -216,15 +228,21 @@ public class AppboxServiceImpl implements AppboxService{
 				appboxItem.setUrl(completionUrl(appboxItem.getSource(), cm.getResult()[1]));
 				isUpdate = 1;
 			}
-			if(cm.getResult()[2] == null){
-				
+			if(cm.getResult()[2] == null || !cm.getResult()[2].equals(appboxItem.getImgUrl())){
+				String imgUrl = completionUrl(appboxItem.getSource(), cm.getResult()[2]);
+				appboxItem.setImgUrl(imgUrl);
+				//TODO check table appboxImg to verify that the pic has been stored
+				if(!checkImgUrl(imgUrl)){
+					
+				}
+				isUpdate = 1;
 			}
-			else if(!cm.getResult()[2].equals(appboxItem.getImgUrl())){
+			/*else if(!cm.getResult()[2].equals(appboxItem.getImgUrl())){
 				//TODO processing image
 				String completeUrl = completionUrl(appboxItem.getSource(), cm.getResult()[2]);
 				fileStore(appboxItem, completeUrl);
 				isUpdate = 1;
-			}
+			}*/
 			
 			if(isUpdate == 1) {
 				appboxItem.setMatchTime(System.currentTimeMillis());
@@ -246,17 +264,28 @@ public class AppboxServiceImpl implements AppboxService{
 			throw new ServiceException(e.getMessage(), e);
 		}
 	}
-	
 	/**
-	 * store and scale new image, delete old image file
-	 * 
-	 * @param appboxItem
-	 * @param url
+	 * verify whether the image has been stored.
+	 * @param imgUrl
+	 * @return
 	 */
-	private void fileStore(AppboxItem appboxItem ,String url){
+	private boolean checkImgUrl(String imgUrl){
+		if(imgUrl.equals("")){
+			return true;
+		}
+		//TODO optimize this by adding 'limit 1'
+		List<AppboxImg> appboxImgList = appboxImgDao.findByProperty("imgUrl", imgUrl);
+		if(appboxImgList.isEmpty()){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
+	
+	private void storeImg(String url){
 		//计算文件名前缀
 		String fileNamePrefix = url.substring(0, url.length()-3).replaceAll("http://", "").replaceAll("\\.", "").replaceAll("/", "");
-		
 		// 计算上传路径
 		String outputPath = "";
 		try {
@@ -275,25 +304,8 @@ public class AppboxServiceImpl implements AppboxService{
 				return;
 		}
 		
-		String filePath = "";
 		try {
-			filePath = ServerConfig.get("real_root_path") + outputPath + fileNamePrefix;
-			//TODO
-			
-			//TODO delete old image
-			File origFile = new File(ServerConfig.get("real_root_path") + appboxItem.getImgUrl()+".jpg");
-			//System.out.println(ServerConfig.get("real_root_path") + appboxItem.getImgUrl()+".jpg");
-			if(origFile.exists()){
-				origFile.delete();
-			}
-			origFile = new File(ServerConfig.get("real_root_path") +  appboxItem.getImgUrl() + "0.jpg");
-			if(origFile.exists()){
-				origFile.delete();
-			}
-			origFile = new File(ServerConfig.get("real_root_path") + appboxItem.getImgUrl() + "1.jpg");
-			if(origFile.exists()){
-				origFile.delete();
-			}
+			String filePath = ServerConfig.get("real_root_path") + outputPath + fileNamePrefix;
 			
 			BufferedImage originalImage = ImageIO.read(new URL(url));
 			//set image file storage path
@@ -308,7 +320,7 @@ public class AppboxServiceImpl implements AppboxService{
 			BufferedImage resizedImage = imageResizer.getResizedImage();
 			ImageIO.write(resizedImage, "jpg", new File(filePath + "0.jpg"));
 			
-			imageResizer = new ImageResizer();
+			//imageResizer = new ImageResizer();
 			imageResizer.setWidth(210);
 			imageResizer.setHeight((int)(210*originalImage.getHeight()/originalImage.getWidth()));
 			imageResizer.setOriginalImage(originalImage);
@@ -317,7 +329,13 @@ public class AppboxServiceImpl implements AppboxService{
 			ImageIO.write(resizedImage, "jpg", new File(filePath + "1.jpg"));
 			
 			//key step
-			appboxItem.setImgUrl(outputPath + fileNamePrefix);
+			AppboxImg appboxImg = new AppboxImg();
+			appboxImg.setImgUrl(url);
+			appboxImg.setOriginPath(outputPath + fileNamePrefix+ ".jpg");
+			appboxImg.setTinyPath(outputPath + fileNamePrefix + "0.jpg");
+			appboxImg.setMiddlePath(outputPath + fileNamePrefix + "1.jpg");
+			
+			appboxImgDao.save(appboxImg);
 		} catch (IOException e) {
 			log.error("fetch image file failed");
 			return;
@@ -326,7 +344,6 @@ public class AppboxServiceImpl implements AppboxService{
 		return;
 	}
 	
-
 	/**
 	 * 将相对路径补全为绝对路径
 	 * 
@@ -451,6 +468,34 @@ public class AppboxServiceImpl implements AppboxService{
 			throw new ServiceException("DataAccessException", dse);
 		}
 		
+	}
+
+	@Override
+	public String convertImgUrl(int size, String imgUrl) {
+		try{
+			List<AppboxImg> appboxImgList = appboxImgDao.findByProperty("imgUrl", imgUrl);
+			if(appboxImgList.isEmpty()){
+				//imgUrl is "" or not exists in the appboxImg table
+				return "";
+			}
+			String relativePath = "";
+			switch(size){
+			case 0:
+				relativePath = appboxImgList.get(0).getTinyPath();
+				break;
+			case 1:
+				relativePath = appboxImgList.get(0).getMiddlePath();
+				break;
+			default:
+				//TODO expand later
+				relativePath = appboxImgList.get(0).getOriginPath();
+			}
+			return relativePath;
+		}
+		catch(DataAccessException dse){
+			log.error(dse.toString());
+			throw new ServiceException("DataAccessException", dse);
+		}
 	}
 }
 

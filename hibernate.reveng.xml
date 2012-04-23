@@ -39,8 +39,14 @@
 			<generator class="native"></generator>
 		</primary-key>
 	</table>
-<table name="browser_sys_info" catalog="browser"
-	class="com.jike.mobile.browser.model.SysInfo">
+	<table name="browser_sys_info" catalog="browser"
+		class="com.jike.mobile.browser.model.SysInfo">
+		<primary-key>
+			<generator class="native"></generator>
+		</primary-key>
+	</table>
+<table name="browser_appbox_img" catalog="browser"
+	class="com.jike.mobile.browser.model.AppboxImg">
 	<primary-key>
 		<generator class="native"></generator>
 	</primary-key>
